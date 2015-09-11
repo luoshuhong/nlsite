@@ -14,19 +14,20 @@ date 2015-9-11
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<style type="text/css">
 		.home_footer_copyright {
-		    margin: 0 0 0 300px;
 		    padding: 0;
-		    position: absolute;
 		    color:#AFAFAF;
 		    font-size:14px;
 		    left:0px;
+		    margin-left: auto;
+			margin-right: auto;
+			text-align:center;
 		}
 	</style>
 </head>
 <body>
 	<nav class="navbar navbar-default navbar-fixed-bottom">
 	  <div class="container">
-	  	<div class="home_footer_copyright">
+	  	<div class="home_footer_copyright" >
 		    New Leaders Group © Copyright@2015 New Leaders Group, All Rights Reserved.Privacy Policy | 京ICP备05042108号
 	  	</div>
 	  </div>

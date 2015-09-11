@@ -13,15 +13,15 @@ date 2015-9-11
 	
 </head>
 <body>
-	<div class="navbar navbar-duomi navbar-static-top " role="navigation">
+	<div class="navbar  navbar-static-top nav-justified" >
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="" id="logo">后台管理系统 </a>
             </div>
-            <ul class="nav navbar-nav navbar-right" >
-				<li><a href="##">关于我们</a></li>
+<!--             <ul class="nav navbar-nav navbar-right" > -->
+<!-- 				<li><a href="##">关于我们</a></li> -->
 <!-- 			<li><a href="##">xxx</a></li> -->
-			</ul>
+<!-- 			</ul> -->
         </div>
     </div>
 </body>

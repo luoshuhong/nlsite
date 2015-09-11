@@ -125,7 +125,7 @@ date 2015-9-11
 <!-- 					</li> -->
 				</ul>
 			</div>
-			<div id="data" class="col-md-10">内测中</div>
+			<div id="data" class="col-md-10"> <h2>内测中 </h2></div>
 		</div>
 	</div>
 </body>
