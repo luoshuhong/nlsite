@@ -60,7 +60,7 @@ public class WxRedirectControler {
 		String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + t;
 		String json = "{\"action_name\": \"QR_LIMIT_SCENE\", \"action_info\": {\"scene\": {\"scene_id\": 63254}}}";
 //		String json = "{\"expire_seconds\": 604800, \"action_name\": \"QR_SCENE\", \"action_info\": {\"scene\": {\"scene_id\": 4443}}}";
-		System.out.println(Test.sendInfo(url, json));
+//		System.out.println(Test.sendInfo(url, json));
 	}
 	
 }	

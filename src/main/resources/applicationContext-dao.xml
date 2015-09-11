@@ -14,15 +14,15 @@
                            	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
        default-autowire="byName">
 
-    <bean id="tradeDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />  
         <property name="url" value="${db.url}" />
         <property name="username" value="${db.user}" />  
         <property name="password" value="${db.pwd}" />  
     </bean>
     
-<!--     <bean id="userDao" class="com.travel.meilidujuan.dao.UserDao">   -->
-<!--     	<property name="dataSource" ref="tradeDataSource"></property>   -->
-<!--     </bean> -->
+    <bean id="channelDao" class="com.newleader.nlsite.dao.ChannelDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
 	
 </beans>

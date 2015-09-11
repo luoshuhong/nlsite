@@ -7,6 +7,6 @@
 <title>new leader</title>
 </head>
 <body>
-	欢迎光临...
+	<h1>你好，世界！</h1>
 </body>
 </html>
