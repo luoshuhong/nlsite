@@ -24,8 +24,45 @@ date 2015-9-11
 			<label for="channelCode">渠道编码</label> 
 			<input type="text" class="form-control" id="channelCode" name="channelCode"  placeholder="请输入渠道编码">
 		</div>
-		<button type="submit" class="btn btn-default">添加</button>
+		<button id="addChannel" type="button" class="btn btn-default">添加</button>
 	</form>
 </body>
+<script type="text/javascript">
+	$("#addChannel").click(function() {
+		var name = $("#channelName").val();
+		var code = $("#channelCode").val();
+		
+		if (isEmpty(name) || isEmpty(code)) {
+			return;
+		}
+		var postData = {"channelName":name, "channelCode":code};
+        $.ajax({
+			type: "POST",
+			url: "${ctx}/channel/add",
+			data: postData,
+			async:false,
+			success : function(msg) {
+				eval("var json=" + data);
+				if (json.status == 'success') {
+					alert('添加成功！');
+				} else {
+					
+				}
+			}
+		});
+	});
 	
+	
+	/**
+	 *校验是否为null
+	 */
+	function isEmpty(value) {
+		if ('' == value || undefined == value || null == value) {
+			return true;
+		}
+		return false;
+	}
+</script>
+
+
 </html> 
