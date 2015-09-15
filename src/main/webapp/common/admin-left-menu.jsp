@@ -125,7 +125,7 @@ date 2015-9-11
 <!-- 					</li> -->
 				</ul>
 			</div>
-			<div id="data" class="col-md-10"> <h2>内测中 </h2></div>
+			<div id="data"  class="col-md-10" > <h3>这里还没有想好放神马...  Orz </h3></div>
 		</div>
 	</div>
 </body>
@@ -133,13 +133,13 @@ date 2015-9-11
 	function fillDataArea(type){
 		var iframe = "";
 		if (type == 'channelAdd') {
-			iframe = "<iframe src='channelAdd.jsp' id='iframepage' frameBorder=0 scrolling=no width='100%' onLoad='iFrameHeight()' ></iframe>";
+			iframe = "<iframe src='channelAdd.jsp' id='iframepage' frameBorder=0 scrolling=no width='95%' height='90%' onLoad='iFrameHeight()' ></iframe>";
 		} else if(type == 'channelQuery') {
-			iframe = "<iframe src='channelQuery.jsp' id='iframepage' frameBorder=0 scrolling=no width='100%' onLoad='iFrameHeight()' ></iframe>";
+			iframe = "<iframe src='channelQuery.jsp' id='iframepage' frameBorder=0 scrolling=no width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		} else if(type == 'channelStat') {
-			iframe = "<iframe src='channelStat.jsp' id='iframepage' frameBorder=0 scrolling=no width='100%' onLoad='iFrameHeight()' ></iframe>";
+			iframe = "<iframe src='channelStat.jsp' id='iframepage' frameBorder=0 scrolling=no width='95%' height='90%' onLoad='iFrameHeight()' ></iframe>";
 		} else {
-			iframe = "<iframe src='test.jsp' frameBorder=0 scrolling=no width='100%' onLoad='iFrameHeight()' ></iframe>";
+			iframe = "<iframe src='test.jsp' frameBorder=0 scrolling=no width='95%' height='90%' onLoad='iFrameHeight()' ></iframe>";
 		}
 		
 		$("#data").html(iframe);

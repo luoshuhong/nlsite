@@ -1,5 +1,11 @@
 package com.newleader.nlsite.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.newleader.nlsite.common.HttpUtils;
 import com.newleader.nlsite.common.RequestUtils;
 import com.newleader.nlsite.model.Channel;
 import com.newleader.nlsite.service.ChannelService;
@@ -54,7 +62,7 @@ public class ChannelController {
 		try {
 			List<Channel> list = this.channelService.query();
 			if (null != list) {
-				return RequestUtils.successReturn(list.toString());
+				return RequestUtils.successReturn(JSONArray.toJSONString(list));
 			} else {
 				return RequestUtils.failReturn("fail");
 			}

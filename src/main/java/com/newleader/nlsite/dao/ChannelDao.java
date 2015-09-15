@@ -1,9 +1,11 @@
 package com.newleader.nlsite.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.newleader.nlsite.dao.inter.DaoInter;
@@ -19,9 +21,9 @@ import com.newleader.nlsite.model.Channel;
 public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	@Override
 	public boolean add(Channel t) {
-		String insertSql = "insert into aa_channel(id,Name,Code) values(?,?,?)";
+		String insertSql = "insert into aa_channel(id,Name,Code,CreateTime) values(?,?,?,?)";
 		return 1 == this.getJdbcTemplate().update(insertSql,
-				new Object[] { t.getId(), t.getName(), t.getCode() });
+				new Object[] { t.getId(), t.getName(), t.getCode(),new Date() });
 	}
 	
 	@Override
@@ -32,10 +34,13 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	@Override
 	public List<Channel> query() {
 		List<Channel> channelList = new ArrayList<Channel>();
-		String selectSql = "select * from aa_channel";
+		String selectSql = "select Id, Code,Name,CreateTime from aa_channel";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
 		for (Map<String,Object> map : list) {
-			channelList.add(this.wrapModel(map));
+			Channel model = this.wrapModel(map);
+			if (null != model) {
+				channelList.add(model);
+			}
 		}
 		return channelList;
 	}
@@ -55,19 +60,27 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		String code = "";
 		String name = "";
 		String id = "";
-		if (map.containsKey("Id")) {
+		if (map.containsKey("Id") && null != map.get("Id")) {
 			id = map.get("Id").toString();
 		}
-		if (map.containsKey("Code")) {
+		if (map.containsKey("Code") && null != map.get("Code")) {
 			code = map.get("Code").toString();
 		}
-		if (map.containsKey("Name")) {
+		if (map.containsKey("Name") && null != map.get("Name")) {
 			name = map.get("Name").toString();
 		}
+		if (map.containsKey("CreateTime") && null != map.get("CreateTime")) {
+			model.setCreateTimeStr(map.get("CreateTime").toString());
+		}
+		
+		//这里先只处理不为空的
+		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(name)) {
+			return null;
+		}
+		
 		model.setCode(code);
 		model.setName(name);
 		model.setId(id);
-		
 		return model;
 	}
 }

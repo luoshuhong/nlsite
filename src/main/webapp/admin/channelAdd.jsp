@@ -15,16 +15,27 @@ date 2015-9-11
 	</head>
 
 	<body>
-	<form class="form-inline" style="margin-top: 20px;" action="${ctx}/channel/add">
+	<form class="form-horizontal" style="margin-top: 20px;">
 		<div class="form-group">
-			<label for="channelName">渠道名称：</label> 
-			<input type="text" class="form-control" id="channelName" name="channelName" placeholder="请输入渠道名称">
+			<label for="channelName" class="col-sm-2 control-label">渠道名称：</label> 
+			<div class="col-sm-10">
+				<input  id="channelName" type="text" class="form-control" name="channelName" style="width: 200px;" placeholder="请输入渠道名称">
+			</div>
 		</div>
 		<div class="form-group">
-			<label for="channelCode">渠道编码</label> 
-			<input type="text" class="form-control" id="channelCode" name="channelCode"  placeholder="请输入渠道编码">
+			<label for="channelCode" class="col-sm-2 control-label">渠道编码：</label> 
+			<div class="col-sm-10">
+				<input id="channelCode" type="text" class="form-control"  name="channelCode"  style="width: 200px;" placeholder="请输入渠道编码">
+			</div>
 		</div>
-		<button id="addChannel" type="button" class="btn btn-default">添加</button>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button id="addChannel" class="btn btn-primary"  >添加</button>
+			</div>
+		</div>
+		<div class=" col-sm-offset-1 col-sm-4">
+			<div id="msg"  role="alert"> </div>
+		</div>
 	</form>
 </body>
 <script type="text/javascript">
@@ -42,11 +53,17 @@ date 2015-9-11
 			data: postData,
 			async:false,
 			success : function(msg) {
-				eval("var json=" + data);
+				eval("var json=" + msg);
 				if (json.status == 'success') {
+// 					$("#msg").attr("class", "alert alert-success");
+// 					$("#msg").html('添加成功！');
 					alert('添加成功！');
+// 					$("#msg").show();
 				} else {
-					
+// 					$("#msg").attr("class", "alert alert-danger");
+// 					$("#msg").html('添加失败，请重试！');
+					alert('添加失败，请重试！');
+// 					$("#msg").show();
 				}
 			}
 		});

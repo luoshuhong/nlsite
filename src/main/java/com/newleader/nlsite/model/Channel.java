@@ -12,6 +12,8 @@ public class Channel {
 	private String name;
 	private String code;
 	
+	private String createTimeStr;
+	
 	public Channel() {
 	}
 	
@@ -40,5 +42,17 @@ public class Channel {
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public String getCreateTimeStr() {
+		return createTimeStr;
+	}
+	public void setCreateTimeStr(String createTimeStr) {
+		this.createTimeStr = createTimeStr;
+	}
+
+	@Override
+	public String toString() {
+		return "Channel [id=" + id + ", name=" + name + ", code=" + code
+				+ ", createTimeStr=" + createTimeStr + "]";
 	}
 }
