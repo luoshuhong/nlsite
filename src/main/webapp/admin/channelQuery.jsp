@@ -41,8 +41,8 @@ date 2015-9-11
 	                <img id="img_code" src="" alt="二维码" title="鼠标右键保存图片"><label style="font-size: 20px;">鼠标右键保存图片</label>
 	            </div>
 	            <div class="modal-footer">
-	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-	                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+<!-- 	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> -->
+	                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
 	            </div>
 	        </div><!-- /.modal-content -->
 	    </div><!-- /.modal-dialog -->
@@ -86,6 +86,12 @@ date 2015-9-11
 			if (isEmpty(code) || isEmpty(type)) {
 				return;
 			}
+			
+			if('temp' == type && isNaN(code)){
+			   alert("生成临时二维码，编码必须是数字");
+			   return;
+			}
+			
 			var postData = {"type":type, "channelCode":code};
 	        $.ajax({
 				type: "POST",

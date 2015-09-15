@@ -27,6 +27,12 @@ date 2015-9-11
 <script type="text/javascript"  src="${ctx}/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="${ctx}/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 
+<style type="text/css">
+	body {
+		font-family: '微软雅黑','Microsoft YaHei' !important;
+		color:#333
+	}
+</style>
 
 <!--[if lt IE 9]>
   <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>

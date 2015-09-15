@@ -47,20 +47,21 @@ public class QrCodeController {
 		}
 		try {
 			String codeUrl = "";
-			codeUrl = this.tempCode(520);
+//			codeUrl = this.tempCode(520);
 			if ("temp".equals(type)) {
 				int chnlCode = 0;
 				try {
 					chnlCode = Integer.valueOf(channelCode);
 				} catch (Exception e) {
-					return RequestUtils.failReturn(codeUrl);
+					return RequestUtils.failReturn("临时二维码，编码只能是数字");
 				}
-//				codeUrl = this.tempCode(chnlCode);          //生成临时二维码
+				codeUrl = this.tempCode(chnlCode);          //生成临时二维码
 			} else {
-//				codeUrl = this.permanentCode(channelCode);  //生成永久二维码
+				codeUrl = this.permanentCode(channelCode);  //生成永久二维码
 			}
 			return RequestUtils.successReturn(codeUrl);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return RequestUtils.failReturn("exception");
 		}
 	}
@@ -76,9 +77,10 @@ public class QrCodeController {
 		String codeUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + token;
 		
 		//永久二维码
-		String json = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": " + channelCode + "}}}";
+		String json = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"" + channelCode + "\"}}}";
 		String result = HttpUtils.doHttpPost(codeUrl, json);
 		JSONObject resultJob = JSONObject.parseObject(result);
+		System.out.println("method=permanentCode,result=" + resultJob);
 		if (null == resultJob) {
 			return "";
 		}
@@ -97,6 +99,7 @@ public class QrCodeController {
 		String json = "{\"expire_seconds\": 604800, \"action_name\": \"QR_SCENE\", \"action_info\": {\"scene\": {\"scene_id\": "+ channelCode+"}}}";
 		String result = HttpUtils.doHttpPost(codeUrl, json);
 		JSONObject resultJob = JSONObject.parseObject(result);
+		System.out.println("method=tempCode,result=" + resultJob);
 		if (null == resultJob) {
 			return "";
 		}
