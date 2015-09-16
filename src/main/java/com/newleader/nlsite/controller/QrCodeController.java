@@ -1,14 +1,5 @@
 package com.newleader.nlsite.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,7 +20,7 @@ import com.newleader.nlsite.common.RequestUtils;
  *
  */
 @Controller
-@RequestMapping("/qrCode")
+@RequestMapping("/admin/qrCode")
 public class QrCodeController {
 	static String APPID = "wx7da410e7b5d045fe";// 微信公众号
 	static String SECRET = "296133f3ae1c0fb26daff3596014ec6c";// 应用密钥

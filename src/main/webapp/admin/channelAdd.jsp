@@ -49,7 +49,7 @@ date 2015-9-11
 		var postData = {"channelName":name, "channelCode":code};
         $.ajax({
 			type: "POST",
-			url: "${ctx}/channel/add",
+			url: "${ctx}/admin/channel/add",
 			data: postData,
 			async:false,
 			success : function(msg) {

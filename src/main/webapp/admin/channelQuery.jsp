@@ -54,7 +54,7 @@ date 2015-9-11
 		$(function() {
 			$.ajax({
 				type: "POST",
-				url: "${ctx}/channel/query",
+				url: "${ctx}/admin/channel/query",
 				async:false,
 				success : function(msg) {
 					var json = eval("("+msg+")");;
@@ -95,7 +95,7 @@ date 2015-9-11
 			var postData = {"type":type, "channelCode":code};
 	        $.ajax({
 				type: "POST",
-				url: "${ctx}/qrCode/create",
+				url: "${ctx}/admin/qrCode/create",
 				data: postData,
 				async:false,
 				success : function(msg) {
