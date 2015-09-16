@@ -35,17 +35,17 @@
 		<div class="container">
 		  <div class="loginBox row">
 		  		<h2 class="text-center">后台登录</h2>
-				<form id="wyccn" name="wyccn"  method="post" class="form-horizontal">
+				<form id="loginForm" action="javascript:login();"  method="post" class="form-horizontal lg-form">
 				  <div class="form-group has-success">
 				    <label for="username" class="col-sm-3 col-md-3 control-label">用户名</label>
 				    <div class="col-sm-9 col-md-9">
-				      <input id="username" type="text" class="form-control" name="username" placeholder="用户名" value="" required>
+				      <input id="username" type="text" class="form-control" name="username" placeholder="请输入用户名" value="" required="required">
 				    </div>
 				  </div>
 				  <div class="form-group has-success">
 				    <label for="password" class="col-sm-3 col-md-3 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
 				    <div class="col-sm-9 col-md-9">
-				      <input id ="password" type="password" class="form-control" name="password" placeholder="密码" required>
+				      <input id ="password" type="password" class="form-control" name="password" placeholder="请输入密码" required="required">
 				    </div>
 				  </div>
 			  	  <div class="form-group">
@@ -53,8 +53,8 @@
 				  </div>
 				  <div class="form-group">
 				    <div class="col-sm-offset-3 col-sm-10 col-md-10">
-				      	<button id="loginBtn" class="btn btn-info" data-loading-text="正在登录..." type="submit" >登 录</button>
-				      	    <button class="btn btn-info" type="reset">清 空</button>
+				      	<button id="loginBtn" class="btn btn-info" data-loading-text="正在登录..."  >登 录</button>
+			      	    <button class="btn btn-info" type="reset">清 空</button>
 				    </div>
 				  </div>
 		  		</form>
@@ -64,50 +64,26 @@
 	</body>
 	
 	<script type="text/javascript">
-   		$(document).ready(function(){
-   			$('#loginBtn').click(function(){
-   				login();
-   			});
-   		});
    		// 登录方法
         function login() {
-        	$('#login-form').form({
-                url: "${ctx}/admin/login",
-                onSubmit: function (param) {
-                    return $(this).form('validate');
-                },
-                success: function (result) {
-                	var result = eval('(' + msg + ')');
+        	var username = $("#username").val();
+    		var password = $("#password").val();
+    		var postData = {"username":username, "password":password};
+            $.ajax({
+    			type: "POST",
+    			url: "${ctx}/admin/login",
+    			data: postData,
+    			async:false,
+    			success : function(msg) {
+    				var result = eval('(' + msg + ')');
     				if (result.status == 'success') {
-    					alert('success');
     					window.location.href = "${ctx}/admin/index.jsp";
     				} else {
-    					alert('error');
     					$("#errMsg").html('用户名或密码错误,请重试');
+    					var password = $("#password").val('');
     				}
-                }
-            });
-        	
-        	
-//         	var username = $("#username").val();
-//     		var password = $("#password").val();
-//     		var postData = {"username":username, "password":password};
-//             $.ajax({
-//     			type: "POST",
-//     			url: "${ctx}/admin/login",
-//     			data: postData,
-//     			async:false,
-//     			success : function(msg) {
-//     				var result = eval('(' + msg + ')');
-//     				if (result.status == 'success') {
-//     					alert('success');
-//     					window.location.href = "${ctx}/admin/index.jsp";
-//     				} else {
-//     					alert('error');
-//     					$("#errMsg").html('用户名或密码错误,请重试');
-//     				}
-//     			}
-//     		});
+    			}
+    		});
         }
    	</script>
 </html>

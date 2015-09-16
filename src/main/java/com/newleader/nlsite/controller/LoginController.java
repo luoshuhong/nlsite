@@ -22,7 +22,7 @@ public class LoginController {
 	@ResponseBody
 	public String login(HttpServletRequest request, HttpServletResponse response){
 		log.info("进入login方法");
-
+		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
