@@ -12,7 +12,7 @@ public class Channel {
 	private String name;
 	private String code;
 	
-	private String createTimeStr;
+	private String createTimeStr; //前台展示用
 	
 	public Channel() {
 	}
