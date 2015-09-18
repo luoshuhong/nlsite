@@ -95,21 +95,18 @@ public class ChannelStatService {
 		
 		/****  拼装成前台图片展示的json数据  *****/
 		JSONObject jobRes = new JSONObject();
-		//xAxis: {
-		//       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-		//    }
 		JSONObject xAxis = new JSONObject();
-		xAxis.put("categories", dateList.toString());
-		jobRes.put("xAxis", xAxis.toString()); //横轴
+		xAxis.put("categories", dateList);
+		jobRes.put("xAxis", xAxis); //横轴
 		//数据域
 		JSONArray jobArr = new JSONArray();
 		for (String code : resultMap.keySet()) {
 			JSONObject dataJob = new JSONObject();
 			dataJob.put("name", code);
-			dataJob.put("data", Arrays.asList(resultMap.get(code)));
+			dataJob.put("data", resultMap.get(code));
 			jobArr.add(dataJob);
 		}
-		jobRes.put("series", jobArr.toString());
+		jobRes.put("series", jobArr);
 		return jobRes.toJSONString();
 	}
 	

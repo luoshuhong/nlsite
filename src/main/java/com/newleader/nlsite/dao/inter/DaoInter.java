@@ -1,7 +1,6 @@
 package com.newleader.nlsite.dao.inter;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 数据库操作  接口定义

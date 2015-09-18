@@ -135,11 +135,11 @@ date 2015-9-11
 		if (type == 'channelAdd') {
 			iframe = "<iframe src='channelAdd.jsp' id='iframepage' frameBorder=0 scrolling=no width='95%' height='90%' onLoad='iFrameHeight()' ></iframe>";
 		} else if(type == 'channelQuery') {
-			iframe = "<iframe src='channelQuery.jsp' id='iframepage' frameBorder=0 scrolling=no width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
+			iframe = "<iframe src='channelQuery.jsp' id='iframepage' frameBorder=0  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		} else if(type == 'channelStat') {
-			iframe = "<iframe src='channelStat.jsp' id='iframepage' frameBorder=0 scrolling=no width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
+			iframe = "<iframe src='channelStat.jsp' id='iframepage' frameBorder=0  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		} else {
-			iframe = "<iframe src='test.jsp' frameBorder=0 scrolling=no width='95%' height='90%' onLoad='iFrameHeight()' ></iframe>";
+			iframe = "<iframe src='test.jsp' frameBorder=0  width='95%' height='90%' onLoad='iFrameHeight()' ></iframe>";
 		}
 		
 		$("#data").html(iframe);

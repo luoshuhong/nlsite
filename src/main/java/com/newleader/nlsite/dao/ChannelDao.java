@@ -21,9 +21,9 @@ import com.newleader.nlsite.model.Channel;
 public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	@Override
 	public boolean add(Channel t) {
-		String insertSql = "insert into aa_channel(id,Name,Code,CreateTime) values(?,?,?,?)";
+		String insertSql = "insert into aa_channel(id,Name,Code,CreateTime,delete_flag) values(?,?,?,?,?)";
 		return 1 == this.getJdbcTemplate().update(insertSql,
-				new Object[] { t.getId(), t.getName(), t.getCode(),new Date() });
+				new Object[] { t.getId(), t.getName(), t.getCode(),new Date(),"0"});
 	}
 	
 	@Override
@@ -34,7 +34,7 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	@Override
 	public List<Channel> query() {
 		List<Channel> channelList = new ArrayList<Channel>();
-		String selectSql = "select Id, Code,Name,CreateTime from aa_channel";
+		String selectSql = "select Id, Code,Name,CreateTime from aa_channel where delete_flag <> '1'";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
 		for (Map<String,Object> map : list) {
 			Channel model = this.wrapModel(map);

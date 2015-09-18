@@ -16,49 +16,25 @@ date 2015-9-11
 		<script type="text/javascript" src="${ctx}/js/highcharts-4.1.8/highcharts-more.js"></script>
 		<script type="text/javascript" src="${ctx}/js/highcharts-4.1.8/modules/exporting.js"></script>
 		<script type="text/javascript" src="${ctx}/js/highcharts-4.1.8/modules/funnel.js"></script>
-		
+		<script type="text/javascript" src="${ctx}/js/DatePicker/WdatePicker.js"></script>
 <!-- 		<script src="http://cdn.hcharts.cn/prototype/prototype-1.7.2.js"></script> -->
 <!-- 		<script src="http://code.highcharts.com/adapters/prototype-adapter.js"></script> -->
 <!-- 		<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>  -->
 	</head>
 
 	<body>
-	
 		<h2>推广统计</h2>
+		<form class="form-inline" style="margin: 15 0 10 20;">
+			<label for="startDate">日期：</label> 
+			<input id="startDate"  type="text" class="form-control" onClick="WdatePicker()" >
+			<label for="endDate">~</label> 
+			<input type="text" id="endDate" class="form-control" onClick="WdatePicker()">
+			<button type="button" onclick="query();" class="btn btn-default">查询</button>
+		</form>
+		
 		<!-- 图表区域  -->
-		<div id="container" style="min-width:700px;height:400px"> </div>
+		<div id="container" style=""> </div>
 		
 	</body>
-	<script type="text/javascript">
-	$(function() {
-		
-		$.ajax({
-			type: "POST",
-			url: "${ctx}/admin/channelStat/query",
-			async:false,
-			success : function(msg) {
-				var json = eval("("+msg+")");;
-				if (json.status == 'success') {
-					var data = JSON.parse(json.data);
-					
-					//绘制图表
-// 					alert(data.xAxis);
-// 					alert(data.series);
-					
-					$('#container').highcharts({
-						xAxis:data.xAxis,
-						series:data.series
-					});
-					
-				} else {
-					alert('错误，请重试！');
-				}
-			},
-			error : function(msg) {
-				alert(msg);
-			}
-		});
-	});
-	
-	</script>
+	<script type="text/javascript" src="${ctx}/js/admin-channelStat.js"></script>
 </html> 

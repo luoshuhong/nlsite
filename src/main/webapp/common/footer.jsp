@@ -28,7 +28,7 @@ date 2015-9-11
 	<nav class="navbar navbar-default navbar-fixed-bottom">
 	  <div class="container">
 	  	<div class="home_footer_copyright" >
-		    New Leaders Group © Copyright@2015 New Leaders Group, All Rights Reserved.Privacy Policy | 京ICP备05042108号
+		     © Copyright@2015 New Leaders Group, All Rights Reserved.
 	  	</div>
 	  </div>
 	</nav>
