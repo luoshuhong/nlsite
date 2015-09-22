@@ -21,6 +21,7 @@
 	    <url-pattern>*.eot</url-pattern>
 	    <url-pattern>*.svg</url-pattern>
 	    <url-pattern>*.swf</url-pattern>
+        <url-pattern>*.ico</url-pattern>
   	</servlet-mapping>
   	
 	<!-- applicationContext -->
