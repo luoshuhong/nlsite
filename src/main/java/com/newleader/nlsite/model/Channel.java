@@ -24,6 +24,12 @@ public class Channel {
 		this.code = code;
 	}
 
+	public Channel(String id, String name, String code) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.code = code;
+	}
 
 	public String getId() {
 		return id;

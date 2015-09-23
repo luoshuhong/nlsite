@@ -20,7 +20,7 @@ date 2015-9-11
 			<table class="table table-bordered table-hover">
 				<thead class="thead">
 					<tr>
-						<th>名称</th><th>编码</th><th>添加时间</th><th>推广</th>
+						<th>名称</th><th>编码</th><th>添加时间</th><th>推广</th><th>操作</th>
 					</tr>
 				</thead>
 				<!-- 数据域  -->
@@ -30,9 +30,9 @@ date 2015-9-11
 		</div>
 		<div style="margin-top: 50;"></div>
 		
-		
+		<!-- 二维码生成弹框 -->
 		<div class="modal" id="imgModal">
-	    <div class="modal-dialog">
+	     <div class="modal-dialog">
 	        <div class="modal-content">
 	            <div class="modal-header">
 	                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -46,86 +46,38 @@ date 2015-9-11
 	            </div>
 	        </div><!-- /.modal-content -->
 	    </div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
+	  </div><!-- /.modal -->
+	  
+	  <!-- 更新渠道信息弹框 -->
+		<div class="modal" id="updateModal">
+	     <div class="modal-dialog" style="width:500px;">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	                <h3 >更新渠道信息</h3>
+	            </div>
+	            <div class="modal-body">
+	                <form class="form-horizontal" >
+						<div class="form-group ">
+							<label for="channelName" class="col-sm-3 control-label">渠道名称：</label> 
+							<input  id="uchannelName" type="text" class="form-control" name="uchannelName" style="width: 300px;" placeholder="请输入渠道名称">
+						</div>
+						<div class="form-group">
+							<label for="channelCode" class="col-sm-3 control-label">渠道编码：</label> 
+							<input id="uchannelCode" type="text" class="form-control"  name="uchannelCode"  style="width: 300px;" placeholder="请输入渠道编码">
+						</div>
+						<input  id="uid" type="hidden"  name="uid" >
+					</form>
+					<div id="errMsg" style="color:red; text-align:center;"></div>
+	            </div>
+	            <div class="modal-footer" >
+	            	<button type="button" class="btn btn-primary" onclick="updateComfirm();">确认</button>
+	                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	  </div><!-- /.modal -->
 		
 	</body>
-	
-	<script type="text/javascript">
-		$(function() {
-			$.ajax({
-				type: "POST",
-				url: "${ctx}/admin/channel/query",
-				async:false,
-				success : function(msg) {
-					var json = eval("("+msg+")");;
-					if (json.status == 'success') {
-						var dataList = json.data;
-						 $.each(JSON.parse(json.data), function (idx,item) {
-							 $('#dataListTbody').append('<tr>' 
-								+ '<td>' + item.name + '</td>'
-								+ '<td>' + item.code + '</td>'
-								+ '<td>' + item.createTimeStr + '</td>'
-								+ '<td>'
-// 								+ '<a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"temp\"' + ')\'>临时二维码</a>  | '
-								+ '<a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"perm\"' + ')\'>二维码生成</a>'
-								+ '</td></tr>' 
-							 );
-						 });
-					} else {
-						alert('错误，请重试！');
-					}
-				},
-				error : function(msg) {
-					alert(msg);
-				}
-			});
-		});
-		
-		//二维码生成
-		function qrCodeCreate(code,type) {
-			if (isEmpty(code) || isEmpty(type)) {
-				return;
-			}
-			
-			if('temp' == type && isNaN(code)){
-			   alert("生成临时二维码，编码必须是数字");
-			   return;
-			}
-			
-			var postData = {"type":type, "channelCode":code};
-	        $.ajax({
-				type: "POST",
-				url: "${ctx}/admin/qrCode/create",
-				data: postData,
-				async:false,
-				success : function(msg) {
-					eval("var json=" + msg);
-					if (json.status == 'success') {
-						if (isEmpty(json.data)) {
-							alert('生成二维码失败，请重试 ！');
-							return;
-						}
-// 						var logo = '&logo=http://dntm.happy6.com.cn:8081/image/logo.jpg';
-						var logo = "&logo=http://donottell.me/CSS/Images/homepage/logo.png";
-// 						var logo = "";
-						$("#img_code").attr('src',"http://qr.liantu.com/api.php?text=" + json.data + logo); 
-						$('#imgModal').modal('show');  
-					} else {
-						alert('添加失败，请重试！');
-					}
-				}
-			});
-		}
-		
-		/**
-		 *校验是否为null
-		 */
-		function isEmpty(value) {
-			if ('' == value || undefined == value || null == value) {
-				return true;
-			}
-			return false;
-		}
-	</script>
-	
+	<script type="text/javascript" src="${ctx}/js/admin-channelQuery.js"></script>
 </html> 

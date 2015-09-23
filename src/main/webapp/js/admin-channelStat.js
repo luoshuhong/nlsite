@@ -5,8 +5,6 @@
  * date 2015-9-18
  */
 
-document.write('<script src="jquery-1.11.3.min.js"><\/script>')
-
 //初始化
 $(function() {
     initQueryDate();  //默认初始化查询时间范围

@@ -27,8 +27,9 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	}
 	
 	@Override
-	public boolean del(int id) {
-		return false;
+	public boolean del(String id) {
+		String delSql = "update aa_channel set delete_flag = 1 where id = ?";
+		return 1 == this.getJdbcTemplate().update(delSql,id);
 	}
 	
 	@Override
@@ -47,7 +48,8 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	
 	@Override
 	public boolean update(Channel t) {
-		return false;
+		String updateSel = "update aa_channel set Name = ?,Code=? where Id = ?";
+		return 1 == this.getJdbcTemplate().update(updateSel,t.getName(), t.getCode(), t.getId());
 	}
 	
 	/**

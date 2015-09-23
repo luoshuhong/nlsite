@@ -37,4 +37,21 @@ public class ChannelService {
 		return this.channelDao.query();
 	}
 	
+	/**
+	 * 根据id 删除
+	 * @param id
+	 * @return true or false
+	 */
+	public boolean chacel(String id) {
+		return this.channelDao.del(id);
+	}
+	
+	/**
+	 * 更新
+	 * @param  channel
+	 * @return true or false
+	 */
+	public boolean update(Channel channel) {
+		return this.channelDao.update(channel);
+	}
 }

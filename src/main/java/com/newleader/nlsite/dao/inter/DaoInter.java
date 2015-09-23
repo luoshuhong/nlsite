@@ -16,5 +16,5 @@ public interface DaoInter<T> {
 //	public List<T> query(T t);List<Map<String,Object>>
 //	public List<Map<String,Object>> query(T t);
 	public List<T> query();
-	public boolean del(int id);
+	public boolean del(String id);
 }
