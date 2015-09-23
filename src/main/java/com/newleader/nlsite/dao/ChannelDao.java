@@ -34,7 +34,7 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	@Override
 	public List<Channel> query() {
 		List<Channel> channelList = new ArrayList<Channel>();
-		String selectSql = "select Id, Code,Name,CreateTime from aa_channel where delete_flag <> '1'";
+		String selectSql = "select Id, Code,Name,CreateTime from aa_channel where delete_flag <> '1' order by CreateTime desc";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
 		for (Map<String,Object> map : list) {
 			Channel model = this.wrapModel(map);

@@ -28,6 +28,8 @@ date 2015-9-11
 				</tbody>
 			</table>
 		</div>
+		<div style="margin-top: 50;"></div>
+		
 		
 		<div class="modal" id="imgModal">
 	    <div class="modal-dialog">
@@ -37,11 +39,9 @@ date 2015-9-11
 	                <h3 >二维码生成   <small>若二维码未正常显示，请稍等片刻...</small></h3>
 	            </div>
 	            <div class="modal-body">
-<!-- 	            	<p style="color:#AFAFAF; font-size:14px;">如二维码为正常显示，请稍等片刻...</p> -->
 	                <img id="img_code" src="" alt="二维码" title="鼠标右键保存图片"><label style="font-size: 20px;">鼠标右键保存图片</label>
 	            </div>
 	            <div class="modal-footer">
-<!-- 	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> -->
 	                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
 	            </div>
 	        </div><!-- /.modal-content -->
@@ -66,8 +66,8 @@ date 2015-9-11
 								+ '<td>' + item.code + '</td>'
 								+ '<td>' + item.createTimeStr + '</td>'
 								+ '<td>'
-								+ '<a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"temp\"' + ')\'>临时二维码</a>  | '
-								+ '<a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"perm\"' + ')\'>永久二维码</a>'
+// 								+ '<a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"temp\"' + ')\'>临时二维码</a>  | '
+								+ '<a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"perm\"' + ')\'>二维码生成</a>'
 								+ '</td></tr>' 
 							 );
 						 });
