@@ -28,7 +28,13 @@ function query() {
             var json = msg;
 			if (json.status == 'success') {
 				var data = JSON.parse(json.data);
-				fillData(data.xAxis,data.series);//绘制图表
+				var subscribe = JSON.parse(data.subscribe);
+				var unsubscribe = JSON.parse(data.unsubscribe);
+				var backflow = JSON.parse(data.backflow);
+				fillData(subscribe.xAxis,subscribe.series);//绘制图表
+				unsubscribeFillData(unsubscribe.xAxis,unsubscribe.series);//绘制图表
+				backflowFillData(backflow.xAxis,backflow.series);//绘制图表
+				
 			} else {
 				alert('错误，请重试！');
 			}
@@ -66,6 +72,72 @@ function fillData(xAxis, series) {
 		},
 		title : {
 			text : '推广统计'
+		},
+		yAxis : {
+			title : {
+				text : '关注数量'
+			}
+		},
+		plotOptions : {
+			line : {
+				dataLabels : {
+					enabled : true
+				},
+				enableMouseTracking : true
+			}
+		},
+		xAxis : xAxis,
+		series : series
+	});
+}
+
+/**
+ * 退订填充图表数据
+ * @param xAxis 横轴
+ * @param series 数据
+ */
+function unsubscribeFillData(xAxis, series) {
+	//绘制图表
+	Highcharts.setOptions(Highcharts.theme);
+	$('#unsubscribe').highcharts({
+		chart : {
+			type : 'line'
+		},
+		title : {
+			text : '取消关注统计'
+		},
+		yAxis : {
+			title : {
+				text : '数量'
+			}
+		},
+		plotOptions : {
+			line : {
+				dataLabels : {
+					enabled : true
+				},
+				enableMouseTracking : true
+			}
+		},
+		xAxis : xAxis,
+		series : series
+	});
+}
+
+/**
+ * 回流填充图表数据
+ * @param xAxis 横轴
+ * @param series 数据
+ */
+function backflowFillData(xAxis, series) {
+	//绘制图表
+	Highcharts.setOptions(Highcharts.theme);
+	$('#backflow').highcharts({
+		chart : {
+			type : 'line'
+		},
+		title : {
+			text : '回流统计'
 		},
 		yAxis : {
 			title : {

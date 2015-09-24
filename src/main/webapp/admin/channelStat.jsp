@@ -33,7 +33,13 @@ date 2015-9-11
 		</form>
 		
 		<!-- 图表区域  -->
-		<div id="container" style=""> </div>
+		<div id="container" > </div>
+		
+		<!-- 退订  -->
+		<div id="unsubscribe" style="margin-top: 20px;"> </div>
+		
+		<!-- 回流 -->
+		<div id="backflow" style="margin-top: 20px; margin-bottom: 70px;"> </div>
 		
 	</body>
 	<script type="text/javascript" src="${ctx}/js/admin-channelStat.js"></script>

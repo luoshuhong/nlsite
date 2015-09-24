@@ -1,7 +1,6 @@
 package com.newleader.nlsite.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,7 +39,28 @@ public class ChannelStatService {
 		//先更新时间
 		this.channelStatDao.updateCreatData();
 		
-		List<ChannelStat> list = this.channelStatDao.query(sDate, eDate);
+		List<ChannelStat> list = this.channelStatDao.query(sDate, eDate);  //关注数据
+		List<ChannelStat> unsubscribeList = this.channelStatDao.queryUnsubscribe(sDate, eDate); //取消关注的数据
+		List<ChannelStat> backflowList = this.channelStatDao.queryBackflow(sDate, eDate); //回流数据
+		
+		JSONObject job = new JSONObject();
+		
+		job.put("subscribe", this.dealHightChartsData(list));
+		job.put("unsubscribe", this.dealHightChartsData(unsubscribeList));
+		job.put("backflow", this.dealHightChartsData(backflowList));
+		
+		return job.toJSONString();
+	}
+	
+	
+	private String dealHightChartsData(List<ChannelStat> list) {
+		JSONObject jobRes = new JSONObject();
+		
+		if (null == list || 0 == list.size()) {
+			jobRes.put("series", "");//数据域
+			jobRes.put("xAxis", ""); //横轴
+			return jobRes.toJSONString();
+		}
 		
 		/******  预处理数据  start  *****/
 		/**
@@ -94,7 +114,6 @@ public class ChannelStatService {
 		/****** 结果数据拼装 end ****/
 		
 		/****  拼装成前台图片展示的json数据  *****/
-		JSONObject jobRes = new JSONObject();
 		JSONObject xAxis = new JSONObject();
 		xAxis.put("categories", dateList);
 		jobRes.put("xAxis", xAxis); //横轴
