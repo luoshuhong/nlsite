@@ -95,7 +95,7 @@ function cancel(id) {
 				$('#dataListTbody').html('');
 				loadData();
 			} else {
-				alert('添加失败，请重试！');
+				alert('删除失败，请重试！');
 			}
 		}
 	});
@@ -135,7 +135,7 @@ function updateComfirm() {
 				loadData();
 				$('#updateModal').modal('hide'); 
 			} else {
-				$("#errMsg").html('添加失败，请重试！');
+				$("#errMsg").html('修改失败，请重试！');
 				$("#errMsg").show();
 			}
 		}

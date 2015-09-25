@@ -11,6 +11,7 @@ public class Channel {
 	private String id;
 	private String name;
 	private String code;
+	private String qrCodeUrl; //二维码Url
 	
 	private String createTimeStr; //前台展示用
 	
@@ -30,7 +31,7 @@ public class Channel {
 		this.name = name;
 		this.code = code;
 	}
-
+	
 	public String getId() {
 		return id;
 	}
@@ -55,6 +56,15 @@ public class Channel {
 	public void setCreateTimeStr(String createTimeStr) {
 		this.createTimeStr = createTimeStr;
 	}
+
+	public String getQrCodeUrl() {
+		return qrCodeUrl;
+	}
+
+	public void setQrCodeUrl(String qrCodeUrl) {
+		this.qrCodeUrl = qrCodeUrl;
+	}
+
 
 	@Override
 	public String toString() {

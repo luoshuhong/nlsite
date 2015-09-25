@@ -1,4 +1,4 @@
-package com.newleader.nlsite.controller;
+package com.newleader.nlsite.common;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,11 +18,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONObject;
-import com.newleader.nlsite.common.HttpUtils;
 
 /**
  * 二维码生成 
@@ -31,8 +28,6 @@ import com.newleader.nlsite.common.HttpUtils;
  * 2015年9月15日
  *
  */
-@Controller
-@RequestMapping("/qrCode")
 public class QrCodeProduce {
 	static String APPID = "wx7da410e7b5d045fe";// 微信公众号
 	static String SECRET = "296133f3ae1c0fb26daff3596014ec6c";// 应用密钥
@@ -46,7 +41,6 @@ public class QrCodeProduce {
 	 */
 	public static void main(String[] args) throws  Exception {
 		//System.out.println(permanentCode("flash1")); // 生成永久二维码
-		
 		//System.out.println(tempCode(1234)); //临时二维码
 	}
 	
@@ -56,19 +50,22 @@ public class QrCodeProduce {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String permanentCode(String channelCode) throws Exception {
-		String token = JSONObject.parseObject(doHttpGet(TOKEN_URL)).getString("access_token");
-		String codeUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + token;
-		
-		//永久二维码
-		String json = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": " + channelCode + "}}}";
-		String result = QrCodeProduce.post(codeUrl, json);
-		JSONObject resultJob = JSONObject.parseObject(result);
-		// System.out.println(resultJob.getString("url"));
-		if (null == resultJob) {
+	public static String permanentCode(String channelCode)   {
+		try {
+			String token = JSONObject.parseObject(doHttpGet(TOKEN_URL)).getString("access_token");
+			String codeUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + token;
+			//永久二维码
+			String json = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"" + channelCode + "\"}}}";
+			String result = QrCodeProduce.post(codeUrl, json);
+			JSONObject resultJob = JSONObject.parseObject(result);
+			if (null == resultJob) {
+				return "";
+			}
+			return resultJob.getString("url");
+		} catch (Exception e) {
+			e.printStackTrace();
 			return "";
 		}
-		return resultJob.getString("url");
 	}
 	
 	/**
@@ -86,7 +83,6 @@ public class QrCodeProduce {
 		if (null == resultJob) {
 			return "";
 		}
-		// System.out.println(resultJob.getString("url"));
 		return resultJob.getString("url");
 	}
 	
@@ -94,14 +90,14 @@ public class QrCodeProduce {
 	 * Http Post请求
 	 * @param sendurl
 	 * @param data
-	 * @return
+	 * @return 
 	 */
 	public static String post(String sendurl, String data) {
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(sendurl);
         StringEntity myEntity = new StringEntity(data,
                 ContentType.APPLICATION_JSON);// 构造请求数据
-        post.setEntity(myEntity);// 设置请求体
+        post.setEntity(myEntity); //设置请求体
         String responseContent = null; // 响应内容
         CloseableHttpResponse response = null;
         try {
@@ -118,7 +114,6 @@ public class QrCodeProduce {
             try {
                 if (response != null)
                     response.close();
-
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
+import com.newleader.nlsite.common.QrCodeProduce;
 import com.newleader.nlsite.common.RequestUtils;
 import com.newleader.nlsite.model.Channel;
 import com.newleader.nlsite.service.ChannelService;
@@ -36,7 +37,16 @@ public class ChannelController {
     public String add(HttpServletRequest request, HttpServletResponse response){
 		String channelName = request.getParameter("channelName");
 		String channelCode = request.getParameter("channelCode");
+		if (StringUtils.isEmpty(channelCode) || StringUtils.isEmpty(channelName)) {
+			return RequestUtils.failReturn("param is empty");
+		}
+		//获取微信二维码链接
+		String qrCodeUrl = QrCodeProduce.permanentCode(channelCode);
+		if (StringUtils.isEmpty(qrCodeUrl) ) {
+			return RequestUtils.failReturn("error");
+		}
 		Channel channel = new Channel(channelName,channelCode);
+		channel.setQrCodeUrl(qrCodeUrl);
 		channel.setId(UUID.randomUUID().toString().toUpperCase());
 		System.out.println("name=" + channelName + ", code=" + channelCode);
 		try {
@@ -91,12 +101,19 @@ public class ChannelController {
 			String id = request.getParameter("id");
 			String code = request.getParameter("channelCode");
 			String name = request.getParameter("channelName");
-			
-			System.out.println(id + "   " + code + "  " + name);
+			System.out.println(id + "=" + code + "=" + name);
 			if (StringUtils.isEmpty(id) || StringUtils.isEmpty(code) || StringUtils.isEmpty(name)) {
 				return RequestUtils.failReturn("param is null");
 			}
+			//获取微信二维码链接
+			String qrCodeUrl = QrCodeProduce.permanentCode(code);
+			System.out.println("qrCodeUrl=" + qrCodeUrl);
+			if (StringUtils.isEmpty(qrCodeUrl) ) {
+				return RequestUtils.failReturn("error");
+			}
+			
 			Channel model = new Channel(id, name, code);
+			model.setQrCodeUrl(qrCodeUrl);
 			if (this.channelService.update(model)) {
 				return RequestUtils.successReturn("");
 			} else {

@@ -21,9 +21,9 @@ import com.newleader.nlsite.model.Channel;
 public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	@Override
 	public boolean add(Channel t) {
-		String insertSql = "insert into aa_channel(id,Name,Code,CreateTime,delete_flag) values(?,?,?,?,?)";
+		String insertSql = "insert into aa_channel(id,Name,Code,CreateTime,QrcodeUrl,delete_flag) values(?,?,?,?,?,?)";
 		return 1 == this.getJdbcTemplate().update(insertSql,
-				new Object[] { t.getId(), t.getName(), t.getCode(),new Date(),"0"});
+				new Object[] { t.getId(), t.getName(), t.getCode(),new Date(),t.getQrCodeUrl(),"0"});
 	}
 	
 	@Override
@@ -48,8 +48,8 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	
 	@Override
 	public boolean update(Channel t) {
-		String updateSel = "update aa_channel set Name = ?,Code=? where Id = ?";
-		return 1 == this.getJdbcTemplate().update(updateSel,t.getName(), t.getCode(), t.getId());
+		String updateSel = "update aa_channel set Name = ?,Code=?,QrcodeUrl=? where Id = ?";
+		return 1 == this.getJdbcTemplate().update(updateSel,t.getName(), t.getCode(), t.getQrCodeUrl(), t.getId());
 	}
 	
 	/**
