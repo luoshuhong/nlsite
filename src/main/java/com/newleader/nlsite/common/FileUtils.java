@@ -54,6 +54,7 @@ public class FileUtils {
      *            
      */
     public static void createNewFile(String fileName, String content) {
+    	System.out.println("===fileName:" + fileName);
         try {
             String fileNameTemp = fileName;
             File filePath = new File(fileNameTemp);
@@ -274,7 +275,7 @@ public class FileUtils {
     }
     
     /**
-     * 一行一行读取文件，适合字符读取，若读取中文字符时会出现乱码
+     *  一行一行读取文件，适合字符读取，若读取中文字符时会出现乱码
      * 
      * @param path
      * @return

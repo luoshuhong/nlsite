@@ -35,7 +35,7 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	@Override
 	public List<Channel> query() {
 		List<Channel> channelList = new ArrayList<Channel>();
-		String selectSql = "select Id, Code,Name,CreateTime from aa_channel where delete_flag <> '1' order by CreateTime desc";
+		String selectSql = "select Id, Code,Name,CreateTime,QrcodeUrl from aa_channel where delete_flag <> '1' order by CreateTime desc";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
 		for (Map<String,Object> map : list) {
 			Channel model = this.wrapModel(map);
@@ -62,6 +62,7 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		String code = "";
 		String name = "";
 		String id = "";
+		String qrcodeUrl = "";
 		if (map.containsKey("Id") && null != map.get("Id")) {
 			id = map.get("Id").toString();
 		}
@@ -70,6 +71,9 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		}
 		if (map.containsKey("Name") && null != map.get("Name")) {
 			name = map.get("Name").toString();
+		}
+		if (map.containsKey("QrcodeUrl") && null != map.get("QrcodeUrl")) {
+			qrcodeUrl = map.get("QrcodeUrl").toString();
 		}
 		if (map.containsKey("CreateTime") && null != map.get("CreateTime")) {
 			model.setCreateTimeStr(map.get("CreateTime").toString());
@@ -83,6 +87,7 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		model.setCode(code);
 		model.setName(name);
 		model.setId(id);
+		model.setQrCodeUrl(qrcodeUrl);
 		return model;
 	}
 }

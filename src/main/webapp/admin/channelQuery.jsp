@@ -31,7 +31,7 @@ date 2015-9-11
 		<div style="margin-top: 50;"></div>
 		
 		<!-- 二维码生成弹框 -->
-		<div class="modal" id="imgModal">
+		<div class="modal" id="imgModal" style="margin: auto">
 	     <div class="modal-dialog">
 	        <div class="modal-content">
 	            <div class="modal-header">

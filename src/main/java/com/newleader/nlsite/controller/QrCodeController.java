@@ -1,5 +1,7 @@
 package com.newleader.nlsite.controller;
 
+import java.io.File;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.newleader.nlsite.common.HttpUtils;
+import com.newleader.nlsite.common.QrCodeProduce;
 import com.newleader.nlsite.common.RequestUtils;
 
 /**
@@ -30,26 +33,25 @@ public class QrCodeController {
 	@RequestMapping("/create")
     @ResponseBody
     public String crate(HttpServletRequest request, HttpServletResponse response){
-		String type = request.getParameter("type");
-		String channelCode = request.getParameter("channelCode");
+		String url = "http://qr.liantu.com/api.php?logo=http://donottell.me/CSS/Images/homepage/logo.png&text=";
 		
-		if (StringUtils.isEmpty(type) || StringUtils.isEmpty(channelCode)) {
+		String channelCode = request.getParameter("channelCode");
+		String id = request.getParameter("id");
+		
+		if (StringUtils.isEmpty(channelCode) || StringUtils.isEmpty(id)) {
 			return RequestUtils.failReturn("param is null");
 		}
+		
+		String qrCodeLocalDir = QrCodeProduce.gerQrcodeLocalDir(request.getContextPath(), id, channelCode);
+		//如果本地缓存有 直接用
+		if (new File(request.getRealPath("/") + qrCodeLocalDir).exists()) {
+			System.out.println("---local cache:" + request.getRealPath("/") + qrCodeLocalDir);
+			return RequestUtils.successReturn(qrCodeLocalDir);
+		}
+		
+		//下面是重新生成
 		try {
-			String codeUrl = "";
-//			codeUrl = this.tempCode(520);
-			if ("temp".equals(type)) {
-				int chnlCode = 0;
-				try {
-					chnlCode = Integer.valueOf(channelCode);
-				} catch (Exception e) {
-					return RequestUtils.failReturn("临时二维码，编码只能是数字");
-				}
-				codeUrl = this.tempCode(chnlCode);          //生成临时二维码
-			} else {
-				codeUrl = this.permanentCode(channelCode);  //生成永久二维码
-			}
+			String codeUrl = url + this.permanentCode(channelCode);  //生成永久二维码
 			return RequestUtils.successReturn(codeUrl);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,6 +85,7 @@ public class QrCodeController {
 	 * @param channelCode  渠道编码
 	 * @return 二维码地址
 	 */
+	@Deprecated
 	public String tempCode(int channelCode) throws Exception {
 		String token = JSONObject.parseObject(HttpUtils.doHttpGet(TOKEN_URL)).getString("access_token");
 		String codeUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + token;

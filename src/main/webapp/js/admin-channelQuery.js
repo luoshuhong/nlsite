@@ -24,8 +24,7 @@ function loadData() {
 						+ '<td>' + item.name + '</td>'
 						+ '<td>' + item.code + '</td>'
 						+ '<td>' + item.createTimeStr + '</td>'
-						+ '<td><a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"perm\"' + ')\'>二维码生成</a></td>'
-// 								+ '<a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"temp\"' + ')\'>临时二维码</a>  '
+						+ '<td><a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"' + item.id +'\")\'>二维码生成</a></td>'
 						+ '<td><a href=\'javascript:cancel(\"' + item.id + '\")\'>删除</a>  | '
 						+ ' <a href=\'javascript:update(\"' + item.id + '\",\"' + item.name  + '\",\"' + item.code + '\")\'>更新</a></td>'
 						+ '</tr>' 
@@ -42,16 +41,12 @@ function loadData() {
 }
 
 //二维码生成
-function qrCodeCreate(code,type) {
-	if (isEmpty(code) || isEmpty(type)) {
+function qrCodeCreate(code,id) {
+	if (isEmpty(code) || isEmpty(id)) {
 		return;
 	}
-	
-	if('temp' == type && isNaN(code)){
-	   alert("生成临时二维码，编码必须是数字");
-	   return;
-	}
-	var postData = {"type":type, "channelCode":code};
+	$("#img_code").attr('src',''); //清除上一次图片
+	var postData = {"id":id, "channelCode":code};
     $.ajax({
 		type: "POST",
 		url: "../admin/qrCode/create",
@@ -64,12 +59,10 @@ function qrCodeCreate(code,type) {
 					alert('生成二维码失败，请重试 ！');
 					return;
 				}
-				var logo = "&logo=http://donottell.me/CSS/Images/homepage/logo.png";
-				$("#img_code").attr('src',"http://qr.liantu.com/api.php?text=" + json.data + logo); 
+				$("#img_code").attr('src', '../' + json.data); 
 				$('#imgModal').modal('show');  
 			} else {
 				$("#errMsg").val('添加失败，请重试！');
-//				alert('添加失败，请重试！');
 			}
 		}
 	});

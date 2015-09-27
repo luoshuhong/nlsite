@@ -48,7 +48,9 @@ public class ChannelController {
 		Channel channel = new Channel(channelName,channelCode);
 		channel.setQrCodeUrl(qrCodeUrl);
 		channel.setId(UUID.randomUUID().toString().toUpperCase());
-		System.out.println("name=" + channelName + ", code=" + channelCode);
+		//生成本地二维码图片
+		QrCodeProduce.createQrCord(request.getRealPath("/"),channel);
+		
 		try {
 			if (this.channelService.add(channel)) {
 				return RequestUtils.successReturn("");
@@ -65,6 +67,7 @@ public class ChannelController {
     public String query(HttpServletRequest request, HttpServletResponse response){
 		try {
 			List<Channel> list = this.channelService.query();
+			
 			if (null != list) {
 				return RequestUtils.successReturn(JSONArray.toJSONString(list));
 			} else {
@@ -101,7 +104,7 @@ public class ChannelController {
 			String id = request.getParameter("id");
 			String code = request.getParameter("channelCode");
 			String name = request.getParameter("channelName");
-			System.out.println(id + "=" + code + "=" + name);
+//			System.out.println(id + "=" + code + "=" + name);
 			if (StringUtils.isEmpty(id) || StringUtils.isEmpty(code) || StringUtils.isEmpty(name)) {
 				return RequestUtils.failReturn("param is null");
 			}
@@ -112,9 +115,14 @@ public class ChannelController {
 				return RequestUtils.failReturn("error");
 			}
 			
-			Channel model = new Channel(id, name, code);
-			model.setQrCodeUrl(qrCodeUrl);
-			if (this.channelService.update(model)) {
+			//生成二维码（）
+			Channel channel = new Channel(id, name, code);
+			channel.setQrCodeUrl(qrCodeUrl);
+			
+			//生成本地二维码图片
+			QrCodeProduce.createQrCord(request.getRealPath("/"),channel);
+			
+			if (this.channelService.update(channel)) {
 				return RequestUtils.successReturn("");
 			} else {
 				return RequestUtils.failReturn("fail");
