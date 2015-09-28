@@ -39,6 +39,7 @@ public class ChannelStatController {
         	eDate = DateUtils.getNextDay(new Date(), "1", DateUtils.PATTERN_YYYYMMDD);
         	sDate = DateUtils.getNextDay(new Date(), "-7", DateUtils.PATTERN_YYYYMMDD);
         }
+        System.out.println("eDate=" + eDate + ",sDate=" + sDate);
         
 		try {
 			String data = channelStatService.queryByChannelCode(sDate, eDate);

@@ -46,6 +46,25 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		return channelList;
 	}
 	
+	/**
+	 * 模糊查询
+	 * @param value
+	 * @return
+	 */
+	public List<Channel> vagueQuery(String value) {
+		List<Channel> channelList = new ArrayList<Channel>();
+		String selectSql = "select Id, Code,Name,CreateTime,QrcodeUrl from aa_channel where delete_flag <> '1'  "
+				+ "and (name like '%" + value + "%' or `Code` like '%" + value + "%') order by CreateTime desc";
+		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
+		for (Map<String,Object> map : list) {
+			Channel model = this.wrapModel(map);
+			if (null != model) {
+				channelList.add(model);
+			}
+		}
+		return channelList;
+	}
+	
 	@Override
 	public boolean update(Channel t) {
 		String updateSel = "update aa_channel set Name = ?,Code=?,QrcodeUrl=? where Id = ?";

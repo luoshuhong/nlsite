@@ -115,6 +115,7 @@ public class ChannelStatService {
 		
 		/****  拼装成前台图片展示的json数据  *****/
 		JSONObject xAxis = new JSONObject();
+		System.out.println("---date:" + dateList);
 		xAxis.put("categories", dateList);
 		jobRes.put("xAxis", xAxis); //横轴
 		//数据域

@@ -45,8 +45,8 @@ public class QrCodeController {
 		String qrCodeLocalDir = QrCodeProduce.gerQrcodeLocalDir(request.getContextPath(), id, channelCode);
 		//如果本地缓存有 直接用
 		if (new File(request.getRealPath("/") + qrCodeLocalDir).exists()) {
-			System.out.println("---local cache:" + request.getRealPath("/") + qrCodeLocalDir);
-			return RequestUtils.successReturn(qrCodeLocalDir);
+			System.out.println("[local cache] localurl=" + request.getRealPath("/") + qrCodeLocalDir);
+			return RequestUtils.successReturn("../" + qrCodeLocalDir);
 		}
 		
 		//下面是重新生成

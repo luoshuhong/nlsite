@@ -4,20 +4,33 @@
  * author: luoshuhong
  * date 2015-9-23
  */
-
 $(function() {
-	loadData();
+	loadData('');
 });
 
+/**
+ * 查询数据
+ */
+function query(){
+	var value = $("#value").val();
+	if (isEmpty(value)) {
+		return;
+	}
+	loadData(value);
+}
+
 //加载数据
-function loadData() {
+function loadData(value) {
+	var postData = {"value":value};
 	$.ajax({
 		type: "POST",
 		url: "../admin/channel/query",
+		data: postData,
 		async:false,
 		success : function(msg) {
 			var json = eval("("+msg+")");;
 			if (json.status == 'success') {
+				$('#dataListTbody').html('');
 				var dataList = json.data;
 				 $.each(JSON.parse(json.data), function (idx,item) {
 					 $('#dataListTbody').append('<tr>' 
@@ -59,7 +72,7 @@ function qrCodeCreate(code,id) {
 					alert('生成二维码失败，请重试 ！');
 					return;
 				}
-				$("#img_code").attr('src', '../' + json.data); 
+				$("#img_code").attr('src', json.data); 
 				$('#imgModal').modal('show');  
 			} else {
 				$("#errMsg").val('添加失败，请重试！');

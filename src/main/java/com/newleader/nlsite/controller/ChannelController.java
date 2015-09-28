@@ -66,7 +66,14 @@ public class ChannelController {
     @ResponseBody
     public String query(HttpServletRequest request, HttpServletResponse response){
 		try {
-			List<Channel> list = this.channelService.query();
+			List<Channel> list = null;
+			String value = request.getParameter("value");
+			System.out.println("---value:" + value);
+			if (StringUtils.isEmpty(value)) {
+				list = this.channelService.query();
+			} else {
+				list = this.channelService.vagueQuery(value);
+			}
 			
 			if (null != list) {
 				return RequestUtils.successReturn(JSONArray.toJSONString(list));

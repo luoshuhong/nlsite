@@ -12,10 +12,24 @@ date 2015-9-11
 <!DOCTYPE html>
 <html lang="zh-CN">
 	<head>
+		<script type="text/javascript" src="${ctx}/js/admin-channelQuery.js"></script>
 	</head>
 
 	<body>
-		<h2>渠道查询</h2>
+		<div class="row">
+			<div class="col-xs-3">
+				<h2 >渠道查询</h2>
+			</div>
+			<div class="col-xs-9" style="margin-top: 20px; text-align: right;">
+				<form class="form-inline">
+				  <div class="form-group">
+				    <input type="text" class="form-control" id="value" onblur="query();" name="value" placeholder="请输入查询条件">
+				  </div>
+				  <button type="button" id="queryBtn" onclick="query();" class="btn btn-primary">query</button>
+				</form>
+			</div>
+		</div>
+		
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover">
 				<thead class="thead">
@@ -79,5 +93,5 @@ date 2015-9-11
 	  </div><!-- /.modal -->
 		
 	</body>
-	<script type="text/javascript" src="${ctx}/js/admin-channelQuery.js"></script>
+	
 </html> 

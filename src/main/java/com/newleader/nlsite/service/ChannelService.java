@@ -38,6 +38,15 @@ public class ChannelService {
 	}
 	
 	/**
+	 * 模糊查询
+	 * @param value 条件
+	 * @return List<Channel>
+	 */
+	public List<Channel> vagueQuery(String value) {
+		return this.channelDao.vagueQuery(value);
+	}
+	
+	/**
 	 * 根据id 删除
 	 * @param id
 	 * @return true or false
