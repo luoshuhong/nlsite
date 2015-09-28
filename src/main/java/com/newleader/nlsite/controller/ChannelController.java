@@ -68,7 +68,6 @@ public class ChannelController {
 		try {
 			List<Channel> list = null;
 			String value = request.getParameter("value");
-			System.out.println("---value:" + value);
 			if (StringUtils.isEmpty(value)) {
 				list = this.channelService.query();
 			} else {

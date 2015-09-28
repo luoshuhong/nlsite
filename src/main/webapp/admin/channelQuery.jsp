@@ -21,11 +21,9 @@ date 2015-9-11
 				<h2 >渠道查询</h2>
 			</div>
 			<div class="col-xs-9" style="margin-top: 20px; text-align: right;">
-				<form class="form-inline">
-				  <div class="form-group">
-				    <input type="text" class="form-control" id="value" onblur="query();" name="value" placeholder="请输入查询条件">
-				  </div>
-				  <button type="button" id="queryBtn" onclick="query();" class="btn btn-primary">query</button>
+				<form class="form-inline" action="">
+				    <input type="text"  class="form-control" id="value" onblur="query();" name="value" placeholder="请输入查询条件">
+				    <button type="button" id="queryBtn" onclick="query();" class="btn btn-primary">query</button>
 				</form>
 			</div>
 		</div>
