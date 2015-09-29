@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,24 @@ public class ChannelStatService {
 		return job.toJSONString();
 	}
 	
+	/**
+	 * 获取某个渠道累计的关注量
+	 * @param channelId  渠道id
+	 * @return 累计关注量
+	 */
+	public int getSubscribeByChannel(String code) {
+		if (StringUtils.isEmpty(code)) {
+			return 0;
+		}
+		return this.channelStatDao.getSubscribeByChannel(code);
+	}
 	
+	
+	/**
+	 * 处理成图表展示的数据
+	 * @param list
+	 * @return
+	 */
 	private String dealHightChartsData(List<ChannelStat> list) {
 		JSONObject jobRes = new JSONObject();
 		

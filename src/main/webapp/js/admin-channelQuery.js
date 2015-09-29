@@ -36,6 +36,7 @@ function loadData(value) {
 					 $('#dataListTbody').append('<tr>' 
 						+ '<td>' + item.name + '</td>'
 						+ '<td>' + item.code + '</td>'
+						+ '<td>' + item.totalSubscribe + '</td>'
 						+ '<td>' + item.createTimeStr + '</td>'
 						+ '<td><a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"' + item.id +'\")\'>二维码生成</a></td>'
 						+ '<td><a href=\'javascript:cancel(\"' + item.id + '\")\'>删除</a>  | '

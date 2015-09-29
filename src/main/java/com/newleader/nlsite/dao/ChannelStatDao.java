@@ -107,6 +107,16 @@ public class ChannelStatDao extends JdbcDaoSupport {
 		return retList;
 	}
 	
+	/**
+	 * 获取某个渠道累计的关注量
+	 * @param channelId  渠道id
+	 * @return 累计关注量
+	 */
+	@SuppressWarnings("deprecation")
+	public int getSubscribeByChannel(String code) {
+		String selSql = " select count(id) from aa_visitor_channel where isBind in(0,2) and channelId = ?";
+		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code});
+	}
 	
 	/**
 	 * 更新创建时间（方便统计用字段）

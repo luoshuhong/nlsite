@@ -17,6 +17,7 @@ import com.newleader.nlsite.common.QrCodeProduce;
 import com.newleader.nlsite.common.RequestUtils;
 import com.newleader.nlsite.model.Channel;
 import com.newleader.nlsite.service.ChannelService;
+import com.newleader.nlsite.service.ChannelStatService;
 
 /**
  * 渠道相关
@@ -31,6 +32,8 @@ public class ChannelController {
 	
 	@Autowired
 	private ChannelService channelService;
+	@Autowired
+	private ChannelStatService channelStatService;
 	
 	@RequestMapping("/add")
     @ResponseBody
@@ -75,11 +78,16 @@ public class ChannelController {
 			}
 			
 			if (null != list) {
+				//获取每个渠道累计关注量
+				for (Channel channel : list) {
+					channel.setTotalSubscribe(this.channelStatService.getSubscribeByChannel(channel.getCode()));
+				}
 				return RequestUtils.successReturn(JSONArray.toJSONString(list));
 			} else {
 				return RequestUtils.failReturn("fail");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			return RequestUtils.failReturn("exception");
 		}
 	}

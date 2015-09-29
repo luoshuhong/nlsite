@@ -14,6 +14,7 @@ public class Channel {
 	private String qrCodeUrl; //二维码Url
 	
 	private String createTimeStr; //前台展示用
+	private int totalSubscribe;   //累计关注量
 	
 	public Channel() {
 	}
@@ -63,6 +64,14 @@ public class Channel {
 
 	public void setQrCodeUrl(String qrCodeUrl) {
 		this.qrCodeUrl = qrCodeUrl;
+	}
+	
+	public int getTotalSubscribe() {
+		return totalSubscribe;
+	}
+
+	public void setTotalSubscribe(int totalSubscribe) {
+		this.totalSubscribe = totalSubscribe;
 	}
 
 
