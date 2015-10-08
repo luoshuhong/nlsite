@@ -14,11 +14,12 @@ public class Channel {
 	private String qrCodeUrl; //二维码Url
 	
 	private String createTimeStr; //前台展示用
-	private int totalSubscribe;   //累计关注量
+	private int 	totalSubscribe;   //关注量  - 包括已取消关注的
+	private int 	unSubscribe;	   //取消关注的量
+	private String unSubscribeRate = "0"; //取消关注的比率 -- 流失率
 	
 	public Channel() {
 	}
-	
 	
 	public Channel(String name, String code) {
 		super();
@@ -73,7 +74,19 @@ public class Channel {
 	public void setTotalSubscribe(int totalSubscribe) {
 		this.totalSubscribe = totalSubscribe;
 	}
+	public int getUnSubscribe() {
+		return unSubscribe;
+	}
+	public void setUnSubscribe(int unSubscribe) {
+		this.unSubscribe = unSubscribe;
+	}
+	public String getUnSubscribeRate() {
+		return unSubscribeRate;
+	}
 
+	public void setUnSubscribeRate(String unSubscribeRate) {
+		this.unSubscribeRate = unSubscribeRate;
+	}
 
 	@Override
 	public String toString() {

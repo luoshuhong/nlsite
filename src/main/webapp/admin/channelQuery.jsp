@@ -9,7 +9,7 @@ date 2015-9-11
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ include file="../common/taglibs.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html lang="zh-CN">
 	<head>
 		<script type="text/javascript" src="${ctx}/js/admin-channelQuery.js"></script>
@@ -32,7 +32,7 @@ date 2015-9-11
 			<table class="table table-bordered table-hover">
 				<thead class="thead">
 					<tr>
-						<th>名称</th><th>编码</th><th>累计关注量</th><th>添加时间</th><th>推广</th><th>操作</th>
+						<th>名称</th><th>编码</th><th>累计关注量</th><th>取消关注量</th><th>流失率</th><th>添加时间</th><th>推广</th><th>操作</th>
 					</tr>
 				</thead>
 				<!-- 数据域  -->

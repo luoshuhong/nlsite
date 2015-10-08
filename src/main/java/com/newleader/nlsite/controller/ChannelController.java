@@ -1,5 +1,6 @@
 package com.newleader.nlsite.controller;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +19,6 @@ import com.newleader.nlsite.common.RequestUtils;
 import com.newleader.nlsite.model.Channel;
 import com.newleader.nlsite.service.ChannelService;
 import com.newleader.nlsite.service.ChannelStatService;
-
 /**
  * 渠道相关
  * @author Luoshuhong
@@ -80,7 +80,13 @@ public class ChannelController {
 			if (null != list) {
 				//获取每个渠道累计关注量
 				for (Channel channel : list) {
-					channel.setTotalSubscribe(this.channelStatService.getSubscribeByChannel(channel.getCode()));
+					int totalSubscribe = this.channelStatService.getSubscribeByChannel(channel.getCode());
+					int unSubscribe = this.channelStatService.getUnSubscribeByChannel(channel.getCode()); 
+					channel.setTotalSubscribe(totalSubscribe);
+					channel.setUnSubscribe(unSubscribe);
+					if (0 != totalSubscribe && 0 != unSubscribe) {
+						channel.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * unSubscribe)/totalSubscribe));
+					}
 				}
 				return RequestUtils.successReturn(JSONArray.toJSONString(list));
 			} else {

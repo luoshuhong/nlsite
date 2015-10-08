@@ -114,9 +114,22 @@ public class ChannelStatDao extends JdbcDaoSupport {
 	 */
 	@SuppressWarnings("deprecation")
 	public int getSubscribeByChannel(String code) {
-		String selSql = " select count(id) from aa_visitor_channel where isBind in(0,2) and channelId = ?";
+		String selSql = " select count(DISTINCT(openid)) from aa_visitor_channel where channelId = ?";
 		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code});
 	}
+	
+	/**
+	 * 获取某个渠道取消关注量
+	 * @param channelId  渠道id
+	 * @return 累计关注量
+	 */
+	@SuppressWarnings("deprecation")
+	public int getUnSubscribeByChannel(String code) {
+		String selSql = " select count(DISTINCT(openid)) from aa_visitor_channel where  channelId = ? "
+				+ " and openid not in (select openid from aa_visitor_channel where channelId = ? and isBind = 2)  and isBind = 1";
+		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code,code});
+	}
+	
 	
 	/**
 	 * 更新创建时间（方便统计用字段）

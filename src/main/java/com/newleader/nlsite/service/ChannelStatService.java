@@ -65,6 +65,17 @@ public class ChannelStatService {
 		return this.channelStatDao.getSubscribeByChannel(code);
 	}
 	
+	/**
+	 * 获取某个渠道取消关注量
+	 * @param channelId  渠道id
+	 * @return 累计关注量
+	 */
+	public int getUnSubscribeByChannel(String code) {
+		if (StringUtils.isEmpty(code)) {
+			return 0;
+		}
+		return this.channelStatDao.getUnSubscribeByChannel(code);
+	}
 	
 	/**
 	 * 处理成图表展示的数据
