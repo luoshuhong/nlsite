@@ -103,10 +103,11 @@ public class ChannelStatService {
 		 */
 		List<String> dateList = new ArrayList<String>();
 		Set<String> codeSet = new HashSet<String>();     //渠道编码
-		String dateStr = "";
+//		String dateStr = "";
 		for (ChannelStat model : list) {
 			codeSet.add(model.getChannelCode());
-			if (!dateStr.contains(model.getDate())) {
+//			if (!dateStr.contains(model.getDate())) {
+			if (!dateList.contains(model.getDate())) {
 				dateList.add(model.getDate());
 			}
 			if (statMap.containsKey(model.getDate())) {
@@ -144,7 +145,6 @@ public class ChannelStatService {
 		
 		/****  拼装成前台图片展示的json数据  *****/
 		JSONObject xAxis = new JSONObject();
-		System.out.println("---date:" + dateList);
 		xAxis.put("categories", dateList);
 		jobRes.put("xAxis", xAxis); //横轴
 		//数据域

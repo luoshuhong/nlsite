@@ -86,7 +86,7 @@ public class ChannelStatDao extends JdbcDaoSupport {
 	public List<ChannelStat> queryUnsubscribe(String sDate, String eDate) {
 		List<ChannelStat> retList = new ArrayList<ChannelStat>();
 		String selSql = "select createDate,count(Id) as count from aa_visitor_channel "
-				+ "where createTime > ? and createTime < ? and isBind = 1 GROUP BY createDate";
+				+ "where bindTime > ? and bindTime < ? and isBind = 1 GROUP BY createDate";
 		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList(
 				selSql, new Object[] { sDate, eDate });
 		
