@@ -1,4 +1,4 @@
-package com.newleader.nlsite.controller;
+package com.newleader.nlsite.admin.controller;
 
 import java.io.File;
 

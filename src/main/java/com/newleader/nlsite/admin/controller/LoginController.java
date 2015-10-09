@@ -1,4 +1,4 @@
-package com.newleader.nlsite.controller;
+package com.newleader.nlsite.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,24 +16,24 @@ import com.newleader.nlsite.common.SessionUtils;
 @Controller
 @RequestMapping("/admin")
 public class LoginController {
-	private Log log = LogFactory.getLog(LoginController.class);
+	private Log log = LogFactory.getLog("admin");
 	
 	@RequestMapping("/login")
 	@ResponseBody
 	public String login(HttpServletRequest request, HttpServletResponse response){
-		log.info("进入login方法");
-		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		log.info("method=login,userName=" + username + ",password=*****" );
+		
 		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
 			return RequestUtils.failReturn("error");
 		}
 		if(username.equals("admin") && password.equals("newleader007")){
 			SessionUtils.setSession(request, SessionUtils.LONIG_FLAG, "true");
-            log.info("登录成功。");
+			log.info("method=login,登陆成功" );
             return RequestUtils.successReturn("success");
 		}
-        log.info("用户名或密码错误！");
+        log.info("method=login,用户名或密码错误" );
         return RequestUtils.failReturn("error");
 	}
 	

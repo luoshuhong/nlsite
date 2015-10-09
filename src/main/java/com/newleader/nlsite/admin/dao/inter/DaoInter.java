@@ -1,4 +1,4 @@
-package com.newleader.nlsite.dao.inter;
+package com.newleader.nlsite.admin.dao.inter;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.newleader.nlsite.service;
+package com.newleader.nlsite.admin.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.newleader.nlsite.admin.dao.ChannelStatDao;
+import com.newleader.nlsite.admin.model.ChannelStat;
 import com.newleader.nlsite.common.DateUtils;
-import com.newleader.nlsite.dao.ChannelStatDao;
-import com.newleader.nlsite.model.ChannelStat;
 
 /**
  * 渠道推广统计相关操作

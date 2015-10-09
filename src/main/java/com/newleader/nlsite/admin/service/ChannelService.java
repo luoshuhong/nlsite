@@ -1,12 +1,12 @@
-package com.newleader.nlsite.service;
+package com.newleader.nlsite.admin.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.newleader.nlsite.dao.ChannelDao;
-import com.newleader.nlsite.model.Channel;
+import com.newleader.nlsite.admin.dao.ChannelDao;
+import com.newleader.nlsite.admin.model.Channel;
 
 /**
  * 渠道相关操作

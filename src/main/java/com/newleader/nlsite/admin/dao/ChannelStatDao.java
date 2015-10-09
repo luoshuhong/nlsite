@@ -1,4 +1,4 @@
-package com.newleader.nlsite.dao;
+package com.newleader.nlsite.admin.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
-import com.newleader.nlsite.model.ChannelStat;
+import com.newleader.nlsite.admin.model.ChannelStat;
 
 /**
  * 渠道推广统计
@@ -130,12 +130,11 @@ public class ChannelStatDao extends JdbcDaoSupport {
 		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code,code});
 	}
 	
-	
 	/**
 	 * 更新创建时间（方便统计用字段）
 	 */
 	public void updateCreatData() {
-		this.getJdbcTemplate()
-				.update("update aa_visitor_channel set createDate = left(createTime,10) where createDate = 'NULL'");
+		this.getJdbcTemplate().update("update aa_visitor_channel set createDate = left(createTime,10) where createDate = 'NULL' and isBind in(0,2)");
+		this.getJdbcTemplate().update("update aa_visitor_channel set createDate = left(bindTime,10) where createDate = 'NULL' and isBind = 1");
 	}
 }

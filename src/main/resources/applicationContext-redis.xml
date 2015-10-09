@@ -14,18 +14,19 @@
                            	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
        default-autowire="byName">
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />  
-        <property name="url" value="${db.url}" />
-        <property name="username" value="${db.user}" />  
-        <property name="password" value="${db.pwd}" />  
-    </bean>
-    
-    <bean id="channelDao" class="com.newleader.nlsite.admin.dao.ChannelDao">  
-    	<property name="dataSource" ref="dataSource"></property>  
-    </bean>
-    <bean id="channelStatDao" class="com.newleader.nlsite.admin.dao.ChannelStatDao">  
-    	<property name="dataSource" ref="dataSource"></property>  
-    </bean>
+	<!-- pool配置 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="#{configManager.getConfigValue('trade_common','redis.maxIdle')}" />
+		<property name="maxWaitMillis" value="#{configManager.getConfigValue('trade-refund-serv','redis.maxWaitMillis')}" />
+		<property name="testOnBorrow" value="#{configManager.getConfigValue('trade_common','redis.testOnBorrow')}" />
+	</bean>
+   <!-- jedis pool配置 -->
+	<bean id="jedisRecordPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1" value="#{configManager.getRedisConfig('trade_public_redis','3.1').ip}" />
+		<constructor-arg index="2" value="#{configManager.getRedisConfig('trade_public_redis','3.1').port}" />
+		<constructor-arg index="3" value="#{configManager.getConfigValue('trade_common','redis.timeout')}" />
+		<constructor-arg index="4" value="#{configManager.getRedisConfig('trade_public_redis','3.1').pwd}" />
+	</bean>
 	
 </beans>

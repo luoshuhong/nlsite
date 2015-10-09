@@ -1,4 +1,4 @@
-package com.newleader.nlsite.controller;
+package com.newleader.nlsite.admin.controller;
 
 import java.util.Date;
 
@@ -6,14 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.newleader.nlsite.admin.service.ChannelStatService;
 import com.newleader.nlsite.common.DateUtils;
 import com.newleader.nlsite.common.RequestUtils;
-import com.newleader.nlsite.service.ChannelStatService;
 
 /**
  * 渠道推广统计相关
@@ -25,6 +26,7 @@ import com.newleader.nlsite.service.ChannelStatService;
 @Controller
 @RequestMapping("/admin/channelStat")
 public class ChannelStatController {
+	Logger log = Logger.getLogger("admin");
 	
 	@Autowired
 	private ChannelStatService channelStatService;
@@ -39,7 +41,7 @@ public class ChannelStatController {
         	eDate = DateUtils.getNextDay(new Date(), "1", DateUtils.PATTERN_YYYYMMDD);
         	sDate = DateUtils.getNextDay(new Date(), "-7", DateUtils.PATTERN_YYYYMMDD);
         }
-        System.out.println("eDate=" + eDate + ",sDate=" + sDate);
+        log.info("method=statQuery,sDate=" + sDate + ",eDate=" + eDate);
         
 		try {
 			String data = channelStatService.queryByChannelCode(sDate, eDate);

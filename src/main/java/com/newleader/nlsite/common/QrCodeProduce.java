@@ -3,7 +3,7 @@ package com.newleader.nlsite.common;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.newleader.nlsite.model.Channel;
+import com.newleader.nlsite.admin.model.Channel;
 
 /**
  * 二维码生成 

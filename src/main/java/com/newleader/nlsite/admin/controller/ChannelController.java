@@ -1,4 +1,4 @@
-package com.newleader.nlsite.controller;
+package com.newleader.nlsite.admin.controller;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -8,17 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
+import com.newleader.nlsite.admin.model.Channel;
+import com.newleader.nlsite.admin.service.ChannelService;
+import com.newleader.nlsite.admin.service.ChannelStatService;
 import com.newleader.nlsite.common.QrCodeProduce;
 import com.newleader.nlsite.common.RequestUtils;
-import com.newleader.nlsite.model.Channel;
-import com.newleader.nlsite.service.ChannelService;
-import com.newleader.nlsite.service.ChannelStatService;
 /**
  * 渠道相关
  * @author Luoshuhong
@@ -29,6 +30,7 @@ import com.newleader.nlsite.service.ChannelStatService;
 @Controller
 @RequestMapping("/admin/channel")
 public class ChannelController {
+	Logger log = Logger.getLogger("admin");
 	
 	@Autowired
 	private ChannelService channelService;
@@ -40,6 +42,7 @@ public class ChannelController {
     public String add(HttpServletRequest request, HttpServletResponse response){
 		String channelName = request.getParameter("channelName");
 		String channelCode = request.getParameter("channelCode");
+		log.info("method=addChannel,channelName=" + channelName + ",channelCode=" + channelCode);
 		if (StringUtils.isEmpty(channelCode) || StringUtils.isEmpty(channelName)) {
 			return RequestUtils.failReturn("param is empty");
 		}
@@ -71,6 +74,8 @@ public class ChannelController {
 		try {
 			List<Channel> list = null;
 			String value = request.getParameter("value");
+			log.info("method=queryChannel,value=" + value);
+			
 			if (StringUtils.isEmpty(value)) {
 				list = this.channelService.query();
 			} else {
@@ -103,6 +108,7 @@ public class ChannelController {
     public String cancel(HttpServletRequest request, HttpServletResponse response){
 		try {
 			String id = request.getParameter("id");
+			log.info("method=cancelChannel,value=" + id);
 			if (StringUtils.isEmpty(id)) {
 				return RequestUtils.failReturn("param is null");
 			}
@@ -124,7 +130,7 @@ public class ChannelController {
 			String id = request.getParameter("id");
 			String code = request.getParameter("channelCode");
 			String name = request.getParameter("channelName");
-//			System.out.println(id + "=" + code + "=" + name);
+			log.info("method=updateChannel,id=" + id + ",code=" + code + ",name=" + name);
 			if (StringUtils.isEmpty(id) || StringUtils.isEmpty(code) || StringUtils.isEmpty(name)) {
 				return RequestUtils.failReturn("param is null");
 			}

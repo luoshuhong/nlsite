@@ -1,4 +1,4 @@
-package com.newleader.nlsite.dao;
+package com.newleader.nlsite.admin.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,8 +8,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
-import com.newleader.nlsite.dao.inter.DaoInter;
-import com.newleader.nlsite.model.Channel;
+import com.newleader.nlsite.admin.dao.inter.DaoInter;
+import com.newleader.nlsite.admin.model.Channel;
 
 /**
  * 

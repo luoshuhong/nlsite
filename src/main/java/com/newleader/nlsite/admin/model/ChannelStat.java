@@ -1,4 +1,4 @@
-package com.newleader.nlsite.model;
+package com.newleader.nlsite.admin.model;
 
 /**
  * 渠道推广统计
