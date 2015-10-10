@@ -32,7 +32,9 @@ date 2015-9-11
 			<table class="table table-bordered table-hover">
 				<thead class="thead">
 					<tr>
-						<th>名称</th><th>编码</th><th>累计关注量</th><th>取消关注量</th><th>流失率</th><th>添加时间</th><th>推广</th><th>操作</th>
+						<th>名称</th><th>编码</th>
+						<th>累计</th><th>当前</th><th>退订</th><th>退订率</th>
+						<th>添加时间</th><th>推广</th><th>操作</th>
 					</tr>
 				</thead>
 				<!-- 数据域  -->

@@ -27,5 +27,13 @@
     <bean id="channelStatDao" class="com.newleader.nlsite.admin.dao.ChannelStatDao">  
     	<property name="dataSource" ref="dataSource"></property>  
     </bean>
+    
+    <bean id="recordShareDao" class="com.newleader.nlsite.admin.dao.RecordShareDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
+    <bean id="recordVirusDao" class="com.newleader.nlsite.admin.dao.RecordVirusDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
+    
 	
 </beans>

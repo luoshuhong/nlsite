@@ -15,7 +15,7 @@ public class RecordVirus {
 	private String sOpenId;        //分析者openid
 	private String channelId;      //分享者渠道信息
 	private String scene;		        //场景
-	private Date   createTime;    //创建时间
+	private String   createTime;    //创建时间
 	private int	   isSubscribe;    //是否关注 0：未关注   1：关注
 	
 	public int getId() {
@@ -48,10 +48,10 @@ public class RecordVirus {
 	public void setScene(String scene) {
 		this.scene = scene;
 	}
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 	public int getIsSubscribe() {

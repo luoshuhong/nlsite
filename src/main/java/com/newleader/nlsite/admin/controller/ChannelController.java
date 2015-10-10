@@ -1,6 +1,7 @@
 package com.newleader.nlsite.admin.controller;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -89,6 +90,7 @@ public class ChannelController {
 					int unSubscribe = this.channelStatService.getUnSubscribeByChannel(channel.getCode()); 
 					channel.setTotalSubscribe(totalSubscribe);
 					channel.setUnSubscribe(unSubscribe);
+					channel.setCurrSubscribe(totalSubscribe - unSubscribe);
 					if (0 != totalSubscribe && 0 != unSubscribe) {
 						channel.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * unSubscribe)/totalSubscribe));
 					}
@@ -97,6 +99,49 @@ public class ChannelController {
 			} else {
 				return RequestUtils.failReturn("fail");
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return RequestUtils.failReturn("exception");
+		}
+	}
+	
+	@RequestMapping("/queryEffect")
+    @ResponseBody
+    public String queryChannelEffect(HttpServletRequest request, HttpServletResponse response){
+		try {
+			List<Channel> list = new ArrayList<Channel>();
+			String channel = request.getParameter("channel");
+			log.info("method=queryChannelEffect,channel=" + channel);
+			int subscribe = 0,unsubscribe = 0;
+			for (String code : channel.split(",")) {
+				Channel model = new Channel();
+				int totalSubscribe = this.channelStatService.getSubscribeByChannel(code);
+				int unSubscribe = this.channelStatService.getUnSubscribeByChannel(code); 
+				subscribe += totalSubscribe;
+				unsubscribe += unSubscribe;
+				
+				model.setCode(code);
+				model.setTotalSubscribe(totalSubscribe);
+				model.setUnSubscribe(unSubscribe);
+				model.setCurrSubscribe(totalSubscribe - unSubscribe);
+				if (0 != totalSubscribe && 0 != unSubscribe) {
+					model.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * unSubscribe)/totalSubscribe));
+				}
+				list.add(model);
+			}
+			
+			//汇总
+			Channel model = new Channel(); 
+			model.setCode("total");
+			model.setTotalSubscribe(subscribe);
+			model.setUnSubscribe(unsubscribe);
+			model.setCurrSubscribe(subscribe - unsubscribe);
+			if (0 != subscribe && 0 != unsubscribe) {
+				model.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * unsubscribe)/subscribe));
+			}
+			list.add(model);
+			
+			return RequestUtils.successReturn(JSONArray.toJSONString(list));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return RequestUtils.failReturn("exception");

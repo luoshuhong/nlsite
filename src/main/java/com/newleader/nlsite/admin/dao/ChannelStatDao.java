@@ -135,6 +135,6 @@ public class ChannelStatDao extends JdbcDaoSupport {
 	 */
 	public void updateCreatData() {
 		this.getJdbcTemplate().update("update aa_visitor_channel set createDate = left(createTime,10) where createDate = 'NULL' and isBind in(0,2)");
-		this.getJdbcTemplate().update("update aa_visitor_channel set createDate = left(bindTime,10) where createDate = 'NULL' and isBind = 1");
+		this.getJdbcTemplate().update("update aa_visitor_channel set createDate = left(bindTime,10)  where isBind = 1");
 	}
 }

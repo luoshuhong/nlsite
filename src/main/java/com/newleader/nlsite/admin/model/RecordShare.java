@@ -1,7 +1,5 @@
 package com.newleader.nlsite.admin.model;
 
-import java.util.Date;
-
 /**
  * 分享记录表
  * @author Luoshuhong
@@ -13,9 +11,11 @@ public class RecordShare {
 	private int      id;		     		//id
 	private String openId;          //分享者openId
 	private String scene;            //场景值
-	private Date   createTime;    //创建时间
+	private String   createTime;    //创建时间
 	private int	   superId;    	    //父id
 	private int      count;			//该分享后续被分享了几次
+	private int 	   isDeal;           //是否处理(该分享给上级父分享产生的影响) 0：为处理 1：已处理
+	
 	public int getId() {
 		return id;
 	}
@@ -34,10 +34,10 @@ public class RecordShare {
 	public void setScene(String scene) {
 		this.scene = scene;
 	}
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 	public int getSuperId() {
@@ -52,4 +52,11 @@ public class RecordShare {
 	public void setCount(int count) {
 		this.count = count;
 	}
+	public int getIsDeal() {
+		return isDeal;
+	}
+	public void setIsDeal(int isDeal) {
+		this.isDeal = isDeal;
+	}
+	
 }

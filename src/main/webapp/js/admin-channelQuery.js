@@ -37,6 +37,7 @@ function loadData(value) {
 						+ '<td>' + item.name + '</td>'
 						+ '<td>' + item.code + '</td>'
 						+ '<td>' + item.totalSubscribe + '</td>'
+						+ '<td>' + item.currSubscribe + '</td>'
 						+ '<td>' + item.unSubscribe + '</td>'
 						+ '<td>' + item.unSubscribeRate + '%</td>'
 						+ '<td>' + item.createTimeStr + '</td>'

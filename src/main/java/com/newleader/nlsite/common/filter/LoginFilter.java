@@ -64,7 +64,7 @@ public class LoginFilter implements Filter {
     public boolean isExclusive(String url){
     	
     	//这里只拦截/admin下的请求
-    	if (url.contains("/admin") && !url.contains("/admin/login") && !url.contains("/admin/test.jsp")) {   
+    	if (url.contains("/admin") && !url.contains("/admin/login") && !url.contains("/admin/test.jsp") && !url.contains("/admin/channel/queryEffect")) {   
     		return false;
     	} else {
     		return true;
