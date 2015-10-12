@@ -33,6 +33,16 @@ public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordSha
 				new Object[] {t.getOpenId(),t.getScene(),DateUtils.toDateStr(new Date()),t.getSuperId()});
 	}
 	
+	/**
+	 * @param scene    场景id
+	 * @param openId  openId
+	 * @return
+	 */
+	public int queryBySceneOpenId(String scene, String openId) {
+		String selectSql = "select count(Id) from aa_record_share where openId = ? and scene = ?";
+		return this.getJdbcTemplate().queryForInt(selectSql, new Object[]{scene, openId});
+	}
+	
 	@Override
 	public boolean del(String id) {
 		return false;

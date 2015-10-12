@@ -24,6 +24,9 @@ public class RecordShareService {
 	 * @return
 	 */
 	public boolean add(RecordShare recordShare) {
+		if (1 >= this.recordShareDao.queryBySceneOpenId(recordShare.getScene(), recordShare.getOpenId())) {
+			return true;
+		}
 		return this.recordShareDao.add(recordShare);
 	}
 	

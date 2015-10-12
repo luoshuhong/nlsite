@@ -15,7 +15,7 @@ public class InitUtils {
 	
 	public void start(){
 		new ShareMsgPopThread().start();  //分享消息
-		new ShareVisitPopThread().start();  //分享页访问消息
+//		new ShareVisitPopThread().start();  //分享页访问消息
 		
 	}
 }

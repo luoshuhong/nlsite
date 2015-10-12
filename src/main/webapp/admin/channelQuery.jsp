@@ -12,6 +12,7 @@ date 2015-9-11
 <!-- <!DOCTYPE html> -->
 <html lang="zh-CN">
 	<head>
+		<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 		<script type="text/javascript" src="${ctx}/js/admin-channelQuery.js"></script>
 	</head>
 

@@ -1,7 +1,16 @@
 package com.newleader.nlsite.common.thread;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.alibaba.fastjson.JSONObject;
+import com.newleader.nlsite.admin.model.RecordShare;
+import com.newleader.nlsite.admin.model.RecordVirus;
+import com.newleader.nlsite.admin.service.RecordVirusService;
+import com.newleader.nlsite.common.Constants;
+import com.newleader.nlsite.common.RedisUtils;
+import com.newleader.nlsite.common.SpringContextUtil;
 
 /**
  *   获取redis队列数据线程（分享页面访问信息）
@@ -18,17 +27,40 @@ public class ShareVisitPopThread extends Thread {
 	@Override
 	public void run() {
 		log.info("thread is running…………");
+		RedisUtils redisUtils = SpringContextUtil.getBean("redisUtils");
+		RecordVirusService recordVirusService = SpringContextUtil.getBean("recordVirusService");
+		
+		if (null == redisUtils) {
+			log.info("redisUtils is null…………");
+			return;
+		}
+		
 		while (true) {
 			try {
 				// 休眠固定时间
 				Thread.sleep(syncTimeInterval * ONE_SECOND_MS);
 				
 				// sOpenId:分享者id  currOpenId:访问者id scene:场景
+				String shareBack = redisUtils.lpop(Constants.REDIS_SHARE_BACK);
+				log.info("shareBack=" + shareBack);
+				if (StringUtils.isEmpty(shareBack)) {
+					continue;
+				}
 				
+				JSONObject job = JSONObject.parseObject(shareBack);
+				String openId = job.getString("openId");
+				String scene = job.getString("scene");
+				
+//				RecordVirus model = new RecordVirus();
+//				model.set
+//				model.setScene(scene);
+//				recordVirusService.add(model);
+				log.info("shareBack=" + shareBack + ", result=save-success");
 			} catch (InterruptedException e) {
 				log.info("error!  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}
 		}
+		
 	}
 }

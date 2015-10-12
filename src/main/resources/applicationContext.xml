@@ -18,8 +18,9 @@
     </bean>
     
     <import resource="applicationContext-dao.xml"/>
-<!--     <import resource="applicationContext-redis.xml"/> -->
-    
-<!--     <bean class="com.newleader.nlsite.common.InitUtils" init-method="start"/> -->
+    <import resource="applicationContext-redis.xml"/>
+    <bean id="SpringContextUtil" class="com.newleader.nlsite.common.SpringContextUtil"/>
+
+    <bean class="com.newleader.nlsite.common.InitUtils" init-method="start"/>
     
 </beans>

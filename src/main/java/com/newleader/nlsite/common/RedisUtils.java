@@ -2,6 +2,8 @@ package com.newleader.nlsite.common;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -11,6 +13,7 @@ import redis.clients.jedis.JedisPool;
  * @Company donottel.me
  * 2015年10月10日
  */
+@Service
 public class RedisUtils {
 	@Resource(name = "jedisPool")
     private JedisPool jedisPool;
@@ -36,8 +39,7 @@ public class RedisUtils {
 //			transaction.exec();
 			
 			result = jedis.rpop(redisKey);
-			String result1 = jedis.lpop(redisKey);
-			
+//			String result1 = jedis.lpop(redisKey);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
