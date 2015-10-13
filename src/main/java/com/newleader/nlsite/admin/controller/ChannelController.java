@@ -181,7 +181,6 @@ public class ChannelController {
 			}
 			//获取微信二维码链接
 			String qrCodeUrl = QrCodeProduce.permanentCode(code);
-			System.out.println("qrCodeUrl=" + qrCodeUrl);
 			if (StringUtils.isEmpty(qrCodeUrl) ) {
 				return RequestUtils.failReturn("error");
 			}

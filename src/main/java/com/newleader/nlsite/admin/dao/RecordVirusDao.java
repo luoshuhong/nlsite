@@ -31,6 +31,28 @@ public class RecordVirusDao extends JdbcDaoSupport implements DaoInter<RecordVir
 		return false;
 	}
 	
+	/**
+	 * 根据浏览者openId和场景者查询
+	 * @param openId openid
+	 * @param scene   场景者
+	 * @return RecordVirus
+	 */
+	public RecordVirus queryByOpenIdAndScene(String openId, String scene) {
+		List<RecordVirus> recordVirusList = new ArrayList<RecordVirus>();
+		String selectSql = "select Id, vOpenId,sOpenId,channelId,scene,createTime, isSubscribe from aa_record_virus where vOpenId = ? and scene = ?";
+		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql, new Object[]{openId, scene});
+		for (Map<String,Object> map : list) {
+			RecordVirus model = this.wrapModel(map);
+			if (null != model) {
+				recordVirusList.add(model);
+			}
+		}
+		if (0 != recordVirusList.size()) {
+			return recordVirusList.get(0);
+		}
+		return null;
+	}
+	
 	@Override
 	public List<RecordVirus> query() {
 		List<RecordVirus> channelList = new ArrayList<RecordVirus>();

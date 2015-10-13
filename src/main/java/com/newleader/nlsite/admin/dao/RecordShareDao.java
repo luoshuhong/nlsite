@@ -43,6 +43,8 @@ public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordSha
 		return this.getJdbcTemplate().queryForInt(selectSql, new Object[]{scene, openId});
 	}
 	
+	
+	
 	@Override
 	public boolean del(String id) {
 		return false;

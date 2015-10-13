@@ -22,6 +22,7 @@ public class QrCodeProduce {
 	static String QR_CORD_URL = "http://qr.liantu.com/api.php?logo=http://donottell.me/CSS/Images/homepage/logo.png&text=";
 	//二维码图片存放目录
 	static String QR_CODE_DIR = "image/qrcode/";
+	static String QR_CODE_LOGO = "image/logo.jpg";
 	
 	/**
 	 * 主测试方法
@@ -47,7 +48,8 @@ public class QrCodeProduce {
 		}
 		try {
 			String fileName = id + "_" + code + ".png";
-			HttpUtils.download(baseDir + QR_CODE_DIR , fileName, url + channel.getQrCodeUrl());
+//			HttpUtils.download(baseDir + QR_CODE_DIR , fileName, url + channel.getQrCodeUrl());
+			QRCoder.createQrCode(channel.getQrCodeUrl(), baseDir + QR_CODE_LOGO, baseDir + QR_CODE_DIR + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

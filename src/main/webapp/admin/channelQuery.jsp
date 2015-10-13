@@ -53,8 +53,8 @@ date 2015-9-11
 	                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 	                <h3 >二维码生成   <small>若二维码未正常显示，请稍等片刻...</small></h3>
 	            </div>
-	            <div class="modal-body">
-	                <img id="img_code" src="" alt="二维码" title="鼠标右键保存图片"><label style="font-size: 20px;">鼠标右键保存图片</label>
+	            <div class="modal-body"  style="width: 490px; height: 320px;">
+						<img id="img_code" src=""  style="width: 300px; height: 300px;"  alt="二维码" title="鼠标右键保存图片"><label style="font-size: 20px;">鼠标右键保存图片</label>
 	            </div>
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
