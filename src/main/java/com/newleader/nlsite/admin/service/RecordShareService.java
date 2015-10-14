@@ -1,5 +1,7 @@
 package com.newleader.nlsite.admin.service;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +9,7 @@ import com.newleader.nlsite.admin.dao.RecordShareDao;
 import com.newleader.nlsite.admin.dao.RecordVirusDao;
 import com.newleader.nlsite.admin.model.RecordShare;
 import com.newleader.nlsite.admin.model.RecordVirus;
+import com.newleader.nlsite.common.thread.ShareMsgPopThread;
 
 /**
  * 分享记录操作
@@ -21,7 +24,7 @@ public class RecordShareService {
 	private RecordShareDao recordShareDao;
 	@Autowired
 	private RecordVirusDao recordVirusDao;
-	
+	private static Log log = LogFactory.getLog(ShareMsgPopThread.class);
 	/**
 	 * 
 	 * @param recordShare
@@ -29,7 +32,7 @@ public class RecordShareService {
 	 */
 	public boolean add(RecordShare recordShare) {
 		//1.是否已经存在
-		if (1 >= this.recordShareDao.queryBySceneOpenId(recordShare.getScene(), recordShare.getOpenId())) {
+		if (1 <= this.recordShareDao.queryBySceneOpenId(recordShare.getScene(), recordShare.getOpenId())) {
 			return true;
 		}
 		

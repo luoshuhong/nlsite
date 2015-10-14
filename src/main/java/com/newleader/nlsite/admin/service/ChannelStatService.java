@@ -24,7 +24,7 @@ import com.newleader.nlsite.common.DateUtils;
  * 2015年9月17日
  *
  */
-@Service
+@Service(value = "channelStatService")
 public class ChannelStatService {
 	
 	@Autowired
@@ -38,7 +38,7 @@ public class ChannelStatService {
 	 */
 	public String queryByChannelCode(String sDate, String eDate) {
 		//先更新时间
-		this.channelStatDao.updateCreatData();
+//		this.channelStatDao.updateCreatData();
 		
 		List<ChannelStat> list = this.channelStatDao.query(sDate, eDate);  //关注数据
 		List<ChannelStat> unsubscribeList = this.channelStatDao.queryUnsubscribe(sDate, eDate); //取消关注的数据
@@ -51,6 +51,13 @@ public class ChannelStatService {
 		job.put("backflow", this.dealHightChartsData(backflowList));
 		
 		return job.toJSONString();
+	}
+	
+	/**
+	 * 更新时间格式 统计分组用
+	 */
+	public void updateCreateDate() {
+		this.channelStatDao.updateCreatData();
 	}
 	
 	/**

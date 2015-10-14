@@ -15,7 +15,7 @@ import com.newleader.nlsite.admin.model.Channel;
  * 2015年9月11日
  *
  */
-@Service
+@Service(value = "channelService")
 public class ChannelService {
 	@Autowired
 	private ChannelDao channelDao;
@@ -37,6 +37,16 @@ public class ChannelService {
 		return this.channelDao.query();
 	}
 	
+	/**
+	 * 更新渠道关注量
+	 * @param totalSubscribe	 历史关注量
+	 * @param unSubscribe	取消关注量
+	 * @param code  渠道编码
+	 * @return
+	 */
+	public boolean updateByCode(int totalSubscribe, int unSubscribe, String code) {
+		return this.channelDao.updateByCode(totalSubscribe, unSubscribe, code);
+	}
 	/**
 	 * 模糊查询
 	 * @param value 条件

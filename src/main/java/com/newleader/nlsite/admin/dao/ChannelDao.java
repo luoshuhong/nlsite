@@ -35,7 +35,7 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	@Override
 	public List<Channel> query() {
 		List<Channel> channelList = new ArrayList<Channel>();
-		String selectSql = "select Id, Code,Name,CreateTime,QrcodeUrl from aa_channel where delete_flag <> '1' order by CreateTime desc";
+		String selectSql = "select Id, Code,Name,CreateTime,QrcodeUrl ,UserCount,DisCountUsed from aa_channel where delete_flag <> '1' order by CreateTime desc";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
 		for (Map<String,Object> map : list) {
 			Channel model = this.wrapModel(map);
@@ -53,7 +53,7 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	 */
 	public List<Channel> vagueQuery(String value) {
 		List<Channel> channelList = new ArrayList<Channel>();
-		String selectSql = "select Id, Code,Name,CreateTime,QrcodeUrl from aa_channel where delete_flag <> '1'  "
+		String selectSql = "select Id, Code,Name,CreateTime,QrcodeUrl,UserCount,DisCountUsed from aa_channel where delete_flag <> '1'  "
 				+ "and (name like '%" + value + "%' or `Code` like '%" + value + "%') order by CreateTime desc";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
 		for (Map<String,Object> map : list) {
@@ -70,6 +70,19 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		String updateSel = "update aa_channel set Name = ?,Code=?,QrcodeUrl=? where Id = ?";
 		return 1 == this.getJdbcTemplate().update(updateSel,t.getName(), t.getCode(), t.getQrCodeUrl(), t.getId());
 	}
+	
+	/**
+	 * 更新渠道关注量
+	 * @param totalSubscribe
+	 * @param unSubscribe
+	 * @param code
+	 * @return
+	 */
+	public boolean updateByCode(int totalSubscribe, int unSubscribe, String code) {
+		String updateSel = "update aa_channel set UserCount = ?,DisCountUsed=? where Code = ?";
+		return 1 == this.getJdbcTemplate().update(updateSel,totalSubscribe, unSubscribe, code);
+	}
+	
 	
 	/**
 	 * 
@@ -97,6 +110,14 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		if (map.containsKey("CreateTime") && null != map.get("CreateTime")) {
 			model.setCreateTimeStr(map.get("CreateTime").toString());
 		}
+		
+		if (map.containsKey("UserCount") && null != map.get("UserCount")) {
+			model.setTotalSubscribe(Integer.valueOf(map.get("UserCount").toString()));
+		} 
+		
+		if (map.containsKey("DisCountUsed") && null != map.get("DisCountUsed")) {
+			model.setUnSubscribe(Integer.valueOf(map.get("DisCountUsed").toString()));
+		} 
 		
 		//这里先只处理不为空的
 		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(name)) {

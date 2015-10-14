@@ -40,7 +40,7 @@ public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordSha
 	 */
 	public int queryBySceneOpenId(String scene, String openId) {
 		String selectSql = "select count(Id) from aa_record_share where openId = ? and scene = ?";
-		return this.getJdbcTemplate().queryForInt(selectSql, new Object[]{scene, openId});
+		return this.getJdbcTemplate().queryForInt(selectSql, new Object[]{openId, scene});
 	}
 	
 	
