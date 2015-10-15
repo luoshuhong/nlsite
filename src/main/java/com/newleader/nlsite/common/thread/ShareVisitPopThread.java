@@ -5,7 +5,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.alibaba.fastjson.JSONObject;
-import com.newleader.nlsite.admin.model.RecordShare;
 import com.newleader.nlsite.admin.model.RecordVirus;
 import com.newleader.nlsite.admin.service.RecordVirusService;
 import com.newleader.nlsite.common.Constants;
@@ -55,12 +54,8 @@ public class ShareVisitPopThread extends Thread {
 					continue;
 				}
 				
-				RecordVirus model = new RecordVirus();
-				model.setvOpenId(vopenId);
-				model.setsOpenId(sopenId);
-				model.setScene(scene);
-				
-				model.setScene(scene);
+				//保存记录
+				RecordVirus model = new RecordVirus(vopenId, sopenId, scene);
 				recordVirusService.add(model);
 				log.info("shareBack=" + shareBack + ", result=save-success");
 			} catch (InterruptedException e) {

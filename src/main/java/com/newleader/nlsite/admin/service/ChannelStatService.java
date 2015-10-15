@@ -37,9 +37,6 @@ public class ChannelStatService {
 	 * @return json 串
 	 */
 	public String queryByChannelCode(String sDate, String eDate) {
-		//先更新时间
-//		this.channelStatDao.updateCreatData();
-		
 		List<ChannelStat> list = this.channelStatDao.query(sDate, eDate);  //关注数据
 		List<ChannelStat> unsubscribeList = this.channelStatDao.queryUnsubscribe(sDate, eDate); //取消关注的数据
 		List<ChannelStat> backflowList = this.channelStatDao.queryBackflow(sDate, eDate); //回流数据

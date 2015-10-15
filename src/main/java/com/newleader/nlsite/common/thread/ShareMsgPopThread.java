@@ -38,23 +38,22 @@ public class ShareMsgPopThread extends Thread {
 			try {
 				// 休眠固定时间
 				Thread.sleep(syncTimeInterval * ONE_SECOND_MS);
-				// openId:分享者id  scene:场景
+				
+				//从redis中获取
 				String shareMsg = redisUtils.lpop(Constants.REDIS_SHARE_MSG);
 				log.info("shareMsg=" + shareMsg);
 				if (StringUtils.isEmpty(shareMsg)) {
 					continue;
 				}
 				
+				// openId:分享者id  scene:场景
 				JSONObject job = JSONObject.parseObject(shareMsg);
 				String openId = job.getString("openId");
 				String scene = job.getString("scene");
-				
 				if (StringUtils.isEmpty(openId) || StringUtils.isEmpty(scene)) {
 					continue;
 				}
-				RecordShare model = new RecordShare();
-				model.setOpenId(openId);
-				model.setScene(scene);
+				RecordShare model = new RecordShare(openId, scene);
 				recordShareService.add(model);
 				log.info("shareMsg=" + shareMsg + ", result=save-success");
 			} catch (InterruptedException e) {

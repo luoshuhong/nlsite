@@ -17,7 +17,16 @@ public class RecordVirus {
 	private String scene;		        //场景
 	private String   createTime;    //创建时间
 	private int	   isSubscribe;    //是否关注 0：未关注   1：关注
+	public RecordVirus() {
+	}
 	
+	public RecordVirus(String vOpenId, String sOpenId, String scene) {
+		super();
+		this.vOpenId = vOpenId;
+		this.sOpenId = sOpenId;
+		this.scene = scene;
+	}
+
 	public int getId() {
 		return id;
 	}

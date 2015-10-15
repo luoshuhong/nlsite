@@ -16,7 +16,17 @@ public class RecordShare {
 	private int      count;			//该分享后续被分享了几次
 	private int 	   isDeal;           //是否处理(该分享给上级父分享产生的影响) 0：为处理 1：已处理
 	
+	public RecordShare() {
+	}
 	
+	public RecordShare(String openId, String scene) {
+		super();
+		this.openId = openId;
+		this.scene = scene;
+	}
+
+
+
 	public int getId() {
 		return id;
 	}

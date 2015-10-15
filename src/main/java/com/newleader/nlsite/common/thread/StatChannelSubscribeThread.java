@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import com.newleader.nlsite.admin.model.Channel;
 import com.newleader.nlsite.admin.service.ChannelService;
 import com.newleader.nlsite.admin.service.ChannelStatService;
-import com.newleader.nlsite.common.RedisUtils;
 import com.newleader.nlsite.common.SpringContextUtil;
 
 /**
@@ -26,27 +25,25 @@ public class StatChannelSubscribeThread extends Thread {
 	@Override
 	public void run() {
 		log.info("StatChannelSubscribeThread is running…………");
-//		try {
-//			Thread.sleep(syncTimeInterval * ONE_SECOND_MS);
-//		} catch (InterruptedException e1) {
-//			e1.printStackTrace();
-//		}
-		
 		ChannelService channelService = SpringContextUtil.getBean("channelService");
 		ChannelStatService channelStatService = SpringContextUtil.getBean("channelStatService");
 		
 		while (true) {
 			try {
-				List<Channel> list = channelService.query();
+				Thread.sleep(syncTimeInterval * ONE_SECOND_MS);
+				
+				List<Channel> list = channelService.query();  //获取所有渠道
 				for (Channel channel : list) {
-					int totalSubscribe = channelStatService.getSubscribeByChannel(channel.getCode());
-					int unSubscribe = channelStatService.getUnSubscribeByChannel(channel.getCode()); 
-					channelService.updateByCode(totalSubscribe, unSubscribe, channel.getCode());
+					int totalSubscribe = channelStatService.getSubscribeByChannel(channel.getCode());	   //查询历史关注量
+					int unSubscribe = channelStatService.getUnSubscribeByChannel(channel.getCode());  //查询取消关注量
+					if (0 == totalSubscribe) {
+						continue;
+					}
+					
+					channelService.updateByCode(totalSubscribe, unSubscribe, channel.getCode());      //更新
 				}
 				
-				channelStatService.updateCreateDate(); //更新createDate字段 便于统计
-				
-				Thread.sleep(syncTimeInterval * ONE_SECOND_MS);
+				channelStatService.updateCreateDate();    //更新createDate字段为"YYYY-MM-DD"格式 便于统计
 			} catch (InterruptedException e) {
 				log.info("error!  errMsg=" + e.getMessage());
 				e.printStackTrace();
