@@ -26,7 +26,7 @@ public class ShareVisitPopThread extends Thread {
 	
 	@Override
 	public void run() {
-		log.info("thread is running…………");
+		log.info("ShareVisitPopThread is running…………");
 		RedisUtils redisUtils = SpringContextUtil.getBean("redisUtils");
 		RecordVirusService recordVirusService = SpringContextUtil.getBean("recordVirusService");
 		
@@ -48,13 +48,20 @@ public class ShareVisitPopThread extends Thread {
 				}
 				
 				JSONObject job = JSONObject.parseObject(shareBack);
-				String openId = job.getString("openId");
-				String scene = job.getString("scene");
+				String vopenId = job.getString("vopenId");  //浏览者openId
+				String sopenId = job.getString("sopenId");  //分享着openId
+				String scene = job.getString("scene");         //场景
+				if (StringUtils.isEmpty(vopenId)  || StringUtils.isEmpty(sopenId) || StringUtils.isEmpty(scene)) {
+					continue;
+				}
 				
-//				RecordVirus model = new RecordVirus();
-//				model.set
-//				model.setScene(scene);
-//				recordVirusService.add(model);
+				RecordVirus model = new RecordVirus();
+				model.setvOpenId(vopenId);
+				model.setsOpenId(sopenId);
+				model.setScene(scene);
+				
+				model.setScene(scene);
+				recordVirusService.add(model);
 				log.info("shareBack=" + shareBack + ", result=save-success");
 			} catch (InterruptedException e) {
 				log.info("error!  errMsg=" + e.getMessage());

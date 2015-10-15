@@ -25,7 +25,7 @@ public class ShareMsgPopThread extends Thread {
 	
 	@Override
 	public void run() {
-		log.info("thread is running…………");
+		log.info("ShareMsgPopThread is running…………");
 		RedisUtils redisUtils = SpringContextUtil.getBean("redisUtils");
 		RecordShareService recordShareService = SpringContextUtil.getBean("recordShareService");
 		

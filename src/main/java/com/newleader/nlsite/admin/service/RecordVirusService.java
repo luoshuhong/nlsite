@@ -18,8 +18,19 @@ public class RecordVirusService {
 	@Autowired
 	private RecordVirusDao recordVirusDao;
 	
+	/**
+	 * 添加记录
+	 * @param recordVirus RecordVirus
+	 * @return 是否成功
+	 */
 	public boolean add(RecordVirus recordVirus) {
-		return this.add(recordVirus);
+		//1.查看是否存在 存在时更新为时间和分享者
+		RecordVirus model = this.recordVirusDao.queryByOpenIdAndScene(recordVirus.getvOpenId(), recordVirus.getScene());
+		if (null != model) {
+			return this.recordVirusDao.update(recordVirus.getvOpenId(), recordVirus.getsOpenId(), recordVirus.getScene());
+		} else {
+			return this.recordVirusDao.add(recordVirus);
+		}
 	}
 	
 	

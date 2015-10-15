@@ -32,6 +32,18 @@ public class RecordVirusDao extends JdbcDaoSupport implements DaoInter<RecordVir
 	}
 	
 	/**
+	 * 更新记录
+	 * @param vOpenId		浏览者
+	 * @param sOpenId	    分享者
+	 * @param scene			场景
+	 * @return
+	 */
+	public boolean update(String vOpenId, String sOpenId, String scene) {
+		String updateSql = "update aa_record_virus set sOpenId = ? and createTime = ? where vOpenId = ? and scene = ?";
+		return 1 == this.getJdbcTemplate().update(updateSql, new Object[] { sOpenId,DateUtils.toDateStr(new Date()), vOpenId, scene});
+	}
+	
+	/**
 	 * 根据浏览者openId和场景者查询
 	 * @param openId openid
 	 * @param scene   场景者
