@@ -54,8 +54,7 @@ public class ShareMsgPopThread extends Thread {
 					continue;
 				}
 				RecordShare model = new RecordShare(openId, scene);
-				recordShareService.add(model);
-				log.info("shareMsg=" + shareMsg + ", result=save-success");
+				log.info("shareMsg=" + shareMsg + ", result=" + recordShareService.add(model));
 			} catch (InterruptedException e) {
 				log.info("error!  errMsg=" + e.getMessage());
 				e.printStackTrace();

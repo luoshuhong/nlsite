@@ -16,7 +16,9 @@ public class RecordVirus {
 	private String channelId;      //分享者渠道信息
 	private String scene;		        //场景
 	private String   createTime;    //创建时间
-	private int	   isSubscribe;    //是否关注 0：未关注   1：关注
+	private int	   isSubscribe;     //是否关注 0：未关注   1：关注
+	private String rootChannelId; //顶级分享用户id
+	
 	public RecordVirus() {
 	}
 	
@@ -69,4 +71,13 @@ public class RecordVirus {
 	public void setIsSubscribe(int isSubscribe) {
 		this.isSubscribe = isSubscribe;
 	}
+
+	public String getRootChannelId() {
+		return rootChannelId;
+	}
+
+	public void setRootChannelId(String rootChannelId) {
+		this.rootChannelId = rootChannelId;
+	}
+	
 }

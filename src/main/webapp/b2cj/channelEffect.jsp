@@ -33,7 +33,8 @@ date 2015-9-11
 <!-- 			</div> -->
 <!-- 			<div class="col-xs-3"></div> -->
 <!-- 		</div> -->
-		<h2 style="text-align: center;">大学生圈推广1010即时数据</h2>
+		<h2 style="text-align: center;">大学生圈推广1015即时数据</h2>
+<!-- 		<h2 style="text-align: center;">大学生圈推广1010即时数据</h2> -->
 		<table class="table table-bordered table-hover"  style="width: 450px; margin: auto;" >
 			<thead class="thead">
 				<tr>
@@ -48,7 +49,8 @@ date 2015-9-11
 	</body>
 	<script type="text/javascript">
 		$(function() {
-			loadData('daxueshengquan101001,daxueshengquan101002,daxueshengquan101003,daxueshengquan101004,daxueshengquan101005,daxueshengquan101006,daxueshengquan101007,daxueshengquan101008,daxueshengquan101009,daxueshengquan101010');
+			loadData('daxueshengquan101501,daxueshengquan101502,daxueshengquan101503,daxueshengquan101504,daxueshengquan101505,daxueshengquan101506,daxueshengquan101507,daxueshengquan101508,daxueshengquan101509,daxueshengquan101510');
+// 			loadData('daxueshengquan101001,daxueshengquan101002,daxueshengquan101003,daxueshengquan101004,daxueshengquan101005,daxueshengquan101006,daxueshengquan101007,daxueshengquan101008,daxueshengquan101009,daxueshengquan101010');
 		});
 		
 		/**

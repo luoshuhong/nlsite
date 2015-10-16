@@ -14,6 +14,7 @@ import com.newleader.nlsite.common.HttpUtils;
 
 @Controller
 @RequestMapping("/wx")
+@Deprecated
 public class WxRedirectControler {
 	
 	@RequestMapping("/redirect")

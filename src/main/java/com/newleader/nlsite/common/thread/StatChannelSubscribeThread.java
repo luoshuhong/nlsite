@@ -8,10 +8,11 @@ import org.apache.commons.logging.LogFactory;
 import com.newleader.nlsite.admin.model.Channel;
 import com.newleader.nlsite.admin.service.ChannelService;
 import com.newleader.nlsite.admin.service.ChannelStatService;
+import com.newleader.nlsite.admin.service.LoveTestStatService;
 import com.newleader.nlsite.common.SpringContextUtil;
 
 /**
- *   统计渠道关注信息
+ *   统计渠道关注信息(每个渠道累计关注量/取消关注量)
  * @author Luoshuhong
  * @Company  
  * 2015年10月13日
@@ -27,6 +28,7 @@ public class StatChannelSubscribeThread extends Thread {
 		log.info("StatChannelSubscribeThread is running…………");
 		ChannelService channelService = SpringContextUtil.getBean("channelService");
 		ChannelStatService channelStatService = SpringContextUtil.getBean("channelStatService");
+		LoveTestStatService loveTestStatService = SpringContextUtil.getBean("loveTestStatService");
 		
 		while (true) {
 			try {
@@ -43,7 +45,7 @@ public class StatChannelSubscribeThread extends Thread {
 					channelService.updateByCode(totalSubscribe, unSubscribe, channel.getCode());      //更新
 				}
 				
-				channelStatService.updateCreateDate();    //更新createDate字段为"YYYY-MM-DD"格式 便于统计
+				loveTestStatService.updateChannelId();     //更新填充爱情测评者 渠道编码
 			} catch (InterruptedException e) {
 				log.info("error!  errMsg=" + e.getMessage());
 				e.printStackTrace();

@@ -107,6 +107,16 @@ date 2015-9-11
 							<li><a href="#" onclick="fillDataArea('channelStat');"><i class="glyphicon glyphicon-th-list"></i>推广效果统计</a></li>
 						</ul>
 					</li>
+					<li>
+						<a href="#virualManage" class="nav-header collapsed" data-toggle="collapse"> 
+							<i class="glyphicon glyphicon-credit-card" ></i> virual效果统计 <span
+							class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="virualManage" class="nav nav-list collapse secondmenu" style="height: 0px; ">
+							<li><a href="#" onclick="fillDataArea('shareStat');"><i class="glyphicon glyphicon-share"></i>分享统计</a></li>
+							<li><a href="#" onclick="fillDataArea('shareVisitStat');"><i class="glyphicon glyphicon-th-list"></i>virual用户统计</a></li>
+						</ul>
+					</li>
 <!-- 					<li> -->
 <!-- 						<a href="#systemSetting" class="nav-header collapsed" data-toggle="collapse">  -->
 <!--   							<i class="glyphicon glyphicon-cog"></i>系统管理  -->
@@ -138,6 +148,8 @@ date 2015-9-11
 			iframe = "<iframe src='channelQuery.jsp' id='iframepage' frameBorder=0 scrolling=no width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		} else if(type == 'channelStat') {
 			iframe = "<iframe src='channelStat.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
+		} else if(type == 'shareStat') {
+			iframe = "<iframe src='virualShareStat.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		} else {
 			iframe = "<iframe src='test.jsp' frameBorder=0  width='95%' height='90%' scrolling=no onLoad='iFrameHeight()' ></iframe>";
 		}

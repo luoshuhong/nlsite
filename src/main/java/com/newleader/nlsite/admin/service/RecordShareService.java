@@ -24,9 +24,8 @@ public class RecordShareService {
 	private RecordShareDao recordShareDao;
 	@Autowired
 	private RecordVirusDao recordVirusDao;
-	private static Log log = LogFactory.getLog(ShareMsgPopThread.class);
+	
 	/**
-	 * 
 	 * @param recordShare
 	 * @return
 	 */

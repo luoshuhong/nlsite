@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
-import com.newleader.nlsite.admin.model.ChannelStat;
+import com.newleader.nlsite.admin.model.StatModel;
 
 /**
  * 渠道推广统计
@@ -23,17 +23,17 @@ public class ChannelStatDao extends JdbcDaoSupport {
 	 * @param eDate 结束时间
 	 * @return List<ChannelStat>
 	 */
-	public List<ChannelStat> query(String sDate, String eDate) {
-		List<ChannelStat> retList = new ArrayList<ChannelStat>();
-		String selSql = "select channelId,createDate,count(Id) as count  from aa_visitor_channel "
-				+ "where createTime > ? and createTime < ? and isBind <> 1 GROUP BY channelId,createDate";
+	public List<StatModel> query(String sDate, String eDate) {
+		List<StatModel> retList = new ArrayList<StatModel>();
+		String selSql = "select channelId,date_format(createTime,'%Y-%m-%d') as createDate,count(Id) as count  from aa_visitor_channel "
+				+ "where createTime > ? and createTime < ? and isBind <> 1 GROUP BY channelId,TO_DAYS(createTime)";
 		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList(
 				selSql, new Object[] { sDate, eDate });
 		
 		for (Map<String,Object> map : list) {
-			ChannelStat model = new ChannelStat();
+			StatModel model = new StatModel();
 			if (map.containsKey("channelId") && null != map.get("channelId")) {
-				model.setChannelCode(map.get("channelId").toString());
+				model.setStatItem(map.get("channelId").toString());
 			}
 			if (map.containsKey("createDate") && null != map.get("createDate")) {
 				model.setDate(map.get("createDate").toString());		
@@ -53,17 +53,18 @@ public class ChannelStatDao extends JdbcDaoSupport {
 	 * @param eDate 结束时间
 	 * @return List<ChannelStat>
 	 */
-	public List<ChannelStat> queryBackflow(String sDate, String eDate) {
-		List<ChannelStat> retList = new ArrayList<ChannelStat>();
-		String selSql = "select channelId,createDate,count(Id) as count  from aa_visitor_channel "
-				+ "where createTime > ? and createTime < ? and isBind = 2 GROUP BY channelId,createDate";
+	public List<StatModel> queryBackflow(String sDate, String eDate) {
+		List<StatModel> retList = new ArrayList<StatModel>();
+		String selSql = "select channelId,date_format(createTime,'%Y-%m-%d') as createDate,count(Id) as count  from aa_visitor_channel "
+				+ "where createTime > ? and createTime < ? and isBind = 2 GROUP BY channelId,TO_DAYS(createTime)";
+		
 		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList(
 				selSql, new Object[] { sDate, eDate });
 		
 		for (Map<String,Object> map : list) {
-			ChannelStat model = new ChannelStat();
+			StatModel model = new StatModel();
 			if (map.containsKey("channelId") && null != map.get("channelId")) {
-				model.setChannelCode(map.get("channelId").toString());
+				model.setStatItem(map.get("channelId").toString());
 			}
 			if (map.containsKey("createDate") && null != map.get("createDate")) {
 				model.setDate(map.get("createDate").toString());		
@@ -83,17 +84,18 @@ public class ChannelStatDao extends JdbcDaoSupport {
 	 * @param eDate 结束时间
 	 * @return List<ChannelStat>
 	 */
-	public List<ChannelStat> queryUnsubscribe(String sDate, String eDate) {
-		List<ChannelStat> retList = new ArrayList<ChannelStat>();
-		String selSql = "select createDate,count(Id) as count from aa_visitor_channel "
-				+ "where bindTime > ? and bindTime < ? and isBind = 1 GROUP BY createDate";
+	public List<StatModel> queryUnsubscribe(String sDate, String eDate) {
+		List<StatModel> retList = new ArrayList<StatModel>();
+		String selSql = "select date_format(bindTime,'%Y-%m-%d') as createDate,count(Id) as count from aa_visitor_channel "
+				+ "where bindTime > ? and bindTime < ? and isBind = 1 GROUP BY TO_DAYS(bindTime)";
+		
 		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList(
 				selSql, new Object[] { sDate, eDate });
 		
 		for (Map<String,Object> map : list) {
-			ChannelStat model = new ChannelStat();
+			StatModel model = new StatModel();
 //			if (map.containsKey("channelId") && null != map.get("channelId")) {
-				model.setChannelCode("unsubscribe");
+				model.setStatItem("unsubscribe");
 //			}
 			if (map.containsKey("createDate") && null != map.get("createDate")) {
 				model.setDate(map.get("createDate").toString()); 
@@ -130,11 +132,4 @@ public class ChannelStatDao extends JdbcDaoSupport {
 		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code,code});
 	}
 	
-	/**
-	 * 更新创建时间（方便统计用字段）
-	 */
-	public void updateCreatData() {
-		this.getJdbcTemplate().update("update aa_visitor_channel set createDate = left(createTime,10) where createDate = 'NULL' and isBind in(0,2)");
-		this.getJdbcTemplate().update("update aa_visitor_channel set createDate = left(bindTime,10)  where isBind = 1");
-	}
 }

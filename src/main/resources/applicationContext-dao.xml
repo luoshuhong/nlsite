@@ -37,5 +37,11 @@
     <bean id="visitorChannelDao" class="com.newleader.nlsite.admin.dao.VisitorChannelDao">  
     	<property name="dataSource" ref="dataSource"></property>  
     </bean>
+    <bean id="loveTestStatDao" class="com.newleader.nlsite.admin.dao.LoveTestStatDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
+    <bean id="virualStatDao" class="com.newleader.nlsite.admin.dao.VirualStatDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
 	
 </beans>

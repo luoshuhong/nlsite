@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.newleader.nlsite.admin.dao.inter.DaoInter;
 import com.newleader.nlsite.admin.model.RecordShare;
-import com.newleader.nlsite.common.DateUtils;
 
 /**
  * 
@@ -19,18 +18,11 @@ import com.newleader.nlsite.common.DateUtils;
  *
  */
 public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordShare> {
-//	 `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
-//	  `openId` varchar(50) DEFAULT NULL COMMENT '分享者id',
-//	  `scene` varchar(50) DEFAULT NULL COMMENT '场景',
-//	  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
-//	  `superId` int(10) DEFAULT '-1' COMMENT '上一级分享id',
-//	  `count` int(11) DEFAULT '0' COMMENT '下级分享次数',
-	  
 	@Override
 	public boolean add(RecordShare t) {
 		String insertSql = "insert into aa_record_share(openId,scene,createTime,superId) values(?,?,?,?)";
-		return 1 == this.getJdbcTemplate().update(insertSql,
-				new Object[] {t.getOpenId(),t.getScene(),DateUtils.toDateStr(new Date()),t.getSuperId()});
+		return 1 == this.getJdbcTemplate().update(insertSql,	
+				new Object[] {t.getOpenId(),t.getScene(),new Date(),t.getSuperId()});
 	}
 	
 	/**

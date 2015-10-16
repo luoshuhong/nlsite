@@ -13,12 +13,23 @@ public class VisitorChannel {
 	private String id;               //主键
 	private String openId;   	 //用户openId
 	private String channelId;   //渠道code
-	private String createDate; //创建时间 "YYYY-MM-DD"格式
+//	private String createDate; //创建时间 "YYYY-MM-DD"格式
 	private Date   createTime; //创建时间
 	private Date   bindTime;   //
 	private int	   isBind;	     //关注标识 0：关注 1：已取消关注 2：取消关注后重新关注
+	private int leavel = 0;    //  用户来源等级 0:表示自己关注 其他表示通过分享层级关注
 	
+	public VisitorChannel() {
+	}
 	
+	public VisitorChannel(String openId, String channelId) {
+		super();
+		this.openId = openId;
+		this.channelId = channelId;
+	}
+
+
+
 	public String getId() {
 		return id;
 	}
@@ -37,12 +48,6 @@ public class VisitorChannel {
 	public void setChannelId(String channelId) {
 		this.channelId = channelId;
 	}
-	public String getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
-	}
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -60,5 +65,11 @@ public class VisitorChannel {
 	}
 	public void setIsBind(int isBind) {
 		this.isBind = isBind;
+	}
+	public int getLeavel() {
+		return leavel;
+	}
+	public void setLeavel(int leavel) {
+		this.leavel = leavel;
 	}
 }

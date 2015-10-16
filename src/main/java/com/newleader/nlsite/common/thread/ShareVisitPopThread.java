@@ -56,8 +56,7 @@ public class ShareVisitPopThread extends Thread {
 				
 				//保存记录
 				RecordVirus model = new RecordVirus(vopenId, sopenId, scene);
-				recordVirusService.add(model);
-				log.info("shareBack=" + shareBack + ", result=save-success");
+				log.info("shareBack=" + shareBack + ", result=" + recordVirusService.add(model));
 			} catch (InterruptedException e) {
 				log.info("error!  errMsg=" + e.getMessage());
 				e.printStackTrace();

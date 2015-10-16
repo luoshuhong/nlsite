@@ -3,6 +3,7 @@ package com.newleader.nlsite.common;
 import com.newleader.nlsite.common.thread.ShareMsgPopThread;
 import com.newleader.nlsite.common.thread.ShareVisitPopThread;
 import com.newleader.nlsite.common.thread.StatChannelSubscribeThread;
+import com.newleader.nlsite.common.thread.SubscribeMsgPopThread;
 
 
 /**
@@ -18,6 +19,6 @@ public class InitUtils {
 		new ShareMsgPopThread().start();  //分享消息
 		new StatChannelSubscribeThread().start();
 		new ShareVisitPopThread().start();  //分享页访问消息
-		
+		new SubscribeMsgPopThread().start(); //关注消息
 	}
 }

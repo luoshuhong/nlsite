@@ -12,24 +12,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.newleader.nlsite.admin.service.ChannelStatService;
+import com.newleader.nlsite.admin.service.VirualStatService;
 import com.newleader.nlsite.common.DateUtils;
 import com.newleader.nlsite.common.RequestUtils;
 
 /**
- * 渠道推广统计相关
+ * virual统计相关
  * @author Luoshuhong
  * @Company donottel.me
  * 2015年9月11日
  *
  */
 @Controller
-@RequestMapping("/admin/channelStat")
-public class ChannelStatController {
+@RequestMapping("/admin/virualStat")
+public class VirualStatController {
 	Logger log = Logger.getLogger("admin");
 	
 	@Autowired
-	private ChannelStatService channelStatService;
+	private VirualStatService virualStatService;
 	
 	@RequestMapping("/query")
     @ResponseBody
@@ -41,10 +41,10 @@ public class ChannelStatController {
         	eDate = DateUtils.getNextDay(new Date(), "1", DateUtils.PATTERN_YYYYMMDD);
         	sDate = DateUtils.getNextDay(new Date(), "-7", DateUtils.PATTERN_YYYYMMDD);
         }
-        log.info("method=statQuery,sDate=" + sDate + ",eDate=" + eDate);
+        log.info("method=virualStatQuery,sDate=" + sDate + ",eDate=" + eDate);
         
 		try {
-			String data = channelStatService.queryByDate(sDate, eDate);
+			String data = this.virualStatService.queryByDate(sDate, eDate);
 			return RequestUtils.successReturn(data);
 		} catch (Exception e) {
 			e.printStackTrace();
