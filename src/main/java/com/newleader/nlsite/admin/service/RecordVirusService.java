@@ -32,6 +32,8 @@ public class RecordVirusService {
 		VisitorChannel visitorChannel = this.visitorChannelDao.queyByOpenId(recordVirus.getsOpenId());
 		if (null != visitorChannel) {
 			recordVirus.setChannelId(visitorChannel.getChannelId());
+		} else {
+			recordVirus.setChannelId("default");
 		}
 		
 		//1.查看上一级分享 获取rootChannelId
@@ -39,7 +41,7 @@ public class RecordVirusService {
 		if (null != shareModel) {
 			recordVirus.setRootChannelId(shareModel.getRootChannelId());
 		} else {
-			recordVirus.setRootChannelId(visitorChannel.getChannelId());
+			recordVirus.setRootChannelId("default");
 		}
 		
 		//2.查看是否存在  存在时更新为时间和分享者

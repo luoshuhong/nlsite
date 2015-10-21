@@ -51,14 +51,14 @@ public class SubscribeMsgPopThread extends Thread {
 				
 				//从redis中获取
 				String subscribeMsg = redisUtils.lpop(Constants.REDIS_SUBSCRIBE);
-				log.info("subscribeMsg=" + subscribeMsg);
 				if (StringUtils.isEmpty(subscribeMsg)) {
 					continue;
 				}
+				log.info("subscribeMsg=" + subscribeMsg);
 				
 				//放入线程池执行
 				businessDealPool.execute(new SubscribeDealThread(subscribeMsg));
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				log.info("error!  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}

@@ -1,6 +1,5 @@
 package com.newleader.nlsite.admin.model;
 
-import java.util.Date;
 
 /**
  * 分享页阅读记录表

@@ -47,12 +47,11 @@ date 2015-9-11
 		</table>
 		
 	</body>
-	<script type="text/javascript">
+	<script type="text/javascript"> 
 		$(function() {
-			loadData('daxueshengquan101501,daxueshengquan101502,daxueshengquan101503,daxueshengquan101504,daxueshengquan101505,daxueshengquan101506,daxueshengquan101507,daxueshengquan101508,daxueshengquan101509,daxueshengquan101510');
+			loadData('daxueshengquan101501,daxueshengquan101502,daxueshengquan101503,daxueshengquan101504,daxueshengquan101505,daxueshengquan101506,daxueshengquan101507,daxueshengquan101508,daxueshengquan101509,daxueshengquan101510,daxueshengquan101511,daxueshengquan101512,daxueshengquan101513,daxueshengquan101514,daxueshengquan101515,daxueshengquan101516,daxueshengquan101517,daxueshengquan101518,daxueshengquan101519,daxueshengquan101520');
 // 			loadData('daxueshengquan101001,daxueshengquan101002,daxueshengquan101003,daxueshengquan101004,daxueshengquan101005,daxueshengquan101006,daxueshengquan101007,daxueshengquan101008,daxueshengquan101009,daxueshengquan101010');
 		});
-		
 		/**
 		 * 查询数据
 		 */

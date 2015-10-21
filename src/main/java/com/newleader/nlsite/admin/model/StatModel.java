@@ -8,7 +8,7 @@ package com.newleader.nlsite.admin.model;
  *
  */
 public class StatModel {
-	private String statItem;  //统计域：渠道编码/分享场景/...
+	private String statItem;  	    //统计域：渠道编码/分享场景/...
 	private int    count;  	    	 //数量
 	private String date;	     		//时间
 	

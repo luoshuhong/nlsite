@@ -20,7 +20,7 @@ date 2015-10-16
 	</head>
 
 	<body>
-		<h2>分享统计</h2>
+		<h2>趋势图展示</h2>
 		<form class="form-inline" style="margin: 15 0 10 20;">
 			<label for="startDate">日期：</label> 
 			<input id="startDate"  type="text" class="form-control" onClick="WdatePicker()" >
@@ -33,7 +33,10 @@ date 2015-10-16
 		<div id="shareContainer" > </div>
 		
 		<!-- 分享浏览统计  -->
-		<div id="visitContainer" style="margin-top: 20px; margin-bottom: 70px;"> </div>
+		<div id="visitContainer" style="margin-top: 20px;  "> </div>
+		
+		<!-- virul用户  -->
+		<div id="virulUserContainer" style="margin-top: 20px; margin-bottom: 70px;"> </div>
 		
 	</body>
 	<script type="text/javascript" src="${ctx}/js/admin-virualStat.js"></script>

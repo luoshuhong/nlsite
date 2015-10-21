@@ -30,9 +30,10 @@ function query() {
 				var data = JSON.parse(json.data);
 				var share = JSON.parse(data.shareData);
 				var visitShare = JSON.parse(data.visitShareData);
+				var virulUser = JSON.parse(data.virulUserData);
 				shareFillData(share.xAxis,share.series);//绘制图表
 				shareVisitFillData(visitShare.xAxis,visitShare.series);//绘制图表
-				
+				virulUserFillData(virulUser.xAxis,virulUser.series);//
 			} else {
 				alert('错误，请重试！');
 			}
@@ -122,6 +123,38 @@ function shareVisitFillData(xAxis, series) {
 	});
 }
 
+/**
+ * virul用户数据
+ * @param xAxis 横轴
+ * @param series 数据
+ */
+function virulUserFillData(xAxis, series) {
+	//绘制图表
+	Highcharts.setOptions(Highcharts.theme);
+	$('#virulUserContainer').highcharts({
+		chart : {
+			type : 'line'
+		},
+		title : {
+			text : 'virul用户统计'
+		},
+		yAxis : {
+			title : {
+				text : '数量'
+			}
+		},
+		plotOptions : {
+			line : {
+				dataLabels : {
+					enabled : true
+				},
+				enableMouseTracking : true
+			}
+		},
+		xAxis : xAxis,
+		series : series
+	});
+}
 
 
 

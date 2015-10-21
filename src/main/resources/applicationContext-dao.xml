@@ -43,5 +43,11 @@
     <bean id="virualStatDao" class="com.newleader.nlsite.admin.dao.VirualStatDao">  
     	<property name="dataSource" ref="dataSource"></property>  
     </bean>
+    <bean id="statActionDataDao" class="com.newleader.nlsite.admin.dao.StatActionDataDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
+    <bean id="statUserActiveDao" class="com.newleader.nlsite.admin.dao.StatUserActiveDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
 	
 </beans>

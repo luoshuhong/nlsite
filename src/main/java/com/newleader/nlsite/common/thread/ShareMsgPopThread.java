@@ -41,10 +41,10 @@ public class ShareMsgPopThread extends Thread {
 				
 				//从redis中获取
 				String shareMsg = redisUtils.lpop(Constants.REDIS_SHARE_MSG);
-				log.info("shareMsg=" + shareMsg);
 				if (StringUtils.isEmpty(shareMsg)) {
 					continue;
 				}
+				log.info("shareMsg=" + shareMsg);
 				
 				// openId:分享者id  scene:场景
 				JSONObject job = JSONObject.parseObject(shareMsg);
@@ -55,7 +55,7 @@ public class ShareMsgPopThread extends Thread {
 				}
 				RecordShare model = new RecordShare(openId, scene);
 				log.info("shareMsg=" + shareMsg + ", result=" + recordShareService.add(model));
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				log.info("error!  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}

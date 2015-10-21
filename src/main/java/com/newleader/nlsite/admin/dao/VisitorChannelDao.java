@@ -19,7 +19,7 @@ import com.newleader.nlsite.admin.model.VisitorChannel;
 public class VisitorChannelDao extends JdbcDaoSupport implements DaoInter<VisitorChannel> {
 	@Override
 	public boolean add(VisitorChannel t) {
-		String insertSql = "insert into aa_visitor_channel(id,openId,channelId,createTime,level) values(?,?,?,?)";
+		String insertSql = "insert into aa_visitor_channel(id,openId,channelId,createTime,level) values(?,?,?,?,?)";
 		return 1 == this.getJdbcTemplate().update(insertSql, new Object[] {t.getId(), t.getOpenId(), t.getChannelId(), new Date() , t.getLeavel()});
 	}
 	

@@ -32,10 +32,12 @@ public class VirualStatService {
 	public String queryByDate(String sDate, String eDate) {
 		List<StatModel> shareStatList = this.virualStatDao.queryShareStat(sDate, eDate);       //分享数据
 		List<StatModel> visitShareList = this.virualStatDao.queryVisitShareStat(sDate, eDate); //分享浏览数据
+		List<StatModel> virulUserList = this.virualStatDao.queryVirulUserStat(sDate, eDate); //分享浏览数据
+		
 		JSONObject job = new JSONObject();
 		job.put("shareData", HighChartsUtils.dealHightChartsData(shareStatList));
 		job.put("visitShareData", HighChartsUtils.dealHightChartsData(visitShareList));
-		
+		job.put("virulUserData", HighChartsUtils.dealHightChartsData(virulUserList));
 		return job.toJSONString();
 	}
 }

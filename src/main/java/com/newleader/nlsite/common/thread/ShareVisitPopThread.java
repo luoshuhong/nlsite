@@ -41,10 +41,10 @@ public class ShareVisitPopThread extends Thread {
 				
 				// sOpenId:分享者id  currOpenId:访问者id scene:场景
 				String shareBack = redisUtils.lpop(Constants.REDIS_SHARE_BACK);
-				log.info("shareBack=" + shareBack);
 				if (StringUtils.isEmpty(shareBack)) {
 					continue;
 				}
+				log.info("shareBack=" + shareBack);
 				
 				JSONObject job = JSONObject.parseObject(shareBack);
 				String vopenId = job.getString("vopenId");  //浏览者openId
@@ -57,7 +57,7 @@ public class ShareVisitPopThread extends Thread {
 				//保存记录
 				RecordVirus model = new RecordVirus(vopenId, sopenId, scene);
 				log.info("shareBack=" + shareBack + ", result=" + recordVirusService.add(model));
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				log.info("error!  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}

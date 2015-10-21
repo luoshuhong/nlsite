@@ -113,8 +113,8 @@ date 2015-9-11
 							class="pull-right glyphicon glyphicon-chevron-down"></span>
 						</a>
 						<ul id="virualManage" class="nav nav-list collapse secondmenu" style="height: 0px; ">
-							<li><a href="#" onclick="fillDataArea('shareStat');"><i class="glyphicon glyphicon-share"></i>分享统计</a></li>
-							<li><a href="#" onclick="fillDataArea('shareVisitStat');"><i class="glyphicon glyphicon-th-list"></i>virual用户统计</a></li>
+							<li><a href="#" onclick="fillDataArea('shareStat');"><i class="glyphicon glyphicon-share"></i>趋势图展示</a></li>
+<!-- 							<li><a href="#" onclick="fillDataArea('shareVisitStat');"><i class="glyphicon glyphicon-th-list"></i>virual用户统计</a></li> -->
 						</ul>
 					</li>
 <!-- 					<li> -->

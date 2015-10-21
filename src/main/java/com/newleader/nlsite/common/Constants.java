@@ -12,4 +12,6 @@ public class Constants {
 	public static final String REDIS_SHARE_BACK = "shareback";   //浏览分享页消息
 	public static final String REDIS_SUBSCRIBE = "subscribemsg";   //浏览分享页消息
 	
+	public static final String REDIS_ACTION_MSG = "actionmsg";         //操作动作消息
+	
 }

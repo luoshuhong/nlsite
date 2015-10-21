@@ -46,7 +46,7 @@ public class StatChannelSubscribeThread extends Thread {
 				}
 				
 				loveTestStatService.updateChannelId();     //更新填充爱情测评者 渠道编码
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				log.info("error!  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}

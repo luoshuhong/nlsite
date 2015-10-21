@@ -30,9 +30,17 @@ public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordSha
 	 * @param openId  openId
 	 * @return
 	 */
-	public int queryBySceneOpenId(String scene, String openId) {
-		String selectSql = "select count(Id) from aa_record_share where openId = ? and scene = ?";
-		return this.getJdbcTemplate().queryForInt(selectSql, new Object[]{openId, scene});
+	@SuppressWarnings("deprecation")
+	public RecordShare queryBySceneOpenId(String scene, String openId) {
+		String selectSql = "select Id, openId,scene,createTime,superId, count from aa_record_share where openId = ? and scene = ? order by CreateTime desc";
+		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql, new Object[]{openId, scene});
+		for (Map<String,Object> map : list) {
+			RecordShare model = this.wrapModel(map);
+			if (null != model) {
+				return model;
+			}
+		}
+		return null;
 	}
 	
 	
@@ -70,7 +78,6 @@ public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordSha
 	 */
 	private RecordShare wrapModel(Map<String,Object> map) {
 		RecordShare model = new RecordShare();
-//		Id, openId,scene,createTime,superId, count
 		if (map.containsKey("Id") && null != map.get("Id")) {
 			model.setId(Integer.valueOf(map.get("Id").toString()));
 		}
