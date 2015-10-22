@@ -1,5 +1,6 @@
 package com.newleader.nlsite.admin.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,20 @@ public class RecordVirusService {
 		} else {
 			return this.recordVirusDao.add(recordVirus);
 		}
+	}
+	
+	
+	/**
+	 * 获取某个渠道累计的virual量
+	 * @param channelId  渠道id
+	 * @return 累计分享量
+	 */
+	public int getVirualCountByChannel(String code) {
+		if (StringUtils.isEmpty(code)) {
+			return 0;
+		}
+		
+		return this.recordVirusDao.getVirualCountByChannel(code);
 	}
 	
 	

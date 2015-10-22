@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.newleader.nlsite.admin.dao.StatActionDataDao;
+import com.newleader.nlsite.admin.dao.StatResultDao;
 import com.newleader.nlsite.admin.dao.StatUserActiveDao;
 import com.newleader.nlsite.admin.dao.VisitorChannelDao;
 import com.newleader.nlsite.admin.model.StatActionData;
+import com.newleader.nlsite.admin.model.StatModel;
 import com.newleader.nlsite.admin.model.VisitorChannel;
+import com.newleader.nlsite.common.DateUtils;
 
 /**
  * 统计原始数据
@@ -29,6 +32,10 @@ public class StatActionDataService {
 	
 	@Autowired
 	private StatUserActiveDao statUserActiveDao;
+	
+	@Autowired
+	private StatResultDao statResultDao;
+	
 	/**
 	 * 保存
 	 * @param model StatOrgData
@@ -62,4 +69,38 @@ public class StatActionDataService {
 	}
 	
 	
+	/**
+	 *  定时执行方法
+	 *  每天统计用户活跃度 
+	 */
+	public void quartzStat() {
+		//1.UV 统计
+		//1.1 日UV统计
+		StatModel uvDay = new StatModel();
+		this.statResultDao.add(uvDay);
+		//1.2 周UV统计
+		StatModel uvWeek = new StatModel();
+		this.statResultDao.add(uvWeek);
+		//1.3 月UV统计
+		StatModel uvMonth = new StatModel();
+		this.statResultDao.add(uvMonth);
+		
+		//2.PV统计（30分钟内算一次）
+		//2.1日PV
+		StatModel pvDay = new StatModel();
+		this.statResultDao.add(pvDay);
+		//2.2周PV
+		StatModel pvWeek = new StatModel();
+		this.statResultDao.add(pvWeek);
+		//2.3周PV
+		StatModel pvMonth = new StatModel();
+		this.statResultDao.add(pvMonth);
+		
+		//3.
+		
+		System.out.println("-----------------" + DateUtils.getCurrentStringDateYMDHMS( ));
+	} 
+	
 }
+
+

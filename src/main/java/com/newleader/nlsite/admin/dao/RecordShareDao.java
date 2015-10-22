@@ -20,9 +20,9 @@ import com.newleader.nlsite.admin.model.RecordShare;
 public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordShare> {
 	@Override
 	public boolean add(RecordShare t) {
-		String insertSql = "insert into aa_record_share(openId,scene,createTime,superId) values(?,?,?,?)";
+		String insertSql = "insert into aa_record_share(openId,scene,createTime,superId,rootChannelId) values(?,?,?,?)";
 		return 1 == this.getJdbcTemplate().update(insertSql,	
-				new Object[] {t.getOpenId(),t.getScene(),new Date(),t.getSuperId()});
+				new Object[] {t.getOpenId(),t.getScene(),new Date(),t.getSuperId(),t.getRootChannelId()});
 	}
 	
 	/**
@@ -30,7 +30,6 @@ public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordSha
 	 * @param openId  openId
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
 	public RecordShare queryBySceneOpenId(String scene, String openId) {
 		String selectSql = "select Id, openId,scene,createTime,superId, count from aa_record_share where openId = ? and scene = ? order by CreateTime desc";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql, new Object[]{openId, scene});
@@ -43,6 +42,25 @@ public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordSha
 		return null;
 	}
 	
+	/**
+	 * 更新测试 渠道编码
+	 */
+	public void updateChannelId() {
+		this.getJdbcTemplate().update("update aa_record_share a, aa_visitor_channel b set a.channelId = b.channelId where a.openId = b.openId and a.channelId = ''");
+		//rootChannelId 为空 表示自己是顶级用户
+		this.getJdbcTemplate().update("update aa_record_share a, aa_visitor_channel b set a.rootChannelId = b.channelId where a.openId = b.openId and a.rootChannelId = ''");
+	}
+	
+	/**
+	 * 获取某个渠道累计的分享量
+	 * @param channelId  渠道id
+	 * @return 累计分享量
+	 */
+	@SuppressWarnings("deprecation")
+	public int getShareCountByChannel(String code) {
+		String selSql = " select count(id) from aa_record_share where rootChannelId = ?";
+		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code});
+	}
 	
 	
 	@Override

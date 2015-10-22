@@ -16,14 +16,6 @@ import com.newleader.nlsite.common.DateUtils;
  * 2015年10月16日
  */
 public class StatActionDataDao extends JdbcDaoSupport {
-//	  `id` int(11) NOT NULL,
-//	  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
-//	  `type` varchar(30) DEFAULT '' COMMENT '类型  login:登陆',
-//	  `openId` varchar(50) DEFAULT '' COMMENT '用户openId',
-//	  `product` varchar(50) DEFAULT '' COMMENT '产品',
-//	  `channelId` varchar(50) DEFAULT '' COMMENT '用户所属渠道',
-//	  `interval` int(10) DEFAULT '0' COMMENT '时间间隔，于上一次访问的时间间隔',
-	  
 	public boolean add(StatActionData model) {
 		String insertSql = "insert into aa_stat_action_data(createTime,type,openId,channelId,product,interval) values(?,?,?,?,?,?)";
 		return 1 == this.getJdbcTemplate().update(insertSql, 

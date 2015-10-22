@@ -49,5 +49,8 @@
     <bean id="statUserActiveDao" class="com.newleader.nlsite.admin.dao.StatUserActiveDao">  
     	<property name="dataSource" ref="dataSource"></property>  
     </bean>
+    <bean id="statResultDao" class="com.newleader.nlsite.admin.dao.StatResultDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
 	
 </beans>

@@ -54,6 +54,17 @@ public class RecordVirusDao extends JdbcDaoSupport implements DaoInter<RecordVir
 	}
 	
 	/**
+	 * 获取某个渠道累计的virual量
+	 * @param channelId  渠道id
+	 * @return 累计分享量
+	 */
+	@SuppressWarnings("deprecation")
+	public int getVirualCountByChannel(String code) {
+		String selSql = " select count(id) from aa_record_virus where rootChannelId = ? and isSubscribe = 1";
+		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code});
+	}
+	
+	/**
 	 * 根据浏览者openId查询是否存在记录  返回最近一条记录
 	 * @param vopenId  浏览者openId
 	 * @return 
@@ -78,7 +89,7 @@ public class RecordVirusDao extends JdbcDaoSupport implements DaoInter<RecordVir
 	 */
 	public RecordVirus queryByOpenIdAndScene(String openId, String scene) {
 		List<RecordVirus> recordVirusList = new ArrayList<RecordVirus>();
-		String selectSql = "select Id, vOpenId,sOpenId,channelId,scene,createTime, isSubscribe,rootChannelId from aa_record_virus where vOpenId = ? and scene = ?";
+		String selectSql = "select Id, vOpenId,sOpenId,channelId,scene,createTime, isSubscribe,rootChannelId from aa_record_virus where vOpenId = ? and scene = ? and isSubscribe = 1";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql, new Object[]{openId, scene});
 		for (Map<String,Object> map : list) {
 			RecordVirus model = this.wrapModel(map);
@@ -108,8 +119,6 @@ public class RecordVirusDao extends JdbcDaoSupport implements DaoInter<RecordVir
 	
 	@Override
 	public boolean update(RecordVirus t) {
-//		String updateSel = "update aa_channel set Name = ?,Code=?,QrcodeUrl=? where Id = ?";
-//		return 1 == this.getJdbcTemplate().update(updateSel,t.getName(), t.getCode(), t.getQrCodeUrl(), t.getId());
 		return true;
 	}
 	

@@ -19,6 +19,9 @@ public class Channel {
 	private int 	unSubscribe;	     //取消关注的量
 	private String unSubscribeRate = "0"; //取消关注的比率 -- 流失率
 	
+	private int shareCount;   //渠道累计分享次数
+	private int virualCount;   //渠道累计virual人数
+	
 	public Channel() {
 	}
 	
@@ -96,10 +99,31 @@ public class Channel {
 	public void setCurrSubscribe(int currSubscribe) {
 		this.currSubscribe = currSubscribe;
 	}
+	
+	public int getShareCount() {
+		return shareCount;
+	}
+
+	public void setShareCount(int shareCount) {
+		this.shareCount = shareCount;
+	}
+
+	public int getVirualCount() {
+		return virualCount;
+	}
+
+	public void setVirualCount(int virualCount) {
+		this.virualCount = virualCount;
+	}
 
 	@Override
 	public String toString() {
 		return "Channel [id=" + id + ", name=" + name + ", code=" + code
-				+ ", createTimeStr=" + createTimeStr + "]";
+				+ ", qrCodeUrl=" + qrCodeUrl + ", createTimeStr="
+				+ createTimeStr + ", totalSubscribe=" + totalSubscribe
+				+ ", currSubscribe=" + currSubscribe + ", unSubscribe="
+				+ unSubscribe + ", unSubscribeRate=" + unSubscribeRate
+				+ ", shareCount=" + shareCount + ", virualCount=" + virualCount
+				+ "]";
 	}
 }

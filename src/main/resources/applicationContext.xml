@@ -20,6 +20,7 @@
     <context:component-scan base-package="com.newleader.nlsite"/>
     <import resource="applicationContext-dao.xml"/>
     <import resource="applicationContext-redis.xml"/>
+    <import resource="applicationContext-quartz.xml"/>
     <bean id="SpringContextUtil" class="com.newleader.nlsite.common.SpringContextUtil"/>
 
     <bean class="com.newleader.nlsite.common.InitUtils" init-method="start"/>

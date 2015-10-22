@@ -39,13 +39,15 @@ public class ChannelService {
 	
 	/**
 	 * 更新渠道关注量
+	 * @param shareCount
+	 * @param virualCount
 	 * @param totalSubscribe	 历史关注量
 	 * @param unSubscribe	取消关注量
 	 * @param code  渠道编码
 	 * @return
 	 */
-	public boolean updateByCode(int totalSubscribe, int unSubscribe, String code) {
-		return this.channelDao.updateByCode(totalSubscribe, unSubscribe, code);
+	public boolean updateByCode(int shareCount, int virualCount, int totalSubscribe, int unSubscribe, String code) {
+		return this.channelDao.updateByCode(shareCount,virualCount,totalSubscribe, unSubscribe, code);
 	}
 	/**
 	 * 模糊查询

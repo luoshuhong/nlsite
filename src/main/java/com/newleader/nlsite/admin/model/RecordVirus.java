@@ -16,7 +16,7 @@ public class RecordVirus {
 	private String scene;		        //场景
 	private String   createTime;    //创建时间
 	private int	   isSubscribe;     //是否关注 0：未关注   1：关注
-	private String rootChannelId; //顶级分享用户id
+	private String rootChannelId = ""; //顶级分享用户id
 	
 	public RecordVirus() {
 	}

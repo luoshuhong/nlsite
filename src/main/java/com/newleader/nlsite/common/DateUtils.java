@@ -138,7 +138,7 @@ public class DateUtils {
 		formatter.setLenient(false);
 		ParsePosition pos = new ParsePosition(0);
 		try {
-			Date d = formatter.parse(strDate, pos);
+			formatter.parse(strDate, pos);
 			return true;
 		} catch (Exception e) {
 			return false;

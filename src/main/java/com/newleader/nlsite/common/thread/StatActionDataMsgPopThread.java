@@ -24,7 +24,6 @@ import com.newleader.nlsite.common.SpringContextUtil;
  */
 public class StatActionDataMsgPopThread extends Thread {
 	private static Log log = LogFactory.getLog(StatActionDataMsgPopThread.class);
-	private static final int ONE_SECOND_MS = 1000;  //一毫秒
 	private static final int MAX_NUM = 20; 			      //最大线程数
 	private int syncTimeInterval = 1;  			//同步时间间隔  默认2秒
 	private static ExecutorService businessDealPool = Executors.newFixedThreadPool(MAX_NUM); ;  //主业务处理线程池
@@ -42,7 +41,7 @@ public class StatActionDataMsgPopThread extends Thread {
 		while (true) {
 			try {
 				// 休眠固定时间
-				Thread.sleep(syncTimeInterval * ONE_SECOND_MS);
+				Thread.sleep(syncTimeInterval * Constants.ONE_SECOND_MS);
 				
 				if (((ThreadPoolExecutor) businessDealPool).getActiveCount() >= MAX_NUM) {
 					log.info("StatActionDataMsgPopThread the thread pool is full .");

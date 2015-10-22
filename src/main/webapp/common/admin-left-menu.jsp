@@ -104,16 +104,17 @@ date 2015-9-11
 						<ul id="channelManage" class="nav nav-list collapse secondmenu" style="height: 0px; ">
 							<li><a href="#" onclick="fillDataArea('channelAdd');"><i class="glyphicon glyphicon-plus"></i>渠道添加</a></li>
 							<li><a href="#" onclick="fillDataArea('channelQuery');"><i class="glyphicon glyphicon-search"></i>渠道查询</a></li>
-							<li><a href="#" onclick="fillDataArea('channelStat');"><i class="glyphicon glyphicon-th-list"></i>推广效果统计</a></li>
+							<!-- <li><a href="#" onclick="fillDataArea('channelStat');"><i class="glyphicon glyphicon-th-list"></i>推广效果统计</a></li>-->
 						</ul>
 					</li>
 					<li>
 						<a href="#virualManage" class="nav-header collapsed" data-toggle="collapse"> 
-							<i class="glyphicon glyphicon-credit-card" ></i> virual效果统计 <span
-							class="pull-right glyphicon glyphicon-chevron-down"></span>
+							<i class="glyphicon glyphicon-credit-card" ></i> 一些统计 <span class="pull-right glyphicon glyphicon-chevron-down"></span>
 						</a>
 						<ul id="virualManage" class="nav nav-list collapse secondmenu" style="height: 0px; ">
-							<li><a href="#" onclick="fillDataArea('shareStat');"><i class="glyphicon glyphicon-share"></i>趋势图展示</a></li>
+							<li><a href="#" onclick="fillDataArea('channelStat');"><i class="glyphicon glyphicon-th-list"></i>推广效果统计</a></li>
+							<li><a href="#" onclick="fillDataArea('shareStat');"><i class="glyphicon glyphicon-share"></i>virual效果统计</a></li>
+							<li><a href="#" onclick="fillDataArea('user');"><i class="glyphicon glyphicon-share"></i>活跃用户统计</a></li>
 <!-- 							<li><a href="#" onclick="fillDataArea('shareVisitStat');"><i class="glyphicon glyphicon-th-list"></i>virual用户统计</a></li> -->
 						</ul>
 					</li>

@@ -20,7 +20,6 @@ import com.newleader.nlsite.common.SpringContextUtil;
  */
 public class ShareVisitPopThread extends Thread {
 	private static Log log = LogFactory.getLog(ShareVisitPopThread.class);
-	private static final int ONE_SECOND_MS = 1000;  //一毫秒
 	private int syncTimeInterval = 2;  			//同步时间间隔  默认2秒
 	
 	@Override
@@ -37,7 +36,7 @@ public class ShareVisitPopThread extends Thread {
 		while (true) {
 			try {
 				// 休眠固定时间
-				Thread.sleep(syncTimeInterval * ONE_SECOND_MS);
+				Thread.sleep(syncTimeInterval * Constants.ONE_SECOND_MS);
 				
 				// sOpenId:分享者id  currOpenId:访问者id scene:场景
 				String shareBack = redisUtils.lpop(Constants.REDIS_SHARE_BACK);

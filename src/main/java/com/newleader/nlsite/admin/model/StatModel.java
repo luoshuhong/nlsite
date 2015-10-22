@@ -12,6 +12,12 @@ public class StatModel {
 	private int    count;  	    	 //数量
 	private String date;	     		//时间
 	
+	
+	//下面统计活跃度用
+	private String type;     		   //类型
+	private String channelId;	   //
+	private String product;        //固定:love(爱情测评), profession (职业测评)
+	
 	public String getStatItem() {
 		return statItem;
 	}
@@ -29,6 +35,24 @@ public class StatModel {
 	}
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getChannelId() {
+		return channelId;
+	}
+	public void setChannelId(String channelId) {
+		this.channelId = channelId;
+	}
+	public String getProduct() {
+		return product;
+	}
+	public void setProduct(String product) {
+		this.product = product;
 	}
 	@Override
 	public String toString() {

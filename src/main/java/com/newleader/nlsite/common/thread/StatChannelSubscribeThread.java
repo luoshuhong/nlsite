@@ -9,6 +9,9 @@ import com.newleader.nlsite.admin.model.Channel;
 import com.newleader.nlsite.admin.service.ChannelService;
 import com.newleader.nlsite.admin.service.ChannelStatService;
 import com.newleader.nlsite.admin.service.LoveTestStatService;
+import com.newleader.nlsite.admin.service.RecordShareService;
+import com.newleader.nlsite.admin.service.RecordVirusService;
+import com.newleader.nlsite.common.Constants;
 import com.newleader.nlsite.common.SpringContextUtil;
 
 /**
@@ -20,8 +23,7 @@ import com.newleader.nlsite.common.SpringContextUtil;
  */
 public class StatChannelSubscribeThread extends Thread {
 	private static Log log = LogFactory.getLog(StatChannelSubscribeThread.class);
-	private static final int ONE_SECOND_MS = 1000;  //一毫秒
-	private int syncTimeInterval = 60;  			//同步时间间隔  默认2秒
+	private int syncTimeInterval = 60;  			//同步时间间隔   
 	
 	@Override
 	public void run() {
@@ -29,23 +31,30 @@ public class StatChannelSubscribeThread extends Thread {
 		ChannelService channelService = SpringContextUtil.getBean("channelService");
 		ChannelStatService channelStatService = SpringContextUtil.getBean("channelStatService");
 		LoveTestStatService loveTestStatService = SpringContextUtil.getBean("loveTestStatService");
+		RecordShareService rcordShareService = SpringContextUtil.getBean("recordShareService");
+		RecordVirusService recordVirusService = SpringContextUtil.getBean("recordVirusService");
 		
 		while (true) {
 			try {
-				Thread.sleep(syncTimeInterval * ONE_SECOND_MS);
+				Thread.sleep(syncTimeInterval * Constants.ONE_SECOND_MS);
+				
+				loveTestStatService.updateChannelId();     //更新填充爱情测评者 渠道编码
+				rcordShareService.updateChannelId();       //更新填充分享者 渠道编码
 				
 				List<Channel> list = channelService.query();  //获取所有渠道
 				for (Channel channel : list) {
+					int shareCount = rcordShareService.getShareCountByChannel(channel.getCode());   //分享总数
+					int virualCount = recordVirusService.getVirualCountByChannel(channel.getCode());  //virual总数
 					int totalSubscribe = channelStatService.getSubscribeByChannel(channel.getCode());	   //查询历史关注量
 					int unSubscribe = channelStatService.getUnSubscribeByChannel(channel.getCode());  //查询取消关注量
 					if (0 == totalSubscribe) {
 						continue;
 					}
-					
-					channelService.updateByCode(totalSubscribe, unSubscribe, channel.getCode());      //更新
+					channelService.updateByCode(shareCount,virualCount,totalSubscribe, unSubscribe, channel.getCode());      //更新
 				}
 				
-				loveTestStatService.updateChannelId();     //更新填充爱情测评者 渠道编码
+				
+				
 			} catch (Exception e) {
 				log.info("error!  errMsg=" + e.getMessage());
 				e.printStackTrace();

@@ -86,10 +86,6 @@ public class ChannelController {
 			if (null != list) {
 				//获取每个渠道累计关注量
 				for (Channel channel : list) {
-//					int totalSubscribe = this.channelStatService.getSubscribeByChannel(channel.getCode());
-//					int unSubscribe = this.channelStatService.getUnSubscribeByChannel(channel.getCode()); 
-//					channel.setTotalSubscribe(totalSubscribe);
-//					channel.setUnSubscribe(unSubscribe);
 					channel.setCurrSubscribe(channel.getTotalSubscribe() - channel.getUnSubscribe());
 					if (0 != channel.getTotalSubscribe() && 0 != channel.getUnSubscribe()) {
 						channel.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * channel.getUnSubscribe())/channel.getTotalSubscribe() ));

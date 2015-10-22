@@ -1,5 +1,6 @@
 package com.newleader.nlsite.admin.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,9 @@ public class RecordShareService {
 		
 		//2.查询superid
 		RecordVirus recordVirus = this.recordVirusDao.queryByOpenIdAndScene(recordShare.getOpenId(), recordShare.getScene());
-		
 		if (null != recordVirus) {
+			recordShare.setRootChannelId(recordVirus.getRootChannelId());
+			
 			RecordShare superModel = this.recordShareDao.queryBySceneOpenId(recordShare.getScene(), recordVirus.getsOpenId());
 			if (null != superModel) {
 				recordShare.setSuperId(superModel.getId());
@@ -44,5 +46,22 @@ public class RecordShareService {
 		return this.recordShareDao.add(recordShare);
 	}
 	
+	/**
+	 * 获取某个渠道累计的分享量
+	 * @param channelId  渠道id
+	 * @return 累计分享量
+	 */
+	public int getShareCountByChannel(String code) {
+		if (StringUtils.isEmpty(code)) {
+			return 0;
+		}
+		return this.recordShareDao.getShareCountByChannel(code);
+	}
 	
+	/**
+	 * 更新填充 渠道编码
+	 */
+	public void updateChannelId() {
+		this.recordShareDao.updateChannelId();
+	}
 }

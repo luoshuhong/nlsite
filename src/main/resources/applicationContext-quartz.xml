@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <!-- =====================日常任务job========================== -->
+	<bean id="statActionJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="statActionDataService" />
+		<property name="targetMethod" value="quartzStat" />
+		<property name="concurrent" value="false"/>
+	</bean> 
+	<!-- =====================日常任务job end ======================== -->
+	
+	<!-- ======================== 调度触发器 ======================== -->  
+	<bean id="statActionTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="statActionJob" />
+		<property name="cronExpression" value="0 0/3 * * * ?"/> <!-- 每3分钟执行一次 -->
+	</bean>
+	<!-- ======================== 调度触发器 end ====================== -->  
+	
+	<!-- ======================== 调度工厂 ======================== -->  
+	<bean id="nlsiteQuertz" lazy-init="false" autowire="no" 	class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+ 		<property name="triggers">
+	 		<list>
+	 			<ref local="statActionTask" />  
+	 		</list>
+ 		</property>
+	</bean>
+</beans>
