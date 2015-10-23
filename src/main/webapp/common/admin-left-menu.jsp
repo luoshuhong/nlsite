@@ -113,7 +113,7 @@ date 2015-9-11
 						</a>
 						<ul id="virualManage" class="nav nav-list collapse secondmenu" style="height: 0px; ">
 							<li><a href="#" onclick="fillDataArea('channelStat');"><i class="glyphicon glyphicon-th-list"></i>推广效果统计</a></li>
-							<li><a href="#" onclick="fillDataArea('shareStat');"><i class="glyphicon glyphicon-share"></i>virual效果统计</a></li>
+							<li><a href="#" onclick="fillDataArea('shareStat');"><i class="glyphicon glyphicon-share"></i>viral效果统计</a></li>
 							<li><a href="#" onclick="fillDataArea('user');"><i class="glyphicon glyphicon-share"></i>活跃用户统计</a></li>
 <!-- 							<li><a href="#" onclick="fillDataArea('shareVisitStat');"><i class="glyphicon glyphicon-th-list"></i>virual用户统计</a></li> -->
 						</ul>

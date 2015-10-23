@@ -20,7 +20,7 @@ import com.newleader.nlsite.admin.model.RecordShare;
 public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordShare> {
 	@Override
 	public boolean add(RecordShare t) {
-		String insertSql = "insert into aa_record_share(openId,scene,createTime,superId,rootChannelId) values(?,?,?,?)";
+		String insertSql = "insert into aa_record_share(openId,scene,createTime,superId,rootChannelId) values(?,?,?,?,?)";
 		return 1 == this.getJdbcTemplate().update(insertSql,	
 				new Object[] {t.getOpenId(),t.getScene(),new Date(),t.getSuperId(),t.getRootChannelId()});
 	}
@@ -46,9 +46,9 @@ public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordSha
 	 * 更新测试 渠道编码
 	 */
 	public void updateChannelId() {
-		this.getJdbcTemplate().update("update aa_record_share a, aa_visitor_channel b set a.channelId = b.channelId where a.openId = b.openId and a.channelId = ''");
-		//rootChannelId 为空 表示自己是顶级用户
-		this.getJdbcTemplate().update("update aa_record_share a, aa_visitor_channel b set a.rootChannelId = b.channelId where a.openId = b.openId and a.rootChannelId = ''");
+		this.getJdbcTemplate().update("update aa_record_share a, aa_visitor_channel b set a.channelId = b.channelId where a.openId = b.openId  and b.isBind in (0,2) and a.channelId = ''");
+		// 
+		this.getJdbcTemplate().update("update aa_record_share a set a.channelId = 'default' where  a.channelId = ''"); //第一步更新后 还为空的 说明是老用户
 	}
 	
 	/**

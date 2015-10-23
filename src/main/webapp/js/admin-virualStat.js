@@ -136,7 +136,7 @@ function virulUserFillData(xAxis, series) {
 			type : 'line'
 		},
 		title : {
-			text : 'virul用户统计'
+			text : 'viral用户统计'
 		},
 		yAxis : {
 			title : {

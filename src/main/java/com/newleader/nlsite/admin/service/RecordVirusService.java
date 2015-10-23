@@ -42,7 +42,7 @@ public class RecordVirusService {
 		if (null != shareModel) {
 			recordVirus.setRootChannelId(shareModel.getRootChannelId());
 		} else {
-			recordVirus.setRootChannelId("default");
+			recordVirus.setRootChannelId(recordVirus.getChannelId());  //如果没有上级  则rootChannelId 为自己的channelId
 		}
 		
 		//2.查看是否存在  存在时更新为时间和分享者

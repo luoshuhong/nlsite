@@ -36,12 +36,14 @@ public class RecordShareService {
 		//2.查询superid
 		RecordVirus recordVirus = this.recordVirusDao.queryByOpenIdAndScene(recordShare.getOpenId(), recordShare.getScene());
 		if (null != recordVirus) {
-			recordShare.setRootChannelId(recordVirus.getRootChannelId());
+			recordShare.setRootChannelId(recordVirus.getRootChannelId());  //如果分享前 是通过viral进入 则记录rootChannelId
 			
 			RecordShare superModel = this.recordShareDao.queryBySceneOpenId(recordShare.getScene(), recordVirus.getsOpenId());
 			if (null != superModel) {
 				recordShare.setSuperId(superModel.getId());
 			}
+		} else {
+			recordShare.setRootChannelId("default");
 		}
 		return this.recordShareDao.add(recordShare);
 	}

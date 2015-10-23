@@ -35,7 +35,7 @@ date 2015-9-11
 					<tr>
 						<th>名称</th><th>编码</th>
 						<th>累计</th><th>当前</th><th>退订</th><th>退订率</th>
-						<th>分享</th><th>Virual</th>
+						<th>分享</th><th>Viral</th>
 						<th>添加时间</th><th>推广</th><th>操作</th>
 					</tr>
 				</thead>
