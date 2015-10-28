@@ -22,6 +22,11 @@ public class Channel {
 	private int shareCount;   //渠道累计分享次数
 	private int virualCount;   //渠道累计virual人数
 	
+	private String freeType = "-1";				//类型  0：限时免费  1：免费1份68元 2：免费3份168 3：免费5份268元
+	private String freeDes;					//前台优惠是文案描述
+	private String freeStartDate;	        //优惠开始时间
+	private String freeEndDate;          //优惠结束时间
+	
 	public Channel() {
 	}
 	
@@ -111,9 +116,39 @@ public class Channel {
 	public int getVirualCount() {
 		return virualCount;
 	}
-
 	public void setVirualCount(int virualCount) {
 		this.virualCount = virualCount;
+	}
+	public String getFreeType() {
+		return freeType;
+	}
+
+	public void setFreeType(String freeType) {
+		this.freeType = freeType;
+	}
+
+	public String getFreeDes() {
+		return freeDes;
+	}
+
+	public void setFreeDes(String freeDes) {
+		this.freeDes = freeDes;
+	}
+
+	public String getFreeStartDate() {
+		return freeStartDate;
+	}
+
+	public void setFreeStartDate(String freeStartDate) {
+		this.freeStartDate = freeStartDate;
+	}
+
+	public String getFreeEndDate() {
+		return freeEndDate;
+	}
+
+	public void setFreeEndDate(String freeEndDate) {
+		this.freeEndDate = freeEndDate;
 	}
 
 	@Override
@@ -124,6 +159,8 @@ public class Channel {
 				+ ", currSubscribe=" + currSubscribe + ", unSubscribe="
 				+ unSubscribe + ", unSubscribeRate=" + unSubscribeRate
 				+ ", shareCount=" + shareCount + ", virualCount=" + virualCount
-				+ "]";
+				+ ", freeType=" + freeType + ", freeDes=" + freeDes
+				+ ", freeStartDate=" + freeStartDate + ", freeEndDate="
+				+ freeEndDate + "]";
 	}
 }

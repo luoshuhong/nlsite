@@ -47,8 +47,10 @@ public class RecordShareDao extends JdbcDaoSupport implements DaoInter<RecordSha
 	 */
 	public void updateChannelId() {
 		this.getJdbcTemplate().update("update aa_record_share a, aa_visitor_channel b set a.channelId = b.channelId where a.openId = b.openId  and b.isBind in (0,2) and a.channelId = ''");
+		this.getJdbcTemplate().update("update aa_record_share a, aa_visitor_channel b set a.rootChannelId = b.channelId where a.openId = b.openId  and b.isBind in (0,2) and a.rootChannelId = ''");
 		// 
 		this.getJdbcTemplate().update("update aa_record_share a set a.channelId = 'default' where  a.channelId = ''"); //第一步更新后 还为空的 说明是老用户
+		this.getJdbcTemplate().update("update aa_record_share a set a.rootChannelId = 'default' where  a.rootChannelId = ''"); //第一步更新后 还为空的 说明是老用户
 	}
 	
 	/**

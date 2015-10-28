@@ -87,18 +87,33 @@ public class RecordVirusDao extends JdbcDaoSupport implements DaoInter<RecordVir
 	 * @param scene   场景者
 	 * @return RecordVirus
 	 */
-	public RecordVirus queryByOpenIdAndScene(String openId, String scene) {
-		List<RecordVirus> recordVirusList = new ArrayList<RecordVirus>();
-		String selectSql = "select Id, vOpenId,sOpenId,channelId,scene,createTime, isSubscribe,rootChannelId from aa_record_virus where vOpenId = ? and scene = ? and isSubscribe = 1";
+	public RecordVirus queryByOpenIdAndScene(String openId) {
+		String selectSql = "select Id, vOpenId,sOpenId,channelId,scene,createTime, isSubscribe,rootChannelId from aa_record_virus where vOpenId = ? and isSubscribe = 1";
+		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql, new Object[]{openId});
+		for (Map<String,Object> map : list) {
+			return this.wrapModel(map);
+		}
+		return null;
+	}
+	
+	/**
+	 * 根据浏览者openId和场景者查询
+	 * @param openId openid
+	 * @param scene   场景者
+	 * @return  
+	 */
+	@SuppressWarnings("deprecation")
+	public int queryByOpenIdAndSceneIgnoreSubscribe(String openId, String scene) {
+		String selectSql = "select Id, vOpenId,sOpenId,channelId,scene,createTime, isSubscribe,rootChannelId from aa_record_virus where vOpenId = ? and scene = ?";
+		return this.getJdbcTemplate().queryForInt(selectSql, new Object[]{openId, scene});
+	}
+	
+	@SuppressWarnings("deprecation")
+	public RecordVirus queryByOpenIdAndSceneIgnoreSubscribeForModel(String openId, String scene) {
+		String selectSql = "select Id, vOpenId,sOpenId,channelId,scene,createTime, isSubscribe,rootChannelId from aa_record_virus where vOpenId = ? and scene = ?";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql, new Object[]{openId, scene});
 		for (Map<String,Object> map : list) {
-			RecordVirus model = this.wrapModel(map);
-			if (null != model) {
-				recordVirusList.add(model);
-			}
-		}
-		if (0 != recordVirusList.size()) {
-			return recordVirusList.get(0);
+			return this.wrapModel(map);
 		}
 		return null;
 	}

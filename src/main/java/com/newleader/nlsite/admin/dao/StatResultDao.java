@@ -1,13 +1,14 @@
 package com.newleader.nlsite.admin.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.newleader.nlsite.admin.model.StatModel;
+import com.newleader.nlsite.common.Constants;
 
 /**
  * 用户活跃度统计结果
@@ -24,20 +25,46 @@ public class StatResultDao extends JdbcDaoSupport {
 //	  `product` varchar(50) DEFAULT '' COMMENT '产品',
 	  
 	public boolean add(StatModel model) {
-		String insertSql = "insert into aa_stat_result(num,date,type,channelId,product) values(?,?,?,?,?)";
+		String insertSql = "insert into aa_stat_result(num,date,type,channelId,product,mainType) values(?,?,?,?,?,?)";
 		return 1 == this.getJdbcTemplate().update(insertSql, 
-				new Object[] {model.getCount(), model.getDate(), model.getType(), model.getChannelId(), model.getProduct()});
+				new Object[] {model.getCount(), model.getDate(), model.getType(), model.getChannelId(), model.getProduct(),model.getMainType()});
+	}
+	
+	public void add(List<StatModel> list) {
+		if (null == list) {
+			return  ;
+		}
+		
+		for (StatModel model: list) {
+			this.add(model);
+		}
+		return  ;
 	}
 	
 	/**
-	 * 查询某一段时间所有统计
+	 * 查询UV统计
 	 * @param sDate
 	 * @param eDate 
 	 */
-	public List<StatModel> queyByOpenId(Date sDate, Date eDate) {
+	public List<StatModel> queyUVByDate(String sDate, String eDate) {
 		List<StatModel> listStat = new ArrayList<StatModel>();
-		String selSql = "Select id, num,date,type,channelId,product from aa_stat_result where date > ? and date < ?";
-		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selSql, new Object[]{sDate, eDate});
+		String selSql = "Select id, num,date,type,channelId,product,mainType from aa_stat_result where date > ? and date < ? and mainType=?";
+		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selSql, new Object[]{sDate, eDate, Constants.STAT_TYPE_UV});
+		for (Map<String,Object> map : list) {
+			listStat.add(this.wrapModel(map));
+		}
+		return listStat;
+	}
+	
+	/**
+	 * 查询PV统计
+	 * @param sDate
+	 * @param eDate 
+	 */
+	public List<StatModel> queyPVByDate(String sDate, String eDate) {
+		List<StatModel> listStat = new ArrayList<StatModel>();
+		String selSql = "Select id, num,date,type,channelId,product,mainType from aa_stat_result where date > ? and date < ? and mainType=? ";
+		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selSql, new Object[]{sDate, eDate, Constants.STAT_TYPE_PV});
 		for (Map<String,Object> map : list) {
 			listStat.add(this.wrapModel(map));
 		}
@@ -66,6 +93,24 @@ public class StatResultDao extends JdbcDaoSupport {
 		if (map.containsKey("product") && null != map.get("product")) {
 			model.setProduct(map.get("product").toString());
 		}
+		if (map.containsKey("mainType") && null != map.get("mainType")) {
+			model.setMainType(map.get("mainType").toString());
+		}
+		
+		String statItem = "";
+		if (!StringUtils.isEmpty(model.getProduct()) && !StringUtils.isEmpty(model.getChannelId())) {
+			statItem = model.getProduct() + "-" + model.getChannelId();
+		} else {
+			statItem = model.getProduct() + model.getChannelId();
+		}
+		
+		if (!StringUtils.isEmpty(statItem)) {
+			statItem =model.getType() + "(" + statItem + ")";
+		} else {
+			statItem = model.getType();
+		}
+		model.setStatItem(statItem);
+		
 		return model;
 	}
 	

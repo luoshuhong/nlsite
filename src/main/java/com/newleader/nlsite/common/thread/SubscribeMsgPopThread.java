@@ -58,7 +58,7 @@ public class SubscribeMsgPopThread extends Thread {
 				//放入线程池执行
 				businessDealPool.execute(new SubscribeDealThread(subscribeMsg));
 			} catch (Exception e) {
-				log.info("error!  errMsg=" + e.getMessage());
+				log.info("error![subscribeMsg]  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}
 		}

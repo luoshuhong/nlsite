@@ -38,7 +38,7 @@ public class RecordVirusService {
 		}
 		
 		//1.查看上一级分享 获取rootChannelId
-		RecordVirus shareModel = this.recordVirusDao.queryByOpenIdAndScene(recordVirus.getsOpenId(), recordVirus.getScene());
+		RecordVirus shareModel = this.recordVirusDao.queryByOpenIdAndScene(recordVirus.getsOpenId());
 		if (null != shareModel) {
 			recordVirus.setRootChannelId(shareModel.getRootChannelId());
 		} else {
@@ -46,9 +46,9 @@ public class RecordVirusService {
 		}
 		
 		//2.查看是否存在  存在时更新为时间和分享者
-		RecordVirus model = this.recordVirusDao.queryByOpenIdAndScene(recordVirus.getvOpenId(), recordVirus.getScene());
-		if (null != model) {
-			return this.recordVirusDao.update(recordVirus.getvOpenId(), recordVirus.getsOpenId(),model.getRootChannelId(),recordVirus.getChannelId(), recordVirus.getScene());
+//		RecordVirus model = this.recordVirusDao.queryByOpenIdAndSceneIgnoreSubscribe(recordVirus.getvOpenId(), recordVirus.getScene());
+		if (1 <= this.recordVirusDao.queryByOpenIdAndSceneIgnoreSubscribe(recordVirus.getvOpenId(), recordVirus.getScene())) {
+			return this.recordVirusDao.update(recordVirus.getvOpenId(), recordVirus.getsOpenId(),recordVirus.getRootChannelId(),recordVirus.getChannelId(), recordVirus.getScene());
 		} else {
 			return this.recordVirusDao.add(recordVirus);
 		}

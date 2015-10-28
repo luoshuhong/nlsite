@@ -2,6 +2,9 @@ package com.newleader.nlsite.admin.service;
 
 import java.util.List;
 
+import javax.persistence.Transient;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +28,14 @@ public class ChannelService {
 	 * @param channel
 	 * @return true or false
 	 */
+	@Transient
 	public boolean add(Channel channel) {
-		return this.channelDao.add(channel);
+		//这里没有考虑事务
+		if ("-1".equals(channel.getFreeType()) || StringUtils.isEmpty(channel.getFreeType())) {
+			return this.channelDao.add(channel);
+		} else {
+			return this.channelDao.add(channel) && this.channelDao.addChannelActivity(channel);
+		}
 	}
 	
 	/**
@@ -34,7 +43,7 @@ public class ChannelService {
 	 * @return List<Channel>
 	 */
 	public List<Channel> query() {
-		return this.channelDao.query();
+		return this.channelDao.query(); 
 	}
 	
 	/**
@@ -73,6 +82,18 @@ public class ChannelService {
 	 * @return true or false
 	 */
 	public boolean update(Channel channel) {
+		if (1 <= this.channelDao.queryChannelActivity(channel.getCode())) {
+			return this.channelDao.update(channel) && this.channelDao.updateChannelActivity(channel);
+		}
 		return this.channelDao.update(channel);
+	}
+	
+	/**
+	 * 根据code 查询是否存在
+	 * @param code 渠道编码
+	 * @return 个数
+	 */
+	public int queryByCode(String code) {
+		return this.channelDao.queryByCode(code);
 	}
 }

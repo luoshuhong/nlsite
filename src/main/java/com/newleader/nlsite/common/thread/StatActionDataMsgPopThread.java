@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.newleader.nlsite.admin.model.StatActionData;
-import com.newleader.nlsite.admin.service.StatActionDataService;
+import com.newleader.nlsite.admin.service.ActionDataStatService;
 import com.newleader.nlsite.common.Constants;
 import com.newleader.nlsite.common.RedisUtils;
 import com.newleader.nlsite.common.SpringContextUtil;
@@ -58,7 +58,7 @@ public class StatActionDataMsgPopThread extends Thread {
 				//放入线程池执行
 				businessDealPool.execute(new StatActionDataDealThread(actionMsg));
 			} catch (Exception e) {
-				log.info("error!  errMsg=" + e.getMessage());
+				log.info("error![statActionDataMsg]  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -81,7 +81,7 @@ class StatActionDataDealThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			StatActionDataService statOrgDataService = SpringContextUtil.getBean("statActionDataService");
+			ActionDataStatService actionDataStatService = SpringContextUtil.getBean("actionDataStatService");
 			JSONObject job = JSONObject.parseObject(statActionDataMsg); 
 			String type = job.getString("type");				 // 类型：login(登陆)
 			String openId = job.getString("openId");	     // 用户openId
@@ -94,9 +94,9 @@ class StatActionDataDealThread extends Thread {
 			model.setOpenId(openId);
 			model.setType(type);
 			model.setProduct(product);
-			log.info("statActionDataMsg=" + statActionDataMsg + ", result=" + statOrgDataService.add(model));
+			log.info("statActionDataMsg=" + statActionDataMsg + ", result=" + actionDataStatService.add(model));
 		} catch (Exception e) {
-			log.info("error!  errMsg=" + e.getMessage());
+			log.info("error![statActionDataMsg]  errMsg=" + e.getMessage());
 			e.printStackTrace();
 		}
 	}

@@ -45,7 +45,7 @@ public class ChannelStatService {
 	}
 	
 	/**
-	 * 获取某个渠道累计的关注量
+	 * 获取某个渠道累计关注量
 	 * @param channelId  渠道id
 	 * @return 累计关注量
 	 */

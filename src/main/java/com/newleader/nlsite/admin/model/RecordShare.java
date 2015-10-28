@@ -15,8 +15,8 @@ public class RecordShare {
 	private int	   superId;    	    //父id
 	private int      count;			//该分享后续被分享了几次
 	private int 	   isDeal;           //是否处理(该分享给上级父分享产生的影响) 0：为处理 1：已处理
-	private String  channelId;     //channelId
-	private String rootChannelId;//
+	private String  channelId = "";     //channelId
+	private String rootChannelId = "";//
 	public RecordShare() {
 	}
 	

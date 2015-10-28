@@ -4,7 +4,7 @@
 <beans>
     <!-- =====================日常任务job========================== -->
 	<bean id="statActionJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="statActionDataService" />
+		<property name="targetObject" ref="actionDataStatService" />
 		<property name="targetMethod" value="quartzStat" />
 		<property name="concurrent" value="false"/>
 	</bean> 
@@ -13,7 +13,8 @@
 	<!-- ======================== 调度触发器 ======================== -->  
 	<bean id="statActionTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="statActionJob" />
-		<property name="cronExpression" value="0 0/3 * * * ?"/> <!-- 每3分钟执行一次 -->
+		<property name="cronExpression" value="0 5 0 * * ?"/> <!--  每凌晨(0点5分)执行  -->
+<!-- 		<property name="cronExpression" value="0 0/3 * * * ?"/> 每3分钟执行一次 -->
 	</bean>
 	<!-- ======================== 调度触发器 end ====================== -->  
 	

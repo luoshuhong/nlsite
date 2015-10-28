@@ -33,6 +33,17 @@ function loadData(value) {
 				$('#dataListTbody').html('');
 				var dataList = json.data;
 				 $.each(JSON.parse(json.data), function (idx,item) {
+					 var freeTypeDes = "无免费";
+					 if (0 == item.freeType) {
+						 freeTypeDes = "限时免费";
+					 } else if (1 == item.freeType) {
+						 freeTypeDes = "免费1份68元";
+					 } else if (2 == item.freeType) {
+						 freeTypeDes = "免费3份168";
+					 } else if (3 == item.freeType) {
+						 freeTypeDes = "免费5份268元";
+					 }
+					 
 					 $('#dataListTbody').append('<tr>' 
 						+ '<td>' + item.name + '</td>'
 						+ '<td>' + item.code + '</td>'
@@ -42,10 +53,11 @@ function loadData(value) {
 						+ '<td>' + item.unSubscribeRate + '%</td>'
 						+ '<td>' + item.shareCount + '</td>'
 						+ '<td>' + item.virualCount + '</td>'
+						+ '<td>' + freeTypeDes + '</td>'
 						+ '<td>' + item.createTimeStr + '</td>'
-						+ '<td><a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"' + item.id +'\")\'>二维码生成</a></td>'
-						+ '<td><a href=\'javascript:cancel(\"' + item.id + '\")\'>删除</a>  | '
-						+ ' <a href=\'javascript:update(\"' + item.id + '\",\"' + item.name  + '\",\"' + item.code + '\")\'>更新</a></td>'
+						+ '<td><a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"' + item.id +'\")\'>二维码生成</a> | ' 
+						+ ' <a href=\'javascript:cancel(\"' + item.id + '\")\'>删除</a>  | '
+						+ ' <a href=\'javascript:update(\"' + item.id + '\",\"' + item.name  + '\",\"' + item.code + '\",\"' + item.freeType + '\",\"' + item.freeDes + '\",\"' + item.freeStartDate + '\",\"' + item.freeEndDate + '\")\'>更新</a></td>'
 						+ '</tr>' 
 					 );
 				 });
@@ -114,7 +126,7 @@ function cancel(id) {
 }
 
 //更新
-function update(id,name,code) {
+function update(id,name,code, freeType, freeDes, freeStartDate, freeEndDate) {
 	if (isEmpty(id) || isEmpty(name) || isEmpty(code)) {
 		return;
 	}
@@ -123,6 +135,22 @@ function update(id,name,code) {
 	$('#uchannelCode').val(code);
 	$("#errMsg").html('');
 	$('#updateModal').modal('show');  
+	
+	$('#freeType').val(freeType);
+	$('#freeDes').val(freeDes);
+	$('#freeStartDate').val(freeStartDate);
+	$('#freeEndDate').val(freeEndDate);
+	if (-1 == freeType) {
+		$("#freeDesDiv").hide();
+		$("#freeDateDiv").hide();
+		return;
+	}
+	if (0 == freeType) {
+		$("#freeDateDiv").show();
+	} else {
+		$("#freeDateDiv").hide();
+	}
+	$("#freeDesDiv").show();
 	return;
 }
 
@@ -130,11 +158,34 @@ function updateComfirm() {
 	var id = $('#uid').val();
 	var name = $('#uchannelName').val();
 	var code = $('#uchannelCode').val();
-	if (isEmpty(id) || isEmpty(name) || isEmpty(code)) {
+	
+	var freeDes = $("#freeDes").val();
+	var freeStartDate = $("#freeStartDate").val();
+	var freeEndDate = $("#freeEndDate").val();
+	var freeType = $("#freeType").val();
+	
+	/******** 参数校验 start ******************/
+	if (isEmpty(name) || isEmpty(code)) {
+		$("#errMsg").html('参数不能为空！');
+		$("#errMsg").show();
 		return;
 	}
+	if (0 == freeType) {
+		if (isEmpty(freeDes) || isEmpty(freeStartDate) || isEmpty(freeEndDate)) {
+			$("#errMsg").html('参数不能为空！');
+			$("#errMsg").show();
+			return;
+		}
+	}
+	if (1 == freeType || 2 == freeType || 3 == freeType) {
+		if (isEmpty(freeDes)) {
+			$("#errMsg").html('参数不能为空！');
+			$("#errMsg").show();
+			return;
+		}
+	}
 	
-	var postData = {"id":id, "channelCode":code, "channelName":name};
+	var postData = {"id":id,"channelName":name, "channelCode":code, "freeType":freeType, "freeDes":freeDes, "freeStartDate":freeStartDate, "freeEndDate":freeEndDate};
     $.ajax({
 		type: "POST",
 		url: "../admin/channel/update",
@@ -153,6 +204,25 @@ function updateComfirm() {
 		}
 	});
 	
+}
+
+/**
+ * 选中免费类型  处理事件
+ */
+function choseFreeType() {
+	var freeType = $("#freeType").val();
+	if (-1 == freeType) {
+		$("#freeDesDiv").hide();
+		$("#freeDateDiv").hide();
+		return;
+	}
+	if (0 == freeType) {
+		$("#freeDateDiv").show();
+	} else {
+		$("#freeDateDiv").hide();
+	}
+	
+	$("#freeDesDiv").show();
 }
 
 /**

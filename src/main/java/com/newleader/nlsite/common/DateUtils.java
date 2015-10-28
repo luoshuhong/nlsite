@@ -204,6 +204,7 @@ public class DateUtils {
 					return (new SimpleDateFormat(Simple_DateTime_Format)).parse(str);
 				}
 			} catch (ParseException error) {
+				error.printStackTrace();
 				return null;
 			}
 		} else

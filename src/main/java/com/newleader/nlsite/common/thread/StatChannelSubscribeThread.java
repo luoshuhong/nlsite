@@ -23,7 +23,7 @@ import com.newleader.nlsite.common.SpringContextUtil;
  */
 public class StatChannelSubscribeThread extends Thread {
 	private static Log log = LogFactory.getLog(StatChannelSubscribeThread.class);
-	private int syncTimeInterval = 60;  			//同步时间间隔   
+	private int syncTimeInterval = 10;  			//同步时间间隔  
 	
 	@Override
 	public void run() {
@@ -45,7 +45,7 @@ public class StatChannelSubscribeThread extends Thread {
 				for (Channel channel : list) {
 					int shareCount = rcordShareService.getShareCountByChannel(channel.getCode());   //分享总数
 					int virualCount = recordVirusService.getVirualCountByChannel(channel.getCode());  //virual总数
-					int totalSubscribe = channelStatService.getSubscribeByChannel(channel.getCode());	   //查询历史关注量
+					int totalSubscribe = channelStatService.getSubscribeByChannel(channel.getCode());	   //当前关注量
 					int unSubscribe = channelStatService.getUnSubscribeByChannel(channel.getCode());  //查询取消关注量
 					if (0 == totalSubscribe) {
 						continue;
@@ -53,10 +53,8 @@ public class StatChannelSubscribeThread extends Thread {
 					channelService.updateByCode(shareCount,virualCount,totalSubscribe, unSubscribe, channel.getCode());      //更新
 				}
 				
-				
-				
 			} catch (Exception e) {
-				log.info("error!  errMsg=" + e.getMessage());
+				log.info("error![StatChannelSubscribeThread]  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}
 		}

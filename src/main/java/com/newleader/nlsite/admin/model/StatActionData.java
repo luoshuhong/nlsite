@@ -66,8 +66,9 @@ public class StatActionData {
 	}
 	@Override
 	public String toString() {
-		return "StatOrgDataModel [id=" + id + ", type=" + type + ", openId="
+		return "StatActionData [id=" + id + ", type=" + type + ", openId="
 				+ openId + ", channelId=" + channelId + ", createTime="
-				+ createTime + "]";
+				+ createTime + ", interval=" + interval + ", product="
+				+ product + "]";
 	}
 }

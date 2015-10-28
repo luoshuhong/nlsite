@@ -32,14 +32,7 @@ public class RedisUtils {
     		return result;
     	}
 		try {
-			
-			// 保存到redis中
-//			Transaction transaction = jedis.multi();
-//			transaction.lpush("order_push", json);
-//			transaction.exec();
-			
 			result = jedis.rpop(redisKey);
-//			String result1 = jedis.lpop(redisKey);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -48,5 +41,21 @@ public class RedisUtils {
 		}
     }
     
+    public void lpush(String redisKey, String value){
+    	Jedis jedis = jedisPool.getResource();
+    	String result = "";
+    	// 连接redis失败，返回
+    	if(jedis == null){
+    		return  ;
+    	}
+		try {
+			 jedis.rpush(redisKey, value);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			jedisPool.returnResource(jedis);
+			return  ;
+		}
+    }
     
 }

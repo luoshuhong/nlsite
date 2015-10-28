@@ -38,21 +38,26 @@ public class ChannelController {
 	@Autowired
 	private ChannelStatService channelStatService;
 	
+	@SuppressWarnings("deprecation")
 	@RequestMapping("/add")
     @ResponseBody
     public String add(HttpServletRequest request, HttpServletResponse response){
-		String channelName = request.getParameter("channelName");
-		String channelCode = request.getParameter("channelCode");
-		log.info("method=addChannel,channelName=" + channelName + ",channelCode=" + channelCode);
-		if (StringUtils.isEmpty(channelCode) || StringUtils.isEmpty(channelName)) {
-			return RequestUtils.failReturn("param is empty");
+		Channel channel = this.verify(request, "add");
+		if (null == channel) {
+			System.out.println("-----null ");
+			return RequestUtils.failReturn("param is error!");
+		}
+		
+		//检查是否存在
+		if (this.channelService.queryByCode(channel.getCode()) >= 1) {
+			System.out.println("-----exist ");
+			return RequestUtils.failReturn("code is exist");
 		}
 		//获取微信二维码链接
-		String qrCodeUrl = QrCodeProduce.permanentCode(channelCode);
+		String qrCodeUrl = QrCodeProduce.permanentCode(channel.getCode());
 		if (StringUtils.isEmpty(qrCodeUrl) ) {
 			return RequestUtils.failReturn("error");
 		}
-		Channel channel = new Channel(channelName,channelCode);
 		channel.setQrCodeUrl(qrCodeUrl);
 		channel.setId(UUID.randomUUID().toString().toUpperCase());
 		//生成本地二维码图片
@@ -65,6 +70,7 @@ public class ChannelController {
 				return RequestUtils.failReturn("add fail");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			return RequestUtils.failReturn("exception");
 		}
 	}
@@ -164,25 +170,23 @@ public class ChannelController {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@RequestMapping("/update")
     @ResponseBody
     public String update(HttpServletRequest request, HttpServletResponse response){
 		try {
-			String id = request.getParameter("id");
-			String code = request.getParameter("channelCode");
-			String name = request.getParameter("channelName");
-			log.info("method=updateChannel,id=" + id + ",code=" + code + ",name=" + name);
-			if (StringUtils.isEmpty(id) || StringUtils.isEmpty(code) || StringUtils.isEmpty(name)) {
-				return RequestUtils.failReturn("param is null");
+			Channel channel = this.verify(request, "update");
+			if (null == channel) {
+				return RequestUtils.failReturn("param is error!");
 			}
+			
 			//获取微信二维码链接
-			String qrCodeUrl = QrCodeProduce.permanentCode(code);
+			String qrCodeUrl = QrCodeProduce.permanentCode(channel.getCode());
 			if (StringUtils.isEmpty(qrCodeUrl) ) {
 				return RequestUtils.failReturn("error");
 			}
 			
 			//生成二维码（）
-			Channel channel = new Channel(id, name, code);
 			channel.setQrCodeUrl(qrCodeUrl);
 			
 			//生成本地二维码图片
@@ -198,4 +202,50 @@ public class ChannelController {
 			return RequestUtils.failReturn("exception");
 		}
 	}
+	
+	/**
+	 * 校验参数 
+	 * @param request
+	 * @param method add or update
+	 * @return Channel
+	 */
+	private Channel verify(HttpServletRequest request, String method) {
+		String id = request.getParameter("id");
+		String channelName = request.getParameter("channelName");      //渠道名
+		String channelCode = request.getParameter("channelCode");        //渠道编码
+		String freeType = request.getParameter("freeType"); 					 //类型  0：限时免费  1：免费1份68元 2：免费3份168 3：免费5份268元
+		String freeDes = request.getParameter("freeDes");						 //前台优惠是文案描述
+		String freeStartDate = request.getParameter("freeStartDate");	     //优惠开始时间
+		String freeEndDate = request.getParameter("freeEndDate");          //优惠结束时间
+		
+		log.info("method=" + method + "Channel,id=" + id + ",code=" + channelCode + ",name=" + channelName
+				+ ",freeType=" + freeType + ",freeDes=" + freeDes + ",freeStartDate=" + freeStartDate + ",freeEndDate=" + freeEndDate);
+		if (StringUtils.isEmpty(channelCode) || StringUtils.isEmpty(channelName)) {
+			return null;
+		}
+		
+		//限免
+		if ("0".equals(freeType)) {
+			if(StringUtils.isEmpty(freeDes) || StringUtils.isEmpty(freeStartDate) || StringUtils.isEmpty(freeEndDate)) {
+				return null;
+			}
+		}
+		
+		//免1、3、5份
+		if ("1".equals(freeType) || "2".equals(freeType) || "3".equals(freeType)) {
+			if(StringUtils.isEmpty(freeDes) ) {
+				return null;
+			}
+		}
+		
+		Channel channel = new Channel(id, channelName, channelCode);
+		channel.setFreeDes(freeDes);
+		channel.setFreeType(freeType);
+		channel.setFreeStartDate(freeStartDate);
+		channel.setFreeEndDate(freeEndDate);
+		
+		return channel;
+	}
+	
 }
+

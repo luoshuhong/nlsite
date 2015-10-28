@@ -32,7 +32,7 @@ public class StatUserActiveDao extends JdbcDaoSupport {
 	 */
 	@SuppressWarnings("deprecation")
 	public int queyByOpenId30Min(String openId) {
-		String selSql = "Select count(id) from aa_visitor_channel where openId = ? and createTime BETWEEN DATE_SUB(now(), INTERVAL 30 MINUTE) and now()";
+		String selSql = "Select count(id) from  aa_stat_user_active  where openId = ? and createTime BETWEEN DATE_SUB(now(), INTERVAL 30 MINUTE) and now()";
 		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{openId});
 	}
 	

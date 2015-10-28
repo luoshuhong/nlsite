@@ -57,7 +57,7 @@ public class ShareVisitPopThread extends Thread {
 				RecordVirus model = new RecordVirus(vopenId, sopenId, scene);
 				log.info("shareBack=" + shareBack + ", result=" + recordVirusService.add(model));
 			} catch (Exception e) {
-				log.info("error!  errMsg=" + e.getMessage());
+				log.info("error![shareBack]  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}
 		}

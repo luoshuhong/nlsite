@@ -31,6 +31,8 @@ public class Constants {
 	/**
 	 * 统计类型
 	 */
+	public static final String STAT_TYPE_UV = "uv";	
+	public static final String STAT_TYPE_PV = "pv";		
 	public static final String STAT_TYPE_UV_D = "uv-d";						      //日UV
 	public static final String STAT_TYPE_UV_W = "uv-w";						      //周UV
 	public static final String STAT_TYPE_UV_M = "uv-m";						      //月UV

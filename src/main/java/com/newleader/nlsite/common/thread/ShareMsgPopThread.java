@@ -1,5 +1,12 @@
 package com.newleader.nlsite.common.thread;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,6 +29,18 @@ public class ShareMsgPopThread extends Thread {
 	private static Log log = LogFactory.getLog(ShareMsgPopThread.class);
 	private int syncTimeInterval = 2;  			//同步时间间隔  默认2秒
 	
+	public static void main(String[] args) {
+		DataSource dataSource = SpringContextUtil.getBean("dataSource");
+		try {
+			ResultSet resultSet = dataSource.getConnection().prepareCall("xxx").executeQuery();
+			if (resultSet.next()) {
+				resultSet.getInt("");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void run() {
 		log.info("ShareMsgPopThread is running…………");
@@ -55,7 +74,7 @@ public class ShareMsgPopThread extends Thread {
 				RecordShare model = new RecordShare(openId, scene);
 				log.info("shareMsg=" + shareMsg + ", result=" + recordShareService.add(model));
 			} catch (Exception e) {
-				log.info("error!  errMsg=" + e.getMessage());
+				log.info("error![shareMsg]  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}
 		}

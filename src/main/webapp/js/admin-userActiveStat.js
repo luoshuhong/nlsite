@@ -12,6 +12,33 @@ $(function() {
 });
 
 /**
+ *  一些累计数据
+ */
+function totalQuery() {
+	$.ajax({
+		type: "POST",
+		url: "../admin/userActive/totalQuery",
+		dataType:"json",
+		async:false,
+		success : function(msg) {
+            var json = msg;
+			if (json.status == 'success') {
+				var data = JSON.parse(json.data);
+				$("#regist").text(data.regist);
+				$("#school").text(data.school);
+				$("#love").text(data.love);
+				$("#dna").text(data.dna);
+				$("#value").text(data.value);
+				$("#behavior").text(data.behavior);
+				$("#motivation").text(data.motivation);
+				$("#passion").text(data.passion);
+			} else {
+			}
+		} 
+	});
+}
+
+/**
  * 按时间查询
  */
 function query() {
@@ -20,7 +47,7 @@ function query() {
 	var postData = {"startDate":startDate, "endDate":endDate};
 	$.ajax({
 		type: "POST",
-		url: "../admin/virualStat/query",
+		url: "../admin/userActive/query",
 		data: postData,
 		dataType:"json",
 		async:false,
@@ -28,12 +55,10 @@ function query() {
             var json = msg;
 			if (json.status == 'success') {
 				var data = JSON.parse(json.data);
-				var share = JSON.parse(data.shareData);
-				var visitShare = JSON.parse(data.visitShareData);
-				var virulUser = JSON.parse(data.virulUserData);
-				shareFillData(share.xAxis,share.series);//绘制图表
-				shareVisitFillData(visitShare.xAxis,visitShare.series);//绘制图表
-				virulUserFillData(virulUser.xAxis,virulUser.series);//
+				var uv = JSON.parse(data.uv);
+				var pv = JSON.parse(data.pv);
+				uvFillData(uv.xAxis,uv.series);//绘制图表
+				pvFillData(pv.xAxis,pv.series);//绘制图表
 			} else {
 				alert('错误，请重试！');
 			}
@@ -58,19 +83,19 @@ function initQueryDate() {
 }
 
 /**
- * 分享数据
+ * UV统计
  * @param xAxis 横轴
  * @param series 数据
  */
-function shareFillData(xAxis, series) {
+function uvFillData(xAxis, series) {
 	//绘制图表
 	Highcharts.setOptions(Highcharts.theme);
-	$('#shareContainer').highcharts({
+	$('#uVContainer').highcharts({
 		chart : {
 			type : 'line'
 		},
 		title : {
-			text : '分享统计'
+			text : 'UV(独立用户访问量 d-天 w-周 m-月)'
 		},
 		yAxis : {
 			title : {
@@ -91,19 +116,19 @@ function shareFillData(xAxis, series) {
 }
 
 /**
- * 分享页浏览数据
+ * PV统计
  * @param xAxis 横轴
  * @param series 数据
  */
-function shareVisitFillData(xAxis, series) {
+function pvFillData(xAxis, series) {
 	//绘制图表
 	Highcharts.setOptions(Highcharts.theme);
-	$('#visitContainer').highcharts({
+	$('#pVContainer').highcharts({
 		chart : {
 			type : 'line'
 		},
 		title : {
-			text : '分享页浏览情况统计'
+			text : 'PV(单用户30min内算一次  d-天 w-周 m-月)'
 		},
 		yAxis : {
 			title : {
@@ -122,41 +147,6 @@ function shareVisitFillData(xAxis, series) {
 		series : series
 	});
 }
-
-/**
- * virul用户数据
- * @param xAxis 横轴
- * @param series 数据
- */
-function virulUserFillData(xAxis, series) {
-	//绘制图表
-	Highcharts.setOptions(Highcharts.theme);
-	$('#virulUserContainer').highcharts({
-		chart : {
-			type : 'line'
-		},
-		title : {
-			text : 'virul用户统计'
-		},
-		yAxis : {
-			title : {
-				text : '数量'
-			}
-		},
-		plotOptions : {
-			line : {
-				dataLabels : {
-					enabled : true
-				},
-				enableMouseTracking : true
-			}
-		},
-		xAxis : xAxis,
-		series : series
-	});
-}
-
-
 
 //主题
 Highcharts.theme = {

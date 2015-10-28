@@ -35,7 +35,9 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	@Override
 	public List<Channel> query() {
 		List<Channel> channelList = new ArrayList<Channel>();
-		String selectSql = "select Id, Code,Name,CreateTime,QrcodeUrl ,UserCount,DisCountUsed,shareCount,virualCount from aa_channel where delete_flag <> '1' order by CreateTime desc";
+		String selectSql = "select a.Id, a.Code,a.Name,a.CreateTime,a.QrcodeUrl ,a.UserCount,a.DisCountUsed,a.shareCount,a.virualCount,"
+				+ " b.type, b.name freeDes, b.freeStartDate, b.freeEndDate "
+				+ "from aa_channel a, aa_channel_activity b where a.delete_flag <> '1' and a.code = b.code order by CreateTime desc";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
 		for (Map<String,Object> map : list) {
 			Channel model = this.wrapModel(map);
@@ -47,13 +49,26 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	}
 	
 	/**
+	 * 根据code 查询是否存在
+	 * @param code 渠道编码
+	 * @return 个数
+	 */
+	@SuppressWarnings("deprecation")
+	public int queryByCode(String code) {
+		String selSql = "select count(id) from aa_channel where Code = ?";
+		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code});
+	}
+	
+	/**
 	 * 模糊查询
 	 * @param value
 	 * @return
 	 */
 	public List<Channel> vagueQuery(String value) {
 		List<Channel> channelList = new ArrayList<Channel>();
-		String selectSql = "select Id, Code,Name,CreateTime,QrcodeUrl,UserCount,DisCountUsed,shareCount,virualCount from aa_channel where delete_flag <> '1'  "
+		String selectSql = "select a.Id, a.Code,a.Name,a.CreateTime,a.QrcodeUrl ,a.UserCount,a.DisCountUsed,a.shareCount,a.virualCount,"
+				+ " b.type, b.name freeDes, b.freeStartDate, b.freeEndDate "
+				+ "from aa_channel a, aa_channel_activity b where a.delete_flag <> '1' and a.code = b.code "
 				+ "and (name like '%" + value + "%' or `Code` like '%" + value + "%') order by CreateTime desc";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
 		for (Map<String,Object> map : list) {
@@ -85,6 +100,34 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		return 1 == this.getJdbcTemplate().update(updateSel,shareCount, virualCount, totalSubscribe, unSubscribe, code);
 	}
 	
+	/************  渠道免费信息相关 start ****************************/
+//	`code` varchar(30) CHARACTER SET utf8 DEFAULT '' COMMENT '渠道编码(同aa_channel中code)',
+//	  `type` varchar(50) CHARACTER SET utf8 DEFAULT '' COMMENT '类型  0：限时免费  1：免费1份68元 2：免费3份168 3：免费5份268元',
+//	  `name` varchar(20) CHARACTER SET utf8 DEFAULT '' COMMENT '免费文案提示名称：“xxx已为您免单”中xxx',
+//	  `freeStartDate` datetime DEFAULT NULL COMMENT 'type=0有效，免费开始时间',
+//	  `freeEndDate` datetime DEFAULT NULL COMMENT 'type=0有效，免费结束时间',
+	public boolean addChannelActivity(Channel model) {
+		String insertSql = "insert into aa_channel_activity(code,type,name,freeStartDate,freeEndDate) values(?,?,?,?,?)";
+		return 1 == this.getJdbcTemplate().update(insertSql,new Object[]{model.getCode(), model.getFreeType(),
+				model.getFreeDes(),	model.getFreeStartDate(), model.getFreeEndDate()});
+	}
+	/**
+	 * 根据code查询是否存在 渠道免费信息
+	 * @param code 渠道编码
+	 * @return 数量
+	 */
+	@SuppressWarnings("deprecation")
+	public int queryChannelActivity(String code) {
+		String selSql = "select count(*) from  aa_channel_activity where code = ?";
+		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code});
+	}
+	public boolean updateChannelActivity(Channel model) {
+		String insertSql = "update aa_channel_activity set type=?,name=?, freeStartDate=?,freeEndDate=? where code = ?";
+		return 1 == this.getJdbcTemplate().update(insertSql,new Object[]{ model.getFreeType(),
+				model.getFreeDes(),	model.getFreeStartDate(), model.getFreeEndDate(),model.getCode()});
+	}
+	
+	/************  渠道免费信息相关 end ****************************/
 	
 	/**
 	 * 
@@ -126,6 +169,21 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		if (map.containsKey("virualCount") && null != map.get("virualCount")) {
 			model.setVirualCount(Integer.valueOf(map.get("virualCount").toString()));
 		} 
+		
+		//下面是渠道免费信息
+		if (map.containsKey("type") && null != map.get("type")) {
+			model.setFreeType(map.get("type").toString());
+		} 
+		if (map.containsKey("freeDes") && null != map.get("freeDes")) {
+			model.setFreeDes(map.get("freeDes").toString());
+		} 
+		if (map.containsKey("freeStartDate") && null != map.get("freeStartDate")) {
+			model.setFreeStartDate(map.get("freeStartDate").toString());
+		} 
+		if (map.containsKey("freeEndDate") && null != map.get("freeEndDate")) {
+			model.setFreeEndDate(map.get("freeEndDate").toString());
+		} 
+		
 		//这里先只处理不为空的
 		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(name)) {
 			return null;
