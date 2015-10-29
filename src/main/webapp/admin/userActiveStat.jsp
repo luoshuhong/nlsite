@@ -24,7 +24,8 @@ date 2015-10-22
 		<h5>
 		 &nbsp;&nbsp; 累计注册人数：<span id="regist"></span> 
 		 &nbsp; | &nbsp; 填写毕业信息人数：<span id="school"></span>  
-		 &nbsp; | &nbsp; 爱情测评人数：<span id="love"></span> <br>
+		 &nbsp; | &nbsp; 爱情测评人数：<span id="love"></span> 
+		 &nbsp; | &nbsp; 累计进入爱情人数：<span id="loveInit"></span> <br>
 		 &nbsp;&nbsp; 明星DNA人数：<span id="dna"></span> 
 		 &nbsp; | &nbsp; 使命魔镜人数：<span id="value"></span> 
 		 &nbsp; | &nbsp; 特长魔镜人数：<span id="behavior"></span> 
@@ -52,6 +53,8 @@ date 2015-10-22
 	</body>
 	<script type="text/javascript" src="${ctx}/js/admin-userActiveStat.js"></script>
 	<script type="text/javascript">
+		query();          //查询数据
 		totalQuery();
 	</script>
+	
 </html> 

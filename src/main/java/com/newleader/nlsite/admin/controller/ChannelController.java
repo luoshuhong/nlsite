@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.newleader.nlsite.admin.model.Channel;
 import com.newleader.nlsite.admin.service.ChannelService;
 import com.newleader.nlsite.admin.service.ChannelStatService;
+import com.newleader.nlsite.common.DateUtils;
 import com.newleader.nlsite.common.QrCodeProduce;
 import com.newleader.nlsite.common.RequestUtils;
 /**
@@ -44,13 +45,11 @@ public class ChannelController {
     public String add(HttpServletRequest request, HttpServletResponse response){
 		Channel channel = this.verify(request, "add");
 		if (null == channel) {
-			System.out.println("-----null ");
 			return RequestUtils.failReturn("param is error!");
 		}
 		
 		//检查是否存在
 		if (this.channelService.queryByCode(channel.getCode()) >= 1) {
-			System.out.println("-----exist ");
 			return RequestUtils.failReturn("code is exist");
 		}
 		//获取微信二维码链接
@@ -213,27 +212,32 @@ public class ChannelController {
 		String id = request.getParameter("id");
 		String channelName = request.getParameter("channelName");      //渠道名
 		String channelCode = request.getParameter("channelCode");        //渠道编码
-		String freeType = request.getParameter("freeType"); 					 //类型  0：限时免费  1：免费1份68元 2：免费3份168 3：免费5份268元
+		String freeType = request.getParameter("freeType"); 					 //类型  0：限时免费  1:渠道免费
 		String freeDes = request.getParameter("freeDes");						 //前台优惠是文案描述
 		String freeStartDate = request.getParameter("freeStartDate");	     //优惠开始时间
 		String freeEndDate = request.getParameter("freeEndDate");          //优惠结束时间
+		String freeCountStr = request.getParameter("freeCount");
+		int freeCount =  StringUtils.isEmpty(freeCountStr) ? 0 : Integer.valueOf(freeCountStr); //免费份数 0:无免费  1：免费1份68元 2：免费3份168 3：免费5份268元
 		
 		log.info("method=" + method + "Channel,id=" + id + ",code=" + channelCode + ",name=" + channelName
-				+ ",freeType=" + freeType + ",freeDes=" + freeDes + ",freeStartDate=" + freeStartDate + ",freeEndDate=" + freeEndDate);
+				+ ",freeType=" + freeType + ",freeDes=" + freeDes + ",freeStartDate=" + freeStartDate + ",freeEndDate=" + freeEndDate + ",freeCount=" + freeCount);
 		if (StringUtils.isEmpty(channelCode) || StringUtils.isEmpty(channelName)) {
 			return null;
 		}
 		
-		//限免
+		//限免(有时间限制)
 		if ("0".equals(freeType)) {
-			if(StringUtils.isEmpty(freeDes) || StringUtils.isEmpty(freeStartDate) || StringUtils.isEmpty(freeEndDate)) {
+			if(0 == freeCount || StringUtils.isEmpty(freeStartDate) || StringUtils.isEmpty(freeEndDate)) {
 				return null;
 			}
 		}
-		
-		//免1、3、5份
-		if ("1".equals(freeType) || "2".equals(freeType) || "3".equals(freeType)) {
-			if(StringUtils.isEmpty(freeDes) ) {
+		//渠道免费（有文案描述）
+		if ("1".equals(freeType) ) {
+//			freeStartDate = DateUtils.getCurrentStringDateYMD();
+//			freeEndDate = DateUtils.getCurrentStringDateYMD();
+			freeStartDate = null;
+			freeEndDate = null;
+			if(StringUtils.isEmpty(freeDes) || 0 == freeCount ) {
 				return null;
 			}
 		}
@@ -243,7 +247,7 @@ public class ChannelController {
 		channel.setFreeType(freeType);
 		channel.setFreeStartDate(freeStartDate);
 		channel.setFreeEndDate(freeEndDate);
-		
+		channel.setFreeCount(freeCount);
 		return channel;
 	}
 	

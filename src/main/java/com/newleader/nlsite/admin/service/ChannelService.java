@@ -81,11 +81,12 @@ public class ChannelService {
 	 * @param  channel
 	 * @return true or false
 	 */
+	@Transient
 	public boolean update(Channel channel) {
 		if (1 <= this.channelDao.queryChannelActivity(channel.getCode())) {
 			return this.channelDao.update(channel) && this.channelDao.updateChannelActivity(channel);
-		}
-		return this.channelDao.update(channel);
+		} 
+		return this.channelDao.update(channel) && this.channelDao.addChannelActivity(channel);
 	}
 	
 	/**

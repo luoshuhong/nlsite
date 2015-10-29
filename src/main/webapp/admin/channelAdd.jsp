@@ -30,14 +30,22 @@ date 2015-9-11
 		</div>
 		
 		<div class="form-group">
-			<label for="channelCode" class="col-sm-2 control-label">免费设置：</label> 
+			<label for="freeType" class="col-sm-2 control-label">免费设置：</label> 
 			<div class="col-sm-10">
 				<select class="form-control" style="width: 200px;" id="freeType" onchange="choseFreeType();">
 				  <option value="-1">无免费</option>
 				  <option value="0">限时免费</option>
+				  <option value="1">渠道免费</option>
+				</select>
+			</div>
+		</div>
+		<div id="freeCountDiv" class="form-group" style="display: none;">
+			<label for="freeCount" class="col-sm-2 control-label">免费份数：</label> 
+			<div class="col-sm-10">
+				<select class="form-control" style="width: 200px;" id="freeCount" >
 				  <option value="1">免费1份68元</option>
-				  <option value="2">免费3份168</option>
-				  <option value="3">免费5份268元</option> 
+				  <option value="3">免费3份168</option>
+				  <option value="5">免费5份268元</option> 
 				</select>
 			</div>
 		</div>
@@ -79,27 +87,34 @@ date 2015-9-11
 		var freeStartDate = $("#freeStartDate").val();
 		var freeEndDate = $("#freeEndDate").val();
 		var freeType = $("#freeType").val();
+		var freeCount = $("#freeCount").val();
 		
 		/******** 参数校验 start ******************/
 		if (isEmpty(name) || isEmpty(code)) {
 			alert('参数不能为空！');
 			return;
 		}
-		if (0 == freeType) {
-			if (isEmpty(freeDes) || isEmpty(freeStartDate) || isEmpty(freeEndDate)) {
-				alert('参数不能为空！');
+		if (0 == freeType) {	//限免(有时间限制)
+			freeDes = "";
+			if (  isEmpty(freeStartDate) || isEmpty(freeEndDate)) {
+				$("#errMsg").html('参数不能为空！');
+				$("#errMsg").show();
 				return;
 			}
 		}
-		if (1 == freeType || 2 == freeType || 3 == freeType) {
+		//渠道免费（有文案描述）
+		if (1 == freeType ) {
+			freeStartDate = "";
+			freeEndDate = "";
 			if (isEmpty(freeDes)) {
-				alert('参数不能为空！');
+				$("#errMsg").html('参数不能为空！');
+				$("#errMsg").show();
 				return;
 			}
 		}
 		/******** 参数校验 end ******************/
 		
-		var postData = {"channelName":name, "channelCode":code, "freeType":freeType, "freeDes":freeDes, "freeStartDate":freeStartDate, "freeEndDate":freeEndDate};
+		var postData = {"channelName":name, "channelCode":code, "freeType":freeType, "freeDes":freeDes, "freeStartDate":freeStartDate, "freeEndDate":freeEndDate, "freeCount":freeCount};
         $.ajax({
 			type: "POST",
 			url: "${ctx}/admin/channel/add",
@@ -122,20 +137,22 @@ date 2015-9-11
 	function choseFreeType() {
 		var freeType = $("#freeType").val();
 		if (-1 == freeType) {
-			$("#freeDesDiv").hide();
-			$("#freeStartDateDiv").hide();
-			$("#freeEndDateDiv").hide();
+			$("#freeDesDiv").hide();				 //免费描述
+			$("#freeStartDateDiv").hide();     //免费开始时间
+			$("#freeEndDateDiv").hide();      //免费结束时间
+			$("#freeCountDiv").hide();    //免费份数
 			return;
 		}
-		if (0 == freeType) {
+		if (0 == freeType) { //限时免费
 			$("#freeStartDateDiv").show();
 			$("#freeEndDateDiv").show();
-		} else {
+			$("#freeDesDiv").hide();				 //免费描述
+		} else { //渠道免费
 			$("#freeStartDateDiv").hide();
 			$("#freeEndDateDiv").hide();
+			$("#freeDesDiv").show();
 		}
-		
-		$("#freeDesDiv").show();
+		$("#freeCountDiv").show();    //免费份数
 	}
 	
 	/**

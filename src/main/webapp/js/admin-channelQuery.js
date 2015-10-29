@@ -37,12 +37,8 @@ function loadData(value) {
 					 if (0 == item.freeType) {
 						 freeTypeDes = "限时免费";
 					 } else if (1 == item.freeType) {
-						 freeTypeDes = "免费1份68元";
-					 } else if (2 == item.freeType) {
-						 freeTypeDes = "免费3份168";
-					 } else if (3 == item.freeType) {
-						 freeTypeDes = "免费5份268元";
-					 }
+						 freeTypeDes = "渠道免费";
+					 }  
 					 
 					 $('#dataListTbody').append('<tr>' 
 						+ '<td>' + item.name + '</td>'
@@ -57,7 +53,7 @@ function loadData(value) {
 						+ '<td>' + item.createTimeStr + '</td>'
 						+ '<td><a href=\'javascript:qrCodeCreate(\"' + item.code + '\",\"' + item.id +'\")\'>二维码生成</a> | ' 
 						+ ' <a href=\'javascript:cancel(\"' + item.id + '\")\'>删除</a>  | '
-						+ ' <a href=\'javascript:update(\"' + item.id + '\",\"' + item.name  + '\",\"' + item.code + '\",\"' + item.freeType + '\",\"' + item.freeDes + '\",\"' + item.freeStartDate + '\",\"' + item.freeEndDate + '\")\'>更新</a></td>'
+						+ ' <a href=\'javascript:update(\"' + item.id + '\",\"' + item.name  + '\",\"' + item.code + '\",\"' + item.freeType + '\",\"' + item.freeDes + '\",\"' + item.freeStartDate + '\",\"' + item.freeEndDate + '\",\"' + item.freeCount + '\")\'>更新</a></td>'
 						+ '</tr>' 
 					 );
 				 });
@@ -125,8 +121,9 @@ function cancel(id) {
 	});
 }
 
-//更新
-function update(id,name,code, freeType, freeDes, freeStartDate, freeEndDate) {
+//更新name:渠道名 
+//code:编码  freeType：类型   freeDes：前台文案描述   freeStartDate：开始时间   freeEndDate：结束时间 freeCount：免费份数
+function update(id,name,code, freeType, freeDes, freeStartDate, freeEndDate, freeCount) {
 	if (isEmpty(id) || isEmpty(name) || isEmpty(code)) {
 		return;
 	}
@@ -140,29 +137,23 @@ function update(id,name,code, freeType, freeDes, freeStartDate, freeEndDate) {
 	$('#freeDes').val(freeDes);
 	$('#freeStartDate').val(freeStartDate);
 	$('#freeEndDate').val(freeEndDate);
-	if (-1 == freeType) {
-		$("#freeDesDiv").hide();
-		$("#freeDateDiv").hide();
-		return;
-	}
-	if (0 == freeType) {
-		$("#freeDateDiv").show();
-	} else {
-		$("#freeDateDiv").hide();
-	}
-	$("#freeDesDiv").show();
-	return;
+	$('#freeCount').val(freeCount);
+	//处理免费信息展示
+	choseFreeType();
 }
 
+//更新保存
 function updateComfirm() {
 	var id = $('#uid').val();
 	var name = $('#uchannelName').val();
 	var code = $('#uchannelCode').val();
 	
+	//下面是渠道免费信息
 	var freeDes = $("#freeDes").val();
 	var freeStartDate = $("#freeStartDate").val();
 	var freeEndDate = $("#freeEndDate").val();
 	var freeType = $("#freeType").val();
+	var freeCount = $("#freeCount").val();
 	
 	/******** 参数校验 start ******************/
 	if (isEmpty(name) || isEmpty(code)) {
@@ -170,14 +161,18 @@ function updateComfirm() {
 		$("#errMsg").show();
 		return;
 	}
-	if (0 == freeType) {
-		if (isEmpty(freeDes) || isEmpty(freeStartDate) || isEmpty(freeEndDate)) {
+	if (0 == freeType) {	//限免(有时间限制)
+		freeDes = "";
+		if (  isEmpty(freeStartDate) || isEmpty(freeEndDate)) {
 			$("#errMsg").html('参数不能为空！');
 			$("#errMsg").show();
 			return;
 		}
 	}
-	if (1 == freeType || 2 == freeType || 3 == freeType) {
+	//渠道免费（有文案描述）
+	if (1 == freeType ) {
+		freeStartDate = "";
+		freeEndDate = "";
 		if (isEmpty(freeDes)) {
 			$("#errMsg").html('参数不能为空！');
 			$("#errMsg").show();
@@ -185,7 +180,7 @@ function updateComfirm() {
 		}
 	}
 	
-	var postData = {"id":id,"channelName":name, "channelCode":code, "freeType":freeType, "freeDes":freeDes, "freeStartDate":freeStartDate, "freeEndDate":freeEndDate};
+	var postData = {"id":id,"channelName":name, "channelCode":code, "freeType":freeType, "freeDes":freeDes, "freeStartDate":freeStartDate, "freeEndDate":freeEndDate,"freeCount":freeCount};
     $.ajax({
 		type: "POST",
 		url: "../admin/channel/update",
@@ -203,7 +198,6 @@ function updateComfirm() {
 			}
 		}
 	});
-	
 }
 
 /**
@@ -212,19 +206,21 @@ function updateComfirm() {
 function choseFreeType() {
 	var freeType = $("#freeType").val();
 	if (-1 == freeType) {
-		$("#freeDesDiv").hide();
-		$("#freeDateDiv").hide();
+		$("#freeDesDiv").hide();				 //免费描述
+		$("#freeDateDiv").hide();			 //免费时间
+		$("#freeCountDiv").hide();    //免费份数
 		return;
 	}
-	if (0 == freeType) {
+	if (0 == freeType) {   			 //限时免费
 		$("#freeDateDiv").show();
-	} else {
+		$("#freeDesDiv").hide();	  	  //免费描述
+	} else {									 //渠道免费
 		$("#freeDateDiv").hide();
+		$("#freeDesDiv").show();	  	  //免费描述
 	}
-	
-	$("#freeDesDiv").show();
+	$("#freeCountDiv").show();    //免费份数
 }
-
+	
 /**
  *校验是否为null
  */

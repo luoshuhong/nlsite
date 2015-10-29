@@ -11,7 +11,7 @@ public class Channel {
 	private String id;
 	private String name;
 	private String code;
-	private String qrCodeUrl; //二维码Url
+	private String qrCodeUrl;       //二维码Url
 	
 	private String createTimeStr; //前台展示用
 	private int 	totalSubscribe;   //关注量  - 包括已取消关注的
@@ -22,8 +22,9 @@ public class Channel {
 	private int shareCount;   //渠道累计分享次数
 	private int virualCount;   //渠道累计virual人数
 	
-	private String freeType = "-1";				//类型  0：限时免费  1：免费1份68元 2：免费3份168 3：免费5份268元
+	private String freeType = "-1";		//类型  -1：无免费  0：限时免费   1：渠道免费
 	private String freeDes;					//前台优惠是文案描述
+	private int freeCount;                  //免费份数  1：免费1份68元 2：免费3份168 3：免费5份268元
 	private String freeStartDate;	        //优惠开始时间
 	private String freeEndDate;          //优惠结束时间
 	
@@ -151,6 +152,14 @@ public class Channel {
 		this.freeEndDate = freeEndDate;
 	}
 
+	public int getFreeCount() {
+		return freeCount;
+	}
+
+	public void setFreeCount(int freeCount) {
+		this.freeCount = freeCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Channel [id=" + id + ", name=" + name + ", code=" + code
@@ -160,7 +169,7 @@ public class Channel {
 				+ unSubscribe + ", unSubscribeRate=" + unSubscribeRate
 				+ ", shareCount=" + shareCount + ", virualCount=" + virualCount
 				+ ", freeType=" + freeType + ", freeDes=" + freeDes
-				+ ", freeStartDate=" + freeStartDate + ", freeEndDate="
-				+ freeEndDate + "]";
+				+ ", freeCount=" + freeCount + ", freeStartDate="
+				+ freeStartDate + ", freeEndDate=" + freeEndDate + "]";
 	}
 }

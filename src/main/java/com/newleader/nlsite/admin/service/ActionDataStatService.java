@@ -109,6 +109,8 @@ public class ActionDataStatService {
 		String sql7 = "select count(a.Id) from aa_userinfo a, qa_motivation_answer_paper b where a.Id=b.AnswerPersonId" ;
 		//职业报警
 		String sql8 = "select count(a.Id) from aa_userinfo a, qa_passion_answer_paper b where a.Id=b.AnswerPersonId" ;
+		//累计进入爱情人数
+		String sql9 = "select count(Id) from aa_userinfo where nick <> ''";
 		JSONObject jobRes = new JSONObject();
 		jobRes.put("school", commonDao.queryCount(sql1));
 		jobRes.put("regist", commonDao.queryCount(sql2));
@@ -118,6 +120,7 @@ public class ActionDataStatService {
 		jobRes.put("behavior", commonDao.queryCount(sql6));
 		jobRes.put("motivation", commonDao.queryCount(sql7));
 		jobRes.put("passion", commonDao.queryCount(sql8));
+		jobRes.put("loveInit", commonDao.queryCount(sql9));
 		return jobRes.toJSONString();
 	}
 	

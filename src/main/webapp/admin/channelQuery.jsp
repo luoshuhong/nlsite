@@ -89,9 +89,15 @@ date 2015-9-11
 								<select class="form-control" style="width: 150px;" id="freeType" onchange="choseFreeType();">
 								  <option value="-1">无免费</option>
 								  <option value="0">限时免费</option>
+								  <option value="1">渠道免费</option>
+								</select>
+						</div>
+						<div id="freeCountDiv" class="form-group">
+							<label for="freeCount" class="col-sm-3 control-label">免费份数：</label> 
+								<select class="form-control" style="width: 150px;" id="freeCount" >
 								  <option value="1">免费1份68元</option>
-								  <option value="2">免费3份168</option>
-								  <option value="3">免费5份268元</option> 
+								  <option value="3">免费3份168</option>
+								  <option value="5">免费5份268元</option> 
 								</select>
 						</div>
 						<div id="freeDesDiv" class="form-group"  >

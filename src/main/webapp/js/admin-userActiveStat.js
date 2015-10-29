@@ -8,7 +8,7 @@
 //初始化
 $(function() {
     initQueryDate();  //默认初始化查询时间范围
-    query();          //查询数据
+//    query();          //查询数据
 });
 
 /**
@@ -32,6 +32,7 @@ function totalQuery() {
 				$("#behavior").text(data.behavior);
 				$("#motivation").text(data.motivation);
 				$("#passion").text(data.passion);
+				$("#loveInit").text(data.loveInit);
 			} else {
 			}
 		} 

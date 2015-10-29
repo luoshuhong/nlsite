@@ -36,8 +36,8 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	public List<Channel> query() {
 		List<Channel> channelList = new ArrayList<Channel>();
 		String selectSql = "select a.Id, a.Code,a.Name,a.CreateTime,a.QrcodeUrl ,a.UserCount,a.DisCountUsed,a.shareCount,a.virualCount,"
-				+ " b.type, b.name freeDes, b.freeStartDate, b.freeEndDate "
-				+ "from aa_channel a, aa_channel_activity b where a.delete_flag <> '1' and a.code = b.code order by CreateTime desc";
+				+ " b.type, b.name freeDes, b.freeStartDate, b.freeEndDate ,b.freeCount "
+				+ "from aa_channel a LEFT JOIN  aa_channel_activity b on  a.code = b.code where  a.delete_flag <> '1' order by CreateTime desc";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
 		for (Map<String,Object> map : list) {
 			Channel model = this.wrapModel(map);
@@ -67,9 +67,9 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	public List<Channel> vagueQuery(String value) {
 		List<Channel> channelList = new ArrayList<Channel>();
 		String selectSql = "select a.Id, a.Code,a.Name,a.CreateTime,a.QrcodeUrl ,a.UserCount,a.DisCountUsed,a.shareCount,a.virualCount,"
-				+ " b.type, b.name freeDes, b.freeStartDate, b.freeEndDate "
-				+ "from aa_channel a, aa_channel_activity b where a.delete_flag <> '1' and a.code = b.code "
-				+ "and (name like '%" + value + "%' or `Code` like '%" + value + "%') order by CreateTime desc";
+				+ " b.type, b.name freeDes, b.freeStartDate, b.freeEndDate,b.freeCount "
+				+ "from aa_channel a LEFT JOIN  aa_channel_activity b on a.code = b.code "
+				+ " where  a.delete_flag <> '1' and (a.Name like '%" + value + "%' or a.Code like '%" + value + "%') order by a.CreateTime desc";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
 		for (Map<String,Object> map : list) {
 			Channel model = this.wrapModel(map);
@@ -107,9 +107,9 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 //	  `freeStartDate` datetime DEFAULT NULL COMMENT 'type=0有效，免费开始时间',
 //	  `freeEndDate` datetime DEFAULT NULL COMMENT 'type=0有效，免费结束时间',
 	public boolean addChannelActivity(Channel model) {
-		String insertSql = "insert into aa_channel_activity(code,type,name,freeStartDate,freeEndDate) values(?,?,?,?,?)";
+		String insertSql = "insert into aa_channel_activity(code,type,name,freeStartDate,freeEndDate,freeCount) values(?,?,?,?,?,?)";
 		return 1 == this.getJdbcTemplate().update(insertSql,new Object[]{model.getCode(), model.getFreeType(),
-				model.getFreeDes(),	model.getFreeStartDate(), model.getFreeEndDate()});
+				model.getFreeDes(),	model.getFreeStartDate(), model.getFreeEndDate(),model.getFreeCount()});
 	}
 	/**
 	 * 根据code查询是否存在 渠道免费信息
@@ -122,9 +122,9 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code});
 	}
 	public boolean updateChannelActivity(Channel model) {
-		String insertSql = "update aa_channel_activity set type=?,name=?, freeStartDate=?,freeEndDate=? where code = ?";
+		String insertSql = "update aa_channel_activity set type=?,name=?, freeStartDate=?,freeEndDate=?,freeCount=? where code = ?";
 		return 1 == this.getJdbcTemplate().update(insertSql,new Object[]{ model.getFreeType(),
-				model.getFreeDes(),	model.getFreeStartDate(), model.getFreeEndDate(),model.getCode()});
+				model.getFreeDes(),	model.getFreeStartDate(), model.getFreeEndDate(),model.getFreeCount(),model.getCode()});
 	}
 	
 	/************  渠道免费信息相关 end ****************************/
@@ -183,6 +183,11 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		if (map.containsKey("freeEndDate") && null != map.get("freeEndDate")) {
 			model.setFreeEndDate(map.get("freeEndDate").toString());
 		} 
+		if (map.containsKey("freeCount") && null != map.get("freeCount")) {
+			model.setFreeCount(Integer.valueOf(map.get("freeCount").toString()));
+		} 
+		
+		
 		
 		//这里先只处理不为空的
 		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(name)) {
