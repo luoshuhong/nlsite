@@ -32,6 +32,22 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		return 1 == this.getJdbcTemplate().update(delSql,id);
 	}
 	
+	/**
+	 * 根据编码查询
+	 * @param code
+	 * @return
+	 */
+	public Channel queryModelByCode(String code) {
+		String selectSql = "select a.Id, a.Code,a.Name,a.CreateTime,a.QrcodeUrl ,a.UserCount,a.DisCountUsed,a.shareCount,a.virualCount,"
+				+ " b.type, b.name freeDes, b.freeStartDate, b.freeEndDate ,b.freeCount "
+				+ "from aa_channel a LEFT JOIN  aa_channel_activity b on  a.code = b.code where  a.delete_flag <> '1' and a.code=? order by CreateTime desc";
+		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql, new Object[]{code});
+		for (Map<String,Object> map : list) {
+			return this.wrapModel(map);
+		}
+		return null;
+	}
+	
 	@Override
 	public List<Channel> query() {
 		List<Channel> channelList = new ArrayList<Channel>();
@@ -57,6 +73,17 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	public int queryByCode(String code) {
 		String selSql = "select count(id) from aa_channel where Code = ?";
 		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code});
+	}
+	
+	/**
+	 * 更新时 检查渠道是否存在
+	 * @param code 渠道编码
+	 * @return 个数
+	 */
+	@SuppressWarnings("deprecation")
+	public int updateCheckCode(String code, String id) {
+		String selSql = "select count(id) from aa_channel where Code = ? and id <> ?";
+		return this.getJdbcTemplate().queryForInt(selSql, new Object[]{code, id});
 	}
 	
 	/**
@@ -186,8 +213,6 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 		if (map.containsKey("freeCount") && null != map.get("freeCount")) {
 			model.setFreeCount(Integer.valueOf(map.get("freeCount").toString()));
 		} 
-		
-		
 		
 		//这里先只处理不为空的
 		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(name)) {

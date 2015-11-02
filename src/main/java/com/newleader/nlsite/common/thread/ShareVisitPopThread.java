@@ -26,7 +26,6 @@ public class ShareVisitPopThread extends Thread {
 	public void run() {
 		log.info("ShareVisitPopThread is running…………");
 		RedisUtils redisUtils = SpringContextUtil.getBean("redisUtils");
-		RecordVirusService recordVirusService = SpringContextUtil.getBean("recordVirusService");
 		
 		if (null == redisUtils) {
 			log.info("redisUtils is null…………");
@@ -35,6 +34,7 @@ public class ShareVisitPopThread extends Thread {
 		
 		while (true) {
 			try {
+				RecordVirusService recordVirusService = SpringContextUtil.getBean("recordVirusService");
 				// 休眠固定时间
 				Thread.sleep(syncTimeInterval * Constants.ONE_SECOND_MS);
 				

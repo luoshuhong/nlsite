@@ -38,7 +38,7 @@ date 2015-9-11
 		<table class="table table-bordered table-hover"  style="width: 450px; margin: auto;" >
 			<thead class="thead">
 				<tr>
-					<th>编码</th><th>累计</th><th>当前</th><th>退订</th><th>退订率</th>
+					<th>编码</th><th>累计</th><th>当前</th><th>退订</th><th>退订率</th><th>分享</th><th>Viral</th>
 				</tr>
 			</thead>
 			<!-- 数据域  -->
@@ -82,6 +82,8 @@ date 2015-9-11
 								+ '<td>' + item.currSubscribe + '</td>'
 								+ '<td>' + item.unSubscribe + '</td>'
 								+ '<td>' + item.unSubscribeRate + '%</td>'
+								+ '<td>' + item.shareCount + '</td>'
+								+ '<td>' + item.virualCount + '</td>'
 								+ '</tr>' 
 							 );
 						 });

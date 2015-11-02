@@ -77,6 +77,16 @@ public class ChannelService {
 	}
 	
 	/**
+	 * 根据编码查询
+	 * @param code
+	 * @return
+	 */
+	public Channel queryModeByCode(String code) {
+		return this.channelDao.queryModelByCode(code);
+	}
+	
+	
+	/**
 	 * 更新
 	 * @param  channel
 	 * @return true or false
@@ -97,4 +107,14 @@ public class ChannelService {
 	public int queryByCode(String code) {
 		return this.channelDao.queryByCode(code);
 	}
+	
+	/**
+	 * 更新时 检查渠道是否存在
+	 * @param code 渠道编码
+	 * @return 个数
+	 */
+	public int updateCheckCode(String code,String id) {
+		return this.channelDao.updateCheckCode(code, id);
+	}
+	
 }

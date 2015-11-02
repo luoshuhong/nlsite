@@ -19,7 +19,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.newleader.nlsite.admin.model.Channel;
 import com.newleader.nlsite.admin.service.ChannelService;
 import com.newleader.nlsite.admin.service.ChannelStatService;
-import com.newleader.nlsite.common.DateUtils;
 import com.newleader.nlsite.common.QrCodeProduce;
 import com.newleader.nlsite.common.RequestUtils;
 /**
@@ -113,21 +112,17 @@ public class ChannelController {
 			List<Channel> list = new ArrayList<Channel>();
 			String channel = request.getParameter("channel");
 			log.info("method=queryChannelEffect,channel=" + channel);
-			int subscribe = 0,unsubscribe = 0;
+			int subscribe = 0,unsubscribe = 0, share = 0, viral = 0;;
 			for (String code : channel.split(",")) {
-				Channel model = new Channel();
-				int totalSubscribe = this.channelStatService.getSubscribeByChannel(code);
-				int unSubscribe = this.channelStatService.getUnSubscribeByChannel(code); 
-				subscribe += totalSubscribe;
-				unsubscribe += unSubscribe;
-				
-				model.setCode(code);
-				model.setTotalSubscribe(totalSubscribe);
-				model.setUnSubscribe(unSubscribe);
-				model.setCurrSubscribe(totalSubscribe - unSubscribe);
-				if (0 != totalSubscribe && 0 != unSubscribe) {
-					model.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * unSubscribe)/totalSubscribe));
+				Channel model = this.channelService.queryModeByCode(code);
+				model.setCurrSubscribe(model.getTotalSubscribe() - model.getUnSubscribe());
+				if (0 != model.getTotalSubscribe() && 0 != model.getUnSubscribe()) {
+					model.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * model.getUnSubscribe())/model.getTotalSubscribe() ));
 				}
+				subscribe += model.getTotalSubscribe();
+				unsubscribe += model.getUnSubscribe();
+				share += model.getShareCount();
+				viral += model.getVirualCount();
 				list.add(model);
 			}
 			
@@ -137,6 +132,8 @@ public class ChannelController {
 			model.setTotalSubscribe(subscribe);
 			model.setUnSubscribe(unsubscribe);
 			model.setCurrSubscribe(subscribe - unsubscribe);
+			model.setShareCount(share);
+			model.setVirualCount(viral);
 			if (0 != subscribe && 0 != unsubscribe) {
 				model.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * unsubscribe)/subscribe));
 			}
@@ -177,6 +174,10 @@ public class ChannelController {
 			Channel channel = this.verify(request, "update");
 			if (null == channel) {
 				return RequestUtils.failReturn("param is error!");
+			}
+			//检查是否存在
+			if (this.channelService.updateCheckCode(channel.getCode(), channel.getId()) >= 1) {
+				return RequestUtils.failReturn("code is exist");
 			}
 			
 			//获取微信二维码链接
@@ -233,12 +234,17 @@ public class ChannelController {
 		}
 		//渠道免费（有文案描述）
 		if ("1".equals(freeType) ) {
-//			freeStartDate = DateUtils.getCurrentStringDateYMD();
-//			freeEndDate = DateUtils.getCurrentStringDateYMD();
 			freeStartDate = null;
 			freeEndDate = null;
 			if(StringUtils.isEmpty(freeDes) || 0 == freeCount ) {
 				return null;
+			}
+		}
+		
+		if ("1".equals(freeType) || "-1".equals(freeType)) {
+			if ("undefined".equals(freeEndDate) || "undefined".equals(freeStartDate)) {
+				freeStartDate = null;
+				freeEndDate = null;
 			}
 		}
 		

@@ -29,6 +29,10 @@ public class RecordVirusService {
 	 * @return 是否成功
 	 */
 	public boolean add(RecordVirus recordVirus) {
+		if (recordVirus.getvOpenId().equals(recordVirus.getsOpenId())) {
+			return true;
+		}
+		
 		//获取分享者渠道
 		VisitorChannel visitorChannel = this.visitorChannelDao.queyByOpenId(recordVirus.getsOpenId());
 		if (null != visitorChannel) {
@@ -38,11 +42,16 @@ public class RecordVirusService {
 		}
 		
 		//1.查看上一级分享 获取rootChannelId
-		RecordVirus shareModel = this.recordVirusDao.queryByOpenIdAndScene(recordVirus.getsOpenId());
+		RecordVirus shareModel = this.recordVirusDao.queryByOpenIdAndScene(recordVirus.getsOpenId()); //并且处于关注状态
 		if (null != shareModel) {
 			recordVirus.setRootChannelId(shareModel.getRootChannelId());
 		} else {
 			recordVirus.setRootChannelId(recordVirus.getChannelId());  //如果没有上级  则rootChannelId 为自己的channelId
+		}
+		
+		//如果已经属于viral用户 就不记录了
+		if (null != this.recordVirusDao.queryByOpenIdAndScene(recordVirus.getvOpenId())) {
+			return true;
 		}
 		
 		//2.查看是否存在  存在时更新为时间和分享者

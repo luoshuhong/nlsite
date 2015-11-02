@@ -113,7 +113,8 @@ date 2015-9-11
 						<ul id="virualManage" class="nav nav-list collapse secondmenu" style="height: 0px; ">
 							<li><a href="#" onclick="fillDataArea('channelStat');"><i class="glyphicon glyphicon-th-list"></i>推广效果统计</a></li>
 							<li><a href="#" onclick="fillDataArea('shareStat');"><i class="glyphicon glyphicon-share"></i>viral效果统计</a></li>
-							<li><a href="#" onclick="fillDataArea('userActive');"><i class="glyphicon glyphicon-share"></i>活跃用户统计</a></li>
+							<li><a href="#" onclick="fillDataArea('userActive');"><i class="glyphicon glyphicon-th-list"></i>活跃用户统计</a></li>
+							<li><a href="#" onclick="fillDataArea('statMajor');"><i class="glyphicon glyphicon-th-list"></i>总表统计</a></li>
 <!-- 							<li><a href="#" onclick="fillDataArea('shareVisitStat');"><i class="glyphicon glyphicon-th-list"></i>virual用户统计</a></li> -->
 						</ul>
 					</li>
@@ -152,10 +153,12 @@ date 2015-9-11
 			iframe = "<iframe src='virualShareStat.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		}  else if(type == 'userActive') {
 			iframe = "<iframe src='userActiveStat.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
+		} else if(type == 'statMajor') {
+			iframe = "<iframe src='statMajorQuery.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		} else {
 			iframe = "<iframe src='test.jsp' frameBorder=0  width='95%' height='90%' scrolling=no onLoad='iFrameHeight()' ></iframe>";
 		}
-		
+		 
 		$("#data").html(iframe);
 	}
 	

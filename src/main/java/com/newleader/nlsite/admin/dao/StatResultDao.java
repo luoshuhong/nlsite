@@ -76,7 +76,6 @@ public class StatResultDao extends JdbcDaoSupport {
 	 * @return
 	 */
 	private StatModel wrapModel(Map<String,Object> map) {
-//		num,date,type,channelId,product
 		StatModel model = new StatModel();
 		if (map.containsKey("num") && null != map.get("num")) {
 			model.setCount(Integer.valueOf(map.get("num").toString()));

@@ -25,7 +25,7 @@ import com.newleader.nlsite.common.RequestUtils;
  */
 @Controller
 @RequestMapping("/admin/virualStat")
-public class VirualStatController {
+public class StatVirualController {
 	Logger log = Logger.getLogger("admin");
 	
 	@Autowired

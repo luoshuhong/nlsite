@@ -34,10 +34,10 @@ date 2015-9-11
 			<table class="table table-bordered table-hover">
 				<thead class="thead">
 					<tr>
-						<th>名称</th><th>编码</th>
+						<th>名称</th><th>编码</th><th>剩余(当前+viral)</th>
 						<th>累计</th><th>当前</th><th>退订</th><th>退订率</th>
-						<th>分享</th><th>Viral</th><th>渠道免费</th>
-						<th>添加时间</th><th>操作</th>
+						<th>分享</th><th>Viral</th>
+						<th>渠道免费</th><th>添加时间</th><th>操作</th>
 					</tr>
 				</thead>
 				<!-- 数据域  -->
@@ -81,7 +81,7 @@ date 2015-9-11
 						</div>
 						<div class="form-group">
 							<label for="channelCode" class="col-sm-3 control-label">渠道编码：</label> 
-							<input id="uchannelCode" type="text" class="form-control"  name="uchannelCode"  style="width: 300px;" placeholder="请输入渠道编码">
+							<input id="uchannelCode" type="text" readonly="readonly" class="form-control"  name="uchannelCode"  style="width: 300px;" placeholder="请输入渠道编码">
 						</div>
 						
 						<div class="form-group">

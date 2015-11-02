@@ -3,9 +3,16 @@
 
 <beans>
     <!-- =====================日常任务job========================== -->
+    <!-- 用户活跃度 -->
 	<bean id="statActionJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="actionDataStatService" />
-		<property name="targetMethod" value="quartzStat" />
+		<property name="targetObject" ref="quartzService" />
+		<property name="targetMethod" value="quartzUserActiveStat" />
+		<property name="concurrent" value="false"/>
+	</bean> 
+	<!-- 主表统计 -->
+	<bean id="statMajorJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzService" />
+		<property name="targetMethod" value="quartzMajorStat" />
 		<property name="concurrent" value="false"/>
 	</bean> 
 	<!-- =====================日常任务job end ======================== -->
@@ -16,6 +23,11 @@
 		<property name="cronExpression" value="0 5 0 * * ?"/> <!--  每凌晨(0点5分)执行  -->
 <!-- 		<property name="cronExpression" value="0 0/3 * * * ?"/> 每3分钟执行一次 -->
 	</bean>
+	<bean id="statMajorTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="statMajorJob" />
+		<property name="cronExpression" value="0 10 0 * * ?"/>   
+<!-- 		<property name="cronExpression" value="0 21 19 * * ?"/> 每3分钟执行一次 -->
+	</bean>
 	<!-- ======================== 调度触发器 end ====================== -->  
 	
 	<!-- ======================== 调度工厂 ======================== -->  
@@ -23,6 +35,7 @@
  		<property name="triggers">
 	 		<list>
 	 			<ref local="statActionTask" />  
+	 			<ref local="statMajorTask" />  
 	 		</list>
  		</property>
 	</bean>

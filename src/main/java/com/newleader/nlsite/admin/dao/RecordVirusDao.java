@@ -102,13 +102,11 @@ public class RecordVirusDao extends JdbcDaoSupport implements DaoInter<RecordVir
 	 * @param scene   场景者
 	 * @return  
 	 */
-	@SuppressWarnings("deprecation")
 	public int queryByOpenIdAndSceneIgnoreSubscribe(String openId, String scene) {
 		String selectSql = "select Id, vOpenId,sOpenId,channelId,scene,createTime, isSubscribe,rootChannelId from aa_record_virus where vOpenId = ? and scene = ?";
-		return this.getJdbcTemplate().queryForInt(selectSql, new Object[]{openId, scene});
+		return this.getJdbcTemplate().queryForList(selectSql, new Object[]{openId, scene}).size();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public RecordVirus queryByOpenIdAndSceneIgnoreSubscribeForModel(String openId, String scene) {
 		String selectSql = "select Id, vOpenId,sOpenId,channelId,scene,createTime, isSubscribe,rootChannelId from aa_record_virus where vOpenId = ? and scene = ?";
 		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql, new Object[]{openId, scene});

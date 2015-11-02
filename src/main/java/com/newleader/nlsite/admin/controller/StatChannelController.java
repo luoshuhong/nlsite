@@ -12,24 +12,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.newleader.nlsite.admin.service.ActionDataStatService;
+import com.newleader.nlsite.admin.service.ChannelStatService;
 import com.newleader.nlsite.common.DateUtils;
 import com.newleader.nlsite.common.RequestUtils;
 
 /**
- * 用户活跃度统计
+ * 渠道推广统计相关
  * @author Luoshuhong
  * @Company donottel.me
- * 2015年10月26日
+ * 2015年9月11日
  *
  */
 @Controller
-@RequestMapping("/admin/userActive")
-public class ActionDataStatController {
+@RequestMapping("/admin/channelStat")
+public class StatChannelController {
 	Logger log = Logger.getLogger("admin");
 	
 	@Autowired
-	private ActionDataStatService actionDataStatService;
+	private ChannelStatService channelStatService;
 	
 	@RequestMapping("/query")
     @ResponseBody
@@ -41,27 +41,14 @@ public class ActionDataStatController {
         	eDate = DateUtils.getNextDay(new Date(), "1", DateUtils.PATTERN_YYYYMMDD);
         	sDate = DateUtils.getNextDay(new Date(), "-7", DateUtils.PATTERN_YYYYMMDD);
         }
-        log.info("[ActionDataStatController] method=statQuery,sDate=" + sDate + ",eDate=" + eDate);
+        log.info("method=statQuery,sDate=" + sDate + ",eDate=" + eDate);
         
 		try {
-			String data = actionDataStatService.queryStatResultByDate(sDate, eDate);
+			String data = channelStatService.queryByDate(sDate, eDate);
 			return RequestUtils.successReturn(data);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return RequestUtils.failReturn("exception");
 		}
 	}
-	
-	@RequestMapping("/totalQuery")
-    @ResponseBody
-    public String totalQuery(HttpServletRequest request, HttpServletResponse response){
-		try {
-			String data = actionDataStatService.query();
-			return RequestUtils.successReturn(data);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return RequestUtils.failReturn("exception");
-		}
-	}
-	
 }

@@ -55,6 +55,9 @@
     <bean id="commonDao" class="com.newleader.nlsite.admin.dao.CommonDao">  
     	<property name="dataSource" ref="dataSource"></property>  
     </bean>
+    <bean id="statMajorDao" class="com.newleader.nlsite.admin.dao.StatMajorDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
     
 	
 </beans>
