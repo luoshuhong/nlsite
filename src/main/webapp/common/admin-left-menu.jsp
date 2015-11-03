@@ -112,9 +112,13 @@ date 2015-9-11
 						</a>
 						<ul id="virualManage" class="nav nav-list collapse secondmenu" style="height: 0px; ">
 							<li><a href="#" onclick="fillDataArea('channelStat');"><i class="glyphicon glyphicon-th-list"></i>推广效果统计</a></li>
-							<li><a href="#" onclick="fillDataArea('shareStat');"><i class="glyphicon glyphicon-share"></i>viral效果统计</a></li>
+							<li><a href="#" onclick="fillDataArea('shareStat');"><i class="glyphicon glyphicon-th-list"></i>viral效果图表统计</a></li>
+							<li><a href="#" onclick="fillDataArea('viralGroupByDate');"><i class="glyphicon glyphicon-th-list"></i>viral统计-时间维度</a></li>
+							<li><a href="#" onclick="fillDataArea('viralGroupByChannel');"><i class="glyphicon glyphicon-th-list"></i>viral统计-渠道维度</a></li>
 							<li><a href="#" onclick="fillDataArea('userActive');"><i class="glyphicon glyphicon-th-list"></i>活跃用户统计</a></li>
 							<li><a href="#" onclick="fillDataArea('statMajor');"><i class="glyphicon glyphicon-th-list"></i>总表统计</a></li>
+							<li><a href="#" onclick="fillDataArea('statUserAccumulative');"><i class="glyphicon glyphicon-th-list"></i>用户累计统计</a></li>
+							
 <!-- 							<li><a href="#" onclick="fillDataArea('shareVisitStat');"><i class="glyphicon glyphicon-th-list"></i>virual用户统计</a></li> -->
 						</ul>
 					</li>
@@ -150,11 +154,17 @@ date 2015-9-11
 		} else if(type == 'channelStat') {
 			iframe = "<iframe src='channelStat.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		} else if(type == 'shareStat') {
-			iframe = "<iframe src='virualShareStat.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
+			iframe = "<iframe src='statViralTrendChart.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		}  else if(type == 'userActive') {
 			iframe = "<iframe src='userActiveStat.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		} else if(type == 'statMajor') {
 			iframe = "<iframe src='statMajorQuery.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
+		} else if(type == 'statUserAccumulative') {
+			iframe = "<iframe src='statUserAccumulative.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
+		} else if(type == 'viralGroupByDate') {
+			iframe = "<iframe src='statViralGroupByDate.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
+		} else if(type == 'viralGroupByChannel') {
+			iframe = "<iframe src='statViralGroupByChannel.jsp' id='iframepage' frameBorder=0 scrolling=no  width='95%' height='95%' onLoad='iFrameHeight()' ></iframe>";
 		} else {
 			iframe = "<iframe src='test.jsp' frameBorder=0  width='95%' height='90%' scrolling=no onLoad='iFrameHeight()' ></iframe>";
 		}

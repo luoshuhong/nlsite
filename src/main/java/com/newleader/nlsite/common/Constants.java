@@ -1,5 +1,11 @@
 package com.newleader.nlsite.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.newleader.nlsite.admin.model.StatViralLove;
+import com.newleader.nlsite.admin.model.StatViralPro;
+
 /**
  *  常量值
  * @author Luoshuhong
@@ -20,6 +26,7 @@ public class Constants {
 	public static final String REDIS_SHARE_MSG   = "sharemsg";       //分享消息
 	public static final String REDIS_SHARE_BACK  = "shareback";      //浏览分享页消息
 	public static final String REDIS_SUBSCRIBE      = "subscribemsg";//浏览分享页消息
+	public static final String REDIS_SUBSCRIBE_LOVE      = "subscribemsg_love"; // 
 	public static final String REDIS_ACTION_MSG  = "actionmsg";     //操作动作消息
 	
 	/**
@@ -42,5 +49,12 @@ public class Constants {
 	public static final String STAT_TYPE_LOGIN = "login";				  //登陆动作
 	public static final String STAT_TYPE_DNA_START = "dna_start";   //
 	public static final String STAT_TYPE_DNA_END = "dna_end";		  //
+	
+	
+	/**
+	 * viral按渠道统计
+	 */
+	public static List<StatViralLove> statViralLove = new ArrayList<StatViralLove>();  //爱情统计
+	public static List<StatViralPro> statViralPro = new ArrayList<StatViralPro>();		 //职业统计
 	
 }

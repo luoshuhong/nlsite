@@ -86,7 +86,7 @@ public class ChannelController {
 			} else {
 				list = this.channelService.vagueQuery(value);
 			}
-			
+			int subscribe = 0,unsubscribe = 0, share = 0, viral = 0;
 			if (null != list) {
 				//获取每个渠道累计关注量
 				for (Channel channel : list) {
@@ -94,7 +94,26 @@ public class ChannelController {
 					if (0 != channel.getTotalSubscribe() && 0 != channel.getUnSubscribe()) {
 						channel.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * channel.getUnSubscribe())/channel.getTotalSubscribe() ));
 					}
+					
+					subscribe += channel.getTotalSubscribe();
+					unsubscribe += channel.getUnSubscribe();
+					share += channel.getShareCount();
+					viral += channel.getVirualCount();
 				}
+				//汇总
+				Channel model = new Channel(); 
+				model.setName("合计");
+				model.setCode(" ");
+				model.setTotalSubscribe(subscribe);
+				model.setUnSubscribe(unsubscribe);
+				model.setCurrSubscribe(subscribe - unsubscribe);
+				model.setShareCount(share);
+				model.setVirualCount(viral);
+				if (0 != subscribe && 0 != unsubscribe) {
+					model.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * unsubscribe)/subscribe));
+				}
+				list.add(model);
+				
 				return RequestUtils.successReturn(JSONArray.toJSONString(list));
 			} else {
 				return RequestUtils.failReturn("fail");
@@ -112,7 +131,7 @@ public class ChannelController {
 			List<Channel> list = new ArrayList<Channel>();
 			String channel = request.getParameter("channel");
 			log.info("method=queryChannelEffect,channel=" + channel);
-			int subscribe = 0,unsubscribe = 0, share = 0, viral = 0;;
+			int subscribe = 0,unsubscribe = 0, share = 0, viral = 0;
 			for (String code : channel.split(",")) {
 				Channel model = this.channelService.queryModeByCode(code);
 				model.setCurrSubscribe(model.getTotalSubscribe() - model.getUnSubscribe());
@@ -138,7 +157,6 @@ public class ChannelController {
 				model.setUnSubscribeRate(new DecimalFormat("###.00").format((100.0 * unsubscribe)/subscribe));
 			}
 			list.add(model);
-			
 			return RequestUtils.successReturn(JSONArray.toJSONString(list));
 		} catch (Exception e) {
 			e.printStackTrace();

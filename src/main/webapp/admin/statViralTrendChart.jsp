@@ -1,6 +1,6 @@
 <%-- 
-Title: virualShareStat.jsp 
-Description: 分享相关统计（分享次数，浏览次数）
+Title: statViralTrendChart.jsp 
+Description: Viral整体趋势图统计（分享次数，浏览次数）
 Company: NewLeader
 @author: luoshuhong
 date 2015-10-16

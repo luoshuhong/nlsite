@@ -9,7 +9,6 @@ date 2015-10-22
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ include file="../common/taglibs.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!-- <!DOCTYPE html> -->
 <html lang="zh-CN">
 	<head>
 		<script type="text/javascript" src="${ctx}/js/highcharts-4.1.8/highcharts.js"></script>
@@ -20,20 +19,6 @@ date 2015-10-22
 	</head>
 
 	<body>
-		<h4>用户累计统计</h4>
-		<h5>
-		 &nbsp;&nbsp; 累计注册人数：<span id="regist"></span> 
-		 &nbsp; | &nbsp; 填写毕业信息人数：<span id="school"></span>  
-		 &nbsp; | &nbsp; 爱情测评人数：<span id="love"></span> 
-		 &nbsp; | &nbsp; 累计进入爱情人数：<span id="loveInit"></span> <br>
-		 &nbsp;&nbsp; 明星DNA人数：<span id="dna"></span> 
-		 &nbsp; | &nbsp; 使命魔镜人数：<span id="value"></span> 
-		 &nbsp; | &nbsp; 特长魔镜人数：<span id="behavior"></span> 
-		 &nbsp; | &nbsp; 力量之境人数：<span id="motivation"></span> 
-		 &nbsp; | &nbsp; 职业报警人数：<span id="passion"></span> 
-		 </h5>
-		 <hr>
-		 
 		<h3>用户活跃度统计</h3>
 		<form class="form-inline" style="margin: 15 0 10 20;">
 			<label for="startDate">日期：</label> 
@@ -54,7 +39,6 @@ date 2015-10-22
 	<script type="text/javascript" src="${ctx}/js/admin-userActiveStat.js"></script>
 	<script type="text/javascript">
 		query();          //查询数据
-		totalQuery();
 	</script>
 	
 </html> 

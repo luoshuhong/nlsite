@@ -65,6 +65,20 @@ public class ChannelDao extends JdbcDaoSupport implements DaoInter<Channel> {
 	}
 	
 	/**
+	 * 查询可用渠道Code
+	 * @return List<String>
+	 */
+	public List<String> queryChannelCode() {
+		List<String> codeList = new ArrayList<String>();
+		String selectSql = "select code from aa_channel  where delete_flag <> '1' and code <> ''  and UserCount < 20 order by CreateTime desc";
+		List<Map<String,Object>> list = this.getJdbcTemplate().queryForList(selectSql);
+		for (Map<String,Object> map : list) {
+			codeList.add(map.get("code").toString());
+		}
+		return codeList;
+	}
+	
+	/**
 	 * 根据code 查询是否存在
 	 * @param code 渠道编码
 	 * @return 个数

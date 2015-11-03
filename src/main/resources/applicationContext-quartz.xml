@@ -15,18 +15,37 @@
 		<property name="targetMethod" value="quartzMajorStat" />
 		<property name="concurrent" value="false"/>
 	</bean> 
+	<!-- Viral  按时间维度统计 -->
+	<bean id="statViralGroupDateJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzService" />
+		<property name="targetMethod" value="quartzViralGroupDateStat" />
+		<property name="concurrent" value="false"/>
+	</bean>
+	<!-- Viral  按渠道维度统计 -->
+	<bean id="statViralGroupChannelJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzService" />
+		<property name="targetMethod" value="quartzViralGroupChannelStat" />
+		<property name="concurrent" value="false"/>
+	</bean>
 	<!-- =====================日常任务job end ======================== -->
 	
 	<!-- ======================== 调度触发器 ======================== -->  
 	<bean id="statActionTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="statActionJob" />
 		<property name="cronExpression" value="0 5 0 * * ?"/> <!--  每凌晨(0点5分)执行  -->
-<!-- 		<property name="cronExpression" value="0 0/3 * * * ?"/> 每3分钟执行一次 -->
 	</bean>
 	<bean id="statMajorTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="statMajorJob" />
 		<property name="cronExpression" value="0 10 0 * * ?"/>   
-<!-- 		<property name="cronExpression" value="0 21 19 * * ?"/> 每3分钟执行一次 -->
+	</bean>
+	<bean id="statViralGroupDateTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="statViralGroupDateJob" />
+		<property name="cronExpression" value="0 15 0 * * ?"/>   
+<!-- 		<property name="cronExpression" value="0 5 16 * * ?"/>   -->
+	</bean>
+	<bean id="statViralGroupChannelTask" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="statViralGroupChannelJob" />
+		<property name="cronExpression" value="0 0/5 * * * ?"/> 
 	</bean>
 	<!-- ======================== 调度触发器 end ====================== -->  
 	
@@ -34,9 +53,12 @@
 	<bean id="nlsiteQuertz" lazy-init="false" autowire="no" 	class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
  		<property name="triggers">
 	 		<list>
-	 			<ref local="statActionTask" />  
+	 			<ref local="statActionTask" /> 
 	 			<ref local="statMajorTask" />  
+	 			<ref local="statViralGroupDateTask" />
+	 			<ref local="statViralGroupChannelTask" />
 	 		</list>
  		</property>
 	</bean>
+	
 </beans>

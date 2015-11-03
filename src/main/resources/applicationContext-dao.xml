@@ -58,6 +58,13 @@
     <bean id="statMajorDao" class="com.newleader.nlsite.admin.dao.StatMajorDao">  
     	<property name="dataSource" ref="dataSource"></property>  
     </bean>
+    <bean id="statViralProDao" class="com.newleader.nlsite.admin.dao.StatViralProDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
+    <bean id="statViralLoveDao" class="com.newleader.nlsite.admin.dao.StatViralLoveDao">  
+    	<property name="dataSource" ref="dataSource"></property>  
+    </bean>
+    
     
 	
 </beans>

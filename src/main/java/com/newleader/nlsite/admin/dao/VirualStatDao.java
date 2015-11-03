@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.newleader.nlsite.admin.model.StatModel;
+import com.newleader.nlsite.common.CommonUtils;
 
 /**
  * Virual统计
@@ -17,6 +18,7 @@ import com.newleader.nlsite.admin.model.StatModel;
  */
 public class VirualStatDao extends JdbcDaoSupport {
 	
+	/********************** query-分享-浏览-viral 按场景、时间分组 有时间条件 start****************************************/
 	/**
 	 *  根据时间查询 分享数据
 	 * @param sDate	开始时间
@@ -30,15 +32,9 @@ public class VirualStatDao extends JdbcDaoSupport {
 		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList( selSql, new Object[] { sDate, eDate });
 		for (Map<String,Object> map : list) {
 			StatModel model = new StatModel();
-			if (map.containsKey("scene") && null != map.get("scene")) {
-				model.setStatItem(map.get("scene").toString());
-			}
-			if (map.containsKey("createDate") && null != map.get("createDate")) {
-				model.setDate(map.get("createDate").toString());		
-			}
-			if (map.containsKey("count") && null != map.get("count")) {
-				model.setCount(Integer.valueOf(map.get("count").toString()));
-			}
+			model.setStatItem(CommonUtils.getStrFromMap(map, "scene"));
+			model.setDate(CommonUtils.getStrFromMap(map, "createDate"));		
+			model.setCount(CommonUtils.getIntFromMap(map, "count"));
 			retList.add(model);
 		}
 		return retList;
@@ -57,15 +53,9 @@ public class VirualStatDao extends JdbcDaoSupport {
 		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList(selSql, new Object[] { sDate, eDate });
 		for (Map<String,Object> map : list) {
 			StatModel model = new StatModel();
-			if (map.containsKey("scene") && null != map.get("scene")) {
-				model.setStatItem(map.get("scene").toString());
-			}
-			if (map.containsKey("createDate") && null != map.get("createDate")) {
-				model.setDate(map.get("createDate").toString());		
-			}
-			if (map.containsKey("count") && null != map.get("count")) {
-				model.setCount(Integer.valueOf(map.get("count").toString()));
-			}
+			model.setStatItem(CommonUtils.getStrFromMap(map, "scene"));
+			model.setDate(CommonUtils.getStrFromMap(map, "createDate"));		
+			model.setCount(CommonUtils.getIntFromMap(map, "count"));
 			retList.add(model);
 		}
 		return retList;
@@ -89,18 +79,123 @@ public class VirualStatDao extends JdbcDaoSupport {
 //			if (map.containsKey("rootChannelId") && null != map.get("rootChannelId")) {
 //				model.setStatItem(map.get("rootChannelId").toString());
 //			}
-			if (map.containsKey("scene") && null != map.get("scene")) {
-				model.setStatItem(map.get("scene").toString());
-			}
-			if (map.containsKey("createDate") && null != map.get("createDate")) {
-				model.setDate(map.get("createDate").toString());		
-			}
-			if (map.containsKey("count") && null != map.get("count")) {
-				model.setCount(Integer.valueOf(map.get("count").toString()));
-			}
+			model.setStatItem(CommonUtils.getStrFromMap(map, "scene"));
+			model.setDate(CommonUtils.getStrFromMap(map, "createDate"));		
+			model.setCount(CommonUtils.getIntFromMap(map, "count"));
 			retList.add(model);
 		}
 		return retList;
 	}
+	/********************** query-分享-浏览-viral 按场景、时间分组 有时间条件 end****************************************/
+	
+	/********************** query-分享-浏览-viral 按场景  无时间条件 start****************************************/
+	/**
+	 *  根据时间查询 分享数据
+	 * @return List<StatModel>
+	 */
+	public List<StatModel> queryShareStat() {
+		List<StatModel> retList = new ArrayList<StatModel>();
+		String selSql = "select scene,count(Id) as count  from aa_record_share GROUP BY scene ";
+		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList( selSql);
+		for (Map<String,Object> map : list) {
+			StatModel model = new StatModel();
+			model.setStatItem(CommonUtils.getStrFromMap(map, "scene"));
+			model.setCount(CommonUtils.getIntFromMap(map, "count"));
+			retList.add(model);
+		}
+		return retList;
+	}
+	
+	/**
+	 *  根据时间查询  浏览分享数据
+	 * @return List<StatModel>
+	 */
+	public List<StatModel> queryVisitShareStat() {
+		List<StatModel> retList = new ArrayList<StatModel>();
+		String selSql = "select scene,count(Id) as count  from aa_record_virus  GROUP BY scene";
+		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList(selSql);
+		for (Map<String,Object> map : list) {
+			StatModel model = new StatModel();
+			model.setStatItem(CommonUtils.getStrFromMap(map, "scene"));
+			model.setCount(CommonUtils.getIntFromMap(map, "count"));
+			retList.add(model);
+		}
+		return retList;
+	}
+	
+	/**
+	 *  根据时间查询  Virul用户数据
+	 * @return List<StatModel>
+	 */
+	public List<StatModel> queryVirulUserStat() {
+		List<StatModel> retList = new ArrayList<StatModel>();
+		String selSql = "select scene,count(Id) as count  from aa_record_virus  where  isSubscribe = 1 GROUP BY scene";
+		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList(selSql);
+		for (Map<String,Object> map : list) {
+			StatModel model = new StatModel();
+			model.setStatItem(CommonUtils.getStrFromMap(map, "scene"));
+			model.setCount(CommonUtils.getIntFromMap(map, "count"));
+			retList.add(model);
+		}
+		return retList;
+	}
+	/********************** query-分享-浏览-viral 按场景  无时间条件 end****************************************/
+	
+	
+	/********************** query-分享-浏览-viral 按场景  有渠道条件 start****************************************/
+	/**
+	 *  根据时间查询 分享数据
+	 *  @param channelCode
+	 * @return List<StatModel>
+	 */
+	public List<StatModel> queryShareStat(String channelCode) {
+		List<StatModel> retList = new ArrayList<StatModel>();
+		String selSql = "select scene,count(Id) as count  from aa_record_share  where rootChannelId = ?  GROUP BY scene ";
+		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList( selSql, new Object[]{channelCode});
+		for (Map<String,Object> map : list) {
+			StatModel model = new StatModel();
+			model.setStatItem(CommonUtils.getStrFromMap(map, "scene"));
+			model.setCount(CommonUtils.getIntFromMap(map, "count"));
+			retList.add(model);
+		}
+		return retList;
+	}
+	
+	/**
+	 *  根据时间查询  浏览分享数据
+	 *  @param channelCode
+	 * @return List<StatModel>
+	 */
+	public List<StatModel> queryVisitShareStat(String channelCode) {
+		List<StatModel> retList = new ArrayList<StatModel>();
+		String selSql = "select scene,count(Id) as count  from aa_record_virus where  rootChannelId = ?  GROUP BY scene";
+		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList(selSql, new Object[]{channelCode});
+		for (Map<String,Object> map : list) {
+			StatModel model = new StatModel();
+			model.setStatItem(CommonUtils.getStrFromMap(map, "scene"));
+			model.setCount(CommonUtils.getIntFromMap(map, "count"));
+			retList.add(model);
+		}
+		return retList;
+	}
+	
+	/**
+	 *  根据时间查询  Virul用户数据
+	 *  @param channelCode
+	 * @return List<StatModel>
+	 */
+	public List<StatModel> queryVirulUserStat(String channelCode) {
+		List<StatModel> retList = new ArrayList<StatModel>();
+		String selSql = "select scene,count(Id) as count  from aa_record_virus  where  isSubscribe = 1  and rootChannelId = ? GROUP BY scene";
+		List<Map<String, Object>> list = this.getJdbcTemplate().queryForList(selSql, new Object[]{channelCode});
+		for (Map<String,Object> map : list) {
+			StatModel model = new StatModel();
+			model.setStatItem(CommonUtils.getStrFromMap(map, "scene"));
+			model.setCount(CommonUtils.getIntFromMap(map, "count"));
+			retList.add(model);
+		}
+		return retList;
+	}
+	/********************** query-分享-浏览-viral 按场景 有渠道条件 end****************************************/
 	
 }

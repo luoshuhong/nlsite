@@ -57,14 +57,15 @@ public class SubscribeMsgPopThread extends Thread {
 				
 				//放入线程池执行
 				businessDealPool.execute(new SubscribeDealThread(subscribeMsg));
+				
+				//放在redis中 01用
+				redisUtils.lpush(Constants.REDIS_SUBSCRIBE_LOVE, subscribeMsg);
 			} catch (Exception e) {
 				log.info("error![subscribeMsg]  errMsg=" + e.getMessage());
 				e.printStackTrace();
 			}
 		}
-		
 	}
-	
 }
 
 /**

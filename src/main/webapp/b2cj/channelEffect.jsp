@@ -11,6 +11,11 @@ date 2015-9-11
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="zh-CN">
 	<head>
+		<%
+			//
+    	 	String channelId= request.getParameter("code");
+			String type = request.getParameter("type");
+        %>
 		<title>渠道推广效果统计</title>
 		<style type="text/css">
 			body
@@ -33,12 +38,18 @@ date 2015-9-11
 <!-- 			</div> -->
 <!-- 			<div class="col-xs-3"></div> -->
 <!-- 		</div> -->
-		<h2 style="text-align: center;">大学生圈推广1015即时数据</h2>
+		<h2 style="text-align: center;">渠道即时数据统计</h2>
 <!-- 		<h2 style="text-align: center;">大学生圈推广1010即时数据</h2> -->
-		<table class="table table-bordered table-hover"  style="width: 450px; margin: auto;" >
+		<table class="table table-bordered table-hover"  style="width: 650px; margin: auto;" >
 			<thead class="thead">
 				<tr>
-					<th>编码</th><th>累计</th><th>当前</th><th>退订</th><th>退订率</th><th>分享</th><th>Viral</th>
+					<% if ("1".equals(type)){%>
+						<th>名称</th><th>编码</th><th>累计</th><th>当前</th><th>退订</th><th>退订率</th> 
+					<%} else if ("2".equals(type)) {%>
+						<th>名称</th><th>编码</th> <th>分享</th><th>Viral</th>
+					<%} else {%>
+						<th>名称</th><th>编码</th><th>累计</th><th>当前</th><th>退订</th><th>退订率</th><th>分享</th><th>Viral</th>
+					<%} %>
 				</tr>
 			</thead>
 			<!-- 数据域  -->
@@ -49,7 +60,13 @@ date 2015-9-11
 	</body>
 	<script type="text/javascript"> 
 		$(function() {
-			loadData('daxuesheng102701,daxuesheng102702,daxuesheng102703,daxuesheng102704,daxuesheng102705');
+			var code = '<%=channelId%>';
+			if ('' == code || undefined == code || null == code) {
+				loadData('daxuesheng102701,daxuesheng102702,daxuesheng102703,daxuesheng102704,daxuesheng102705');
+				return true;
+			} else {
+				loadData(code);
+			}
 		});
 		/**
 		 * 查询数据
@@ -64,6 +81,7 @@ date 2015-9-11
 		
 		//加载数据
 		function loadData(value) {
+			var type = '<%=type%>';
 			var postData = {"channel":value};
 			$.ajax({
 				type: "POST",
@@ -76,16 +94,37 @@ date 2015-9-11
 						$('#dataListTbody').html('');
 						var dataList = json.data;
 						 $.each(JSON.parse(json.data), function (idx,item) {
-							 $('#dataListTbody').append('<tr>' 
-								+ '<td>' + item.code + '</td>'
-								+ '<td>' + item.totalSubscribe + '</td>'
-								+ '<td>' + item.currSubscribe + '</td>'
-								+ '<td>' + item.unSubscribe + '</td>'
-								+ '<td>' + item.unSubscribeRate + '%</td>'
-								+ '<td>' + item.shareCount + '</td>'
-								+ '<td>' + item.virualCount + '</td>'
-								+ '</tr>' 
-							 );
+							 if ('1' == type) {
+								 $('#dataListTbody').append('<tr>' 
+											+ '<td>' + item.name + '</td>'
+											+ '<td>' + item.code + '</td>'
+											+ '<td>' + item.totalSubscribe + '</td>'
+											+ '<td>' + item.currSubscribe + '</td>'
+											+ '<td>' + item.unSubscribe + '</td>'
+											+ '<td>' + item.unSubscribeRate + '%</td>'
+											+ '</tr>' 
+										 );
+							 } else if ('2' == type) {
+								 $('#dataListTbody').append('<tr>' 
+											+ '<td>' + item.name + '</td>'
+											+ '<td>' + item.code + '</td>'
+											+ '<td>' + item.shareCount + '</td>'
+											+ '<td>' + item.virualCount + '</td>'
+											+ '</tr>' 
+										 );
+							 } else {
+								 $('#dataListTbody').append('<tr>' 
+											+ '<td>' + item.name + '</td>'
+											+ '<td>' + item.code + '</td>'
+											+ '<td>' + item.totalSubscribe + '</td>'
+											+ '<td>' + item.currSubscribe + '</td>'
+											+ '<td>' + item.unSubscribe + '</td>'
+											+ '<td>' + item.unSubscribeRate + '%</td>'
+											+ '<td>' + item.shareCount + '</td>'
+											+ '<td>' + item.virualCount + '</td>'
+											+ '</tr>' 
+										 );
+							 }
 						 });
 					} else {
 						alert('错误，请重试！');
