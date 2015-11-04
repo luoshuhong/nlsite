@@ -109,7 +109,7 @@ public class QuartzService {
     	StatMajor yesterdayModel = this.statMajorDao.queyByDate(pre2Date);
     	model.setDate(pre1Date);
     	model.setLoveTotal(totalLoveUser);
-    	model.setLoveIncrease(totalLoveUser - yesterdayModel.getTotalUser());  //爱情新增
+    	model.setLoveIncrease(totalLoveUser - yesterdayModel.getLoveTotal());  //爱情新增
     	model.setProIncrease(proIncreaseUser);
     	model.setProTotal(yesterdayModel.getProTotal() + proIncreaseUser);
     	
